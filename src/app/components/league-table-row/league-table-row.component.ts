@@ -9,6 +9,7 @@ import {ITableLine} from '../../poule.model';
 export class LeagueTableRowComponent implements OnInit {
 
   @Input() line: ITableLine;
+  @Input() isSortDisabled: boolean;
   @Input() index: number;
   constructor() { }
 

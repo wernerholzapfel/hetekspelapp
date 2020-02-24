@@ -36,5 +36,7 @@
 </ion-header>
 <ion-content>
     <app-match-card [isRegistrationOpen]="isRegistrationOpen" [matches]="pouleForm.matches"></app-match-card>
-    <app-stand-card [pouleName]="pouleName" [pouleForm]="pouleForm"></app-stand-card>
+    <app-stand-card (toggleIsSortDisabled)="toggleIsSortDisabled($event)"
+                    [isSortDisabled]="isSortDisabled"
+                    [pouleName]="pouleName" [pouleForm]="pouleForm"></app-stand-card>
 </ion-content>

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IPoule, ITableLine} from '../../poule.model';
 import {VoorspellingHelperService} from '../../services/voorspelling-helper.service';
 import { IonReorderGroup } from '@ionic/angular';
@@ -9,13 +9,17 @@ import { IonReorderGroup } from '@ionic/angular';
     styleUrls: ['./stand-card.component.scss'],
 })
 export class StandCardComponent implements OnInit {
-    @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
+    @ViewChild(IonReorderGroup, {static: true}) reorderGroup: IonReorderGroup;
 
     constructor(private voorspellingHelper: VoorspellingHelperService) {
     }
 
     @Input() pouleName: string;
     @Input() pouleForm: IPoule;
+    @Input() isSortDisabled: boolean;
+
+    @Output() toggleIsSortDisabled = new EventEmitter<boolean>();
+
     public stand: ITableLine[];
 
     ngOnInit() {
@@ -42,5 +46,9 @@ export class StandCardComponent implements OnInit {
 
         // After complete is called the items will be in the new order
         console.log('After complete', this.stand);
+    }
+
+    toggleReorderGroup() {
+        this.toggleIsSortDisabled.emit(!this.isSortDisabled);
     }
 }
