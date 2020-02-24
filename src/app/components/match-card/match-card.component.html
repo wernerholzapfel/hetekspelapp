@@ -1,0 +1,58 @@
+<ion-card class="match-card" *ngFor="let match of matches">
+  <ion-card-header>
+    <ion-card-subtitle>{{match.date}}</ion-card-subtitle>
+    <ion-card-title color="primary">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          {{match.homeTeam}}
+        </ion-col>
+        <ion-col class="ion-no-padding" size="1" text-right>
+          {{match.predictedHomeScore}}
+        </ion-col>
+      </ion-row>
+    </ion-card-title>
+    <ion-card-title color="primary">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          {{match.awayTeam}}
+        </ion-col>
+        <ion-col class="ion-no-padding" size="1" text-right>
+          {{match.predictedAwayScore}}
+        </ion-col>
+      </ion-row>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content class="padding-left">
+    <ion-item *ngIf="!isRegistrationOpen" lines="none" class="ion-no-padding">
+      <ion-label>Uitslag {{match.homeScore}} - {{match.awayScore}}
+      </ion-label>
+      <ion-badge mode="md" slot="end">25</ion-badge>
+    </ion-item>
+    <ng-container *ngIf="isRegistrationOpen">
+      <ion-item class="ion-no-padding" lines="none">
+        <ion-fab-button [color]="round === match.predictedHomeScore ? 'primary' : 'light'"
+                        color="light" (click)="updateWedstrijdScore(match, round, match.predictedAwayScore)" size="small"
+                        *ngFor="let round of [0,1,2,3]">
+          {{round}}
+        </ion-fab-button>
+        <ion-fab-button color="light"
+                        (click)="updateWedstrijdScore(match, match.predictedHomeScore + 1, match.predictedAwayScore)"
+                        size="small">
+          +
+        </ion-fab-button>
+      </ion-item>
+      <ion-item class="ion-no-padding" lines="none">
+        <ion-fab-button [color]="round === match.predictedAwayScore ? 'primary' : 'light'"
+                        color="light" (click)="updateWedstrijdScore(match, match.predictedHomeScore, round)" size="small"
+                        *ngFor="let round of [0,1,2,3]">
+          {{round}}
+        </ion-fab-button>
+        <ion-fab-button color="light"
+                        (click)="updateWedstrijdScore(match, match.predictedAwayScore, match.predictedAwayScore + 1)"
+                        size="small">
+          +
+        </ion-fab-button>
+      </ion-item>
+    </ng-container>
+  </ion-card-content>
+</ion-card>

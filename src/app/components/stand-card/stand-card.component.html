@@ -1,0 +1,24 @@
+<ion-card>
+    <ion-card-header>
+        <ion-card-subtitle>
+            Stand poule {{this.pouleName}}
+        </ion-card-subtitle>
+        <hr>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <ion-row>
+                <ion-col offset="6" size="2">
+                    P
+                </ion-col>
+                <ion-col size="2">
+                    PTS
+                </ion-col>
+                <ion-col size="2">
+                    +/-
+                </ion-col>
+            </ion-row>
+          <app-league-table-row *ngFor="let line of stand; let i = index" [line]="line"></app-league-table-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>
