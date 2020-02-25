@@ -20,12 +20,12 @@ export class ListPage implements OnInit {
         this.pouleName = $event.detail.value;
         this.pouleForm = this.voorspellingHelper.getPoules().find(p => p.pouleName === this.pouleName);
         this.isSortDisabled = true;
-        this.voorspellingHelper.berekenStand(this.pouleForm.matches);
+        this.voorspellingHelper.berekenStand(this.pouleForm.matches, true);
     }
 
     ngOnInit() {
         this.pouleForm = this.voorspellingHelper.getPoules().find(p => p.pouleName === this.pouleName);
-        this.voorspellingHelper.berekenStand(this.pouleForm.matches);
+        this.voorspellingHelper.berekenStand(this.pouleForm.matches, true);
     }
     toggleIsSortDisabled(event: boolean) {
         this.isSortDisabled = event

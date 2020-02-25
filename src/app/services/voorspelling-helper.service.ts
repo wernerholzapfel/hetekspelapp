@@ -13,7 +13,7 @@ export class VoorspellingHelperService {
     standen$: BehaviorSubject<ITable[]> = new BehaviorSubject([]);
 
 
-    public berekenStand(matches: IMatch[]) {
+    public berekenStand(matches: IMatch[], updateTable: boolean): ITableLine[] {
         let table: ITableLine[] = [];
 
         for (let match of matches) {
@@ -36,8 +36,9 @@ export class VoorspellingHelperService {
             table = this.updateTableLine(table, match);
         }
 
+        if (updateTable) {
         table = table.map(line => {
-            return {...line, sortering: this.calculateSortering(line)};
+            return {...line, sortering: this.calculateSortering(line, matches, table)};
         })
             .sort((a, b) =>
                 (b.sortering - a.sortering))
@@ -47,7 +48,9 @@ export class VoorspellingHelperService {
                 })];
             }, []);
 
-        this.standen$.next([{tableLines: table}]);
+            this.standen$.next([{tableLines: table}]);
+        }
+        return table;
     }
 
     calculatePosition(tableLine: ITableLine, index, table: ITableLine[]) {
@@ -55,10 +58,40 @@ export class VoorspellingHelperService {
             table[index - 1].positie : index + 1;
     }
 
-    calculateSortering(tableLine: ITableLine) {
-        return (tableLine.punten * 10000 +
-            ((tableLine.goalsFor - tableLine.goalsAgainst) * 100) +
-            tableLine.goalsFor);
+    calculateSortering(tableLine: ITableLine, matches: IMatch[], table: ITableLine[]) {
+        const teamsEqualOnPoints = table.filter(line => line.punten === tableLine.punten).map(team => {
+            return team.id
+        });
+
+        if (teamsEqualOnPoints.length > 1) {
+            const matchesForTeam = matches.filter(match =>  teamsEqualOnPoints.includes(match.homeTeam) && (teamsEqualOnPoints.includes(match.awayTeam)));
+            const tableWithTeamsEqualOnPoints: ITableLine[] = this.berekenStand(matchesForTeam, false);
+            const tableLineWithTeamEqualOnPoints: ITableLine = tableWithTeamsEqualOnPoints.find(line => line.id === tableLine.id);
+            console.log(tableWithTeamsEqualOnPoints);
+            return (tableLine.punten * 1000000 +
+                tableLineWithTeamEqualOnPoints.punten * 10000 +
+                ((tableLineWithTeamEqualOnPoints.goalsFor - tableLineWithTeamEqualOnPoints.goalsAgainst) * 100) +
+                tableLineWithTeamEqualOnPoints.goalsFor);
+        } else {
+            return (tableLine.punten * 1000000 +
+                ((tableLine.goalsFor - tableLine.goalsAgainst) * 100) +
+                tableLine.goalsFor);
+
+        }
+        //a. higher number of points obtained in the matches played among the teams in
+        // question;
+        // b. superior goal difference resulting from the matches played among the teams
+        // in question;
+        // c. higher number of goals scored in the matches played among the teams in
+        // question;
+        // d. if, after having applied criteria a) to c), teams still have an equal ranking,
+        // criteria a) to c) are reapplied exclusively to the matches between the
+        // remaining teams to determine their final rankings. If this procedure does not
+        // lead to a decision, criteria e) to i) apply in the order given to the two or more
+        // teams still equal:
+        // e. superior goal difference in all group matches;
+        // f. higher number of goals scored in all group mat
+
     }
 
     createInitialTableLine(team: string): ITableLine {
@@ -108,7 +141,7 @@ export class VoorspellingHelperService {
                 awayTeam: 'Oekraïne',
                 homeScore: null,
                 awayScore: null,
-                predictedHomeScore: 0,
+                predictedHomeScore: 5,
                 predictedAwayScore: 0,
             }, {
                 id: '2',
@@ -117,8 +150,8 @@ export class VoorspellingHelperService {
                 awayTeam: 'Roemenië',
                 homeScore: null,
                 awayScore: null,
-                predictedHomeScore: 0,
-                predictedAwayScore: 0,
+                predictedHomeScore: 1,
+                predictedAwayScore: 2,
             }, {
                 id: '3',
                 date: '12 juli 2019',
@@ -126,7 +159,7 @@ export class VoorspellingHelperService {
                 awayTeam: 'Roemenië',
                 homeScore: null,
                 awayScore: null,
-                predictedHomeScore: 0,
+                predictedHomeScore: 1,
                 predictedAwayScore: 0,
             }, {
                 id: '4',
@@ -136,7 +169,7 @@ export class VoorspellingHelperService {
                 homeScore: null,
                 awayScore: null,
                 predictedHomeScore: 1,
-                predictedAwayScore: 1,
+                predictedAwayScore: 0,
             }, {
                 id: '5',
                 date: '12 juli 2019',
@@ -144,7 +177,7 @@ export class VoorspellingHelperService {
                 awayTeam: 'Oostenrijk',
                 homeScore: null,
                 awayScore: null,
-                predictedHomeScore: 1,
+                predictedHomeScore: 0,
                 predictedAwayScore: 1,
             }, {
                 id: '6',
@@ -153,8 +186,8 @@ export class VoorspellingHelperService {
                 awayTeam: 'Oekraïne',
                 homeScore: null,
                 awayScore: null,
-                predictedHomeScore: 2,
-                predictedAwayScore: 2,
+                predictedHomeScore: 1,
+                predictedAwayScore: 0,
             }]
         }, {
             pouleName: 'B',

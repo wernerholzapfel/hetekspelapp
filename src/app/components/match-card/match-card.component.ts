@@ -28,6 +28,6 @@ export class MatchCardComponent implements OnInit {
                 return item;
             }
         });
-        this.voorspellingHelper.berekenStand(this.matches);
+        this.voorspellingHelper.berekenStand(this.matches, true);
     }
 }
