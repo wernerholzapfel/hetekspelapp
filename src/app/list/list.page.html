@@ -28,10 +28,18 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <app-match-card  *ngFor="let matchPrediction of matchPredictions" [isRegistrationOpen]="isRegistrationOpen" [matchPrediction]="matchPrediction" (emitUpdateWedstrijdScore)="updateTable($event)"></app-match-card>
-    <app-stand-card (toggleIsSortDisabled)="toggleIsSortDisabled($event)"
-                    [isSortDisabled]="isSortDisabled"
-                    [pouleName]="pouleName" [matchesPrediction]="matchPredictions"></app-stand-card>
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col size="12" size-md="6" size-lg="6" size-xl="4" *ngFor="let matchPrediction of matchPredictions">
+                <app-match-card
+                        [isRegistrationOpen]="isRegistrationOpen" [matchPrediction]="matchPrediction"
+                        (emitUpdateWedstrijdScore)="updateTable($event)"></app-match-card>
+            </ion-col>
+        </ion-row>
+        <app-stand-card (toggleIsSortDisabled)="toggleIsSortDisabled($event)"
+                        [isSortDisabled]="isSortDisabled"
+                        [pouleName]="pouleName" [matchesPrediction]="matchPredictions"></app-stand-card>
+    </ion-grid>
 </ion-content>
 <ion-footer>
     <ion-toolbar>
