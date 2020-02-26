@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
 
-import { HomePage } from './home.page';
-import {LoginModule} from '../components/login/login.module';
+import { IonicModule } from '@ionic/angular';
+
+import { SpelregelsPageRoutingModule } from './spelregels-routing.module';
+
+import { SpelregelsPage } from './spelregels.page';
 import {MenuToolbarModule} from '../components/menu-toolbar/menu-toolbar.module';
 
 @NgModule({
@@ -13,15 +14,9 @@ import {MenuToolbarModule} from '../components/menu-toolbar/menu-toolbar.module'
         CommonModule,
         FormsModule,
         IonicModule,
-        RouterModule.forChild([
-            {
-                path: '',
-                component: HomePage
-            }
-        ]),
-        LoginModule,
+        SpelregelsPageRoutingModule,
         MenuToolbarModule
     ],
-  declarations: [HomePage]
+  declarations: [SpelregelsPage]
 })
-export class HomePageModule {}
+export class SpelregelsPageModule {}

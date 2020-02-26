@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {IMatch, ITable, ITableLine} from '../poule.model';
+import {ITable, ITableLine, ITeam} from '../models/poule.model';
 import {BehaviorSubject} from 'rxjs';
+import {IMatchPrediction} from '../models/participant.model';
 
 @Injectable({
     providedIn: 'root'
@@ -13,40 +14,40 @@ export class VoorspellingHelperService {
     standen$: BehaviorSubject<ITable[]> = new BehaviorSubject([]);
 
 
-    public berekenStand(matches: IMatch[], updateTable: boolean): ITableLine[] {
+    public berekenStand(matchPredictions: IMatchPrediction[], updateTable: boolean): ITableLine[] {
         let table: ITableLine[] = [];
 
-        for (let match of matches) {
-            let index = table.findIndex(t => t.id === match.homeTeam);
+        for (const match of matchPredictions) {
+            const index = table.findIndex(t => t.team.id === match.match.homeTeam.id);
 
             if (index === -1) {
-                table.push(this.createInitialTableLine(match.homeTeam));
+                table.push(this.createInitialTableLine(match.match.homeTeam));
             }
         }
 
-        for (let match of matches) {
-            let index = table.findIndex(t => t.id === match.awayTeam);
+        for (const match of matchPredictions) {
+            const index = table.findIndex(t => t.team.id === match.match.awayTeam.id);
 
             if (index === -1) {
-                table.push(this.createInitialTableLine(match.awayTeam));
+                table.push(this.createInitialTableLine(match.match.awayTeam));
             }
         }
 
-        for (let match of matches) {
+        for (const match of matchPredictions) {
             table = this.updateTableLine(table, match);
         }
 
         if (updateTable) {
-        table = table.map(line => {
-            return {...line, sortering: this.calculateSortering(line, matches, table)};
-        })
-            .sort((a, b) =>
-                (b.sortering - a.sortering))
-            .reduce((accumulator, currentValue, index) => {
-                return [...accumulator, Object.assign({}, currentValue, {
-                    positie: this.calculatePosition(currentValue, index, accumulator)
-                })];
-            }, []);
+            table = table.map(line => {
+                return {...line, sortering: this.calculateSortering(line, matchPredictions, table)};
+            })
+                .sort((a, b) =>
+                    (b.sortering - a.sortering))
+                .reduce((accumulator, currentValue, index) => {
+                    return [...accumulator, Object.assign({}, currentValue, {
+                        positie: this.calculatePosition(currentValue, index, accumulator)
+                    })];
+                }, []);
 
             this.standen$.next([{tableLines: table}]);
         }
@@ -58,27 +59,31 @@ export class VoorspellingHelperService {
             table[index - 1].positie : index + 1;
     }
 
-    calculateSortering(tableLine: ITableLine, matches: IMatch[], table: ITableLine[]) {
-        const teamsEqualOnPoints = table.filter(line => line.punten === tableLine.punten).map(team => {
-            return team.id
+    calculateSortering(tableLine: ITableLine, matches: IMatchPrediction[], table: ITableLine[]) {
+        const teamsEqualOnPoints = table.filter(line => line.punten === tableLine.punten).map(line => {
+            return line.team.id;
         });
 
         if (teamsEqualOnPoints.length > 1) {
-            const matchesForTeam = matches.filter(match =>  teamsEqualOnPoints.includes(match.homeTeam) && (teamsEqualOnPoints.includes(match.awayTeam)));
+            const matchesForTeam = matches.filter(match => {
+                return teamsEqualOnPoints.includes(match.match.homeTeam.id) && (teamsEqualOnPoints.includes(match.match.awayTeam.id));
+            });
             const tableWithTeamsEqualOnPoints: ITableLine[] = this.berekenStand(matchesForTeam, false);
-            const tableLineWithTeamEqualOnPoints: ITableLine = tableWithTeamsEqualOnPoints.find(line => line.id === tableLine.id);
+            const tableLineWithTeamEqualOnPoints: ITableLine = tableWithTeamsEqualOnPoints.find(line => line.team.id === tableLine.team.id);
             console.log(tableWithTeamsEqualOnPoints);
             return (tableLine.punten * 1000000 +
                 tableLineWithTeamEqualOnPoints.punten * 10000 +
                 ((tableLineWithTeamEqualOnPoints.goalsFor - tableLineWithTeamEqualOnPoints.goalsAgainst) * 100) +
-                tableLineWithTeamEqualOnPoints.goalsFor);
+                tableLineWithTeamEqualOnPoints.goalsFor +
+                ((tableLine.goalsFor - tableLine.goalsAgainst) / 100) +
+                tableLine.goalsFor / 10000);
         } else {
             return (tableLine.punten * 1000000 +
                 ((tableLine.goalsFor - tableLine.goalsAgainst) * 100) +
                 tableLine.goalsFor);
 
         }
-        //a. higher number of points obtained in the matches played among the teams in
+        // a. higher number of points obtained in the matches played among the teams in
         // question;
         // b. superior goal difference resulting from the matches played among the teams
         // in question;
@@ -94,9 +99,9 @@ export class VoorspellingHelperService {
 
     }
 
-    createInitialTableLine(team: string): ITableLine {
+    createInitialTableLine(team: ITeam): ITableLine {
         return {
-            id: team,
+            team,
             positie: 0,
             gespeeld: 0,
             punten: 0,
@@ -106,12 +111,12 @@ export class VoorspellingHelperService {
         };
     }
 
-    private updateTableLine(table: ITableLine[], match: IMatch): ITableLine[] {
+    private updateTableLine(table: ITableLine[], matchPrediction: IMatchPrediction): ITableLine[] {
         return table.map(line => {
-            if (line.id === match.homeTeam) {
-                return this.updateTeamLine(line, match, true);
-            } else if (line.id === match.awayTeam) {
-                return this.updateTeamLine(line, match, false);
+            if (line.team.id === matchPrediction.match.homeTeam.id) {
+                return this.updateTeamLine(line, matchPrediction, true);
+            } else if (line.team.id === matchPrediction.match.awayTeam.id) {
+                return this.updateTeamLine(line, matchPrediction, false);
             } else {
                 return {...line};
             }
@@ -119,137 +124,20 @@ export class VoorspellingHelperService {
 
     }
 
-    updateTeamLine(line: ITableLine, match: IMatch, homeTeam: boolean) {
-        return match.predictedHomeScore === null || match.predictedAwayScore === null ?
+    updateTeamLine(line: ITableLine, matchPrediction: IMatchPrediction, homeTeam: boolean) {
+        return matchPrediction.homeScore === undefined || matchPrediction.awayScore === undefined ||
+        matchPrediction.homeScore === null || matchPrediction.awayScore === null ?
             {...line} :
             {
                 ...line,
                 gespeeld: line.gespeeld + 1,
-                punten: line.punten + this.punten(homeTeam ? match.predictedHomeScore : match.predictedAwayScore, homeTeam ? match.predictedAwayScore : match.predictedHomeScore),
-                goalsFor: line.goalsFor + (homeTeam ? match.predictedHomeScore : match.predictedAwayScore),
-                goalsAgainst: line.goalsAgainst + (homeTeam ? match.predictedAwayScore : match.predictedHomeScore)
+                punten: line.punten +
+                    this.punten(homeTeam ?
+                        matchPrediction.homeScore : matchPrediction.awayScore, homeTeam ?
+                        matchPrediction.awayScore : matchPrediction.homeScore),
+                goalsFor: line.goalsFor + (homeTeam ? matchPrediction.homeScore : matchPrediction.awayScore),
+                goalsAgainst: line.goalsAgainst + (homeTeam ? matchPrediction.awayScore : matchPrediction.homeScore)
             };
-    }
-
-    public getPoules() {
-        return [{
-            pouleName: 'A',
-            matches: [{
-                id: '1',
-                date: '12 juli 2019',
-                homeTeam: 'Nederland',
-                awayTeam: 'Oekraïne',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 5,
-                predictedAwayScore: 0,
-            }, {
-                id: '2',
-                date: '12 juli 2019',
-                homeTeam: 'Oostenrijk',
-                awayTeam: 'Roemenië',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 1,
-                predictedAwayScore: 2,
-            }, {
-                id: '3',
-                date: '12 juli 2019',
-                homeTeam: 'Nederland',
-                awayTeam: 'Roemenië',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 1,
-                predictedAwayScore: 0,
-            }, {
-                id: '4',
-                date: '12 juli 2019',
-                homeTeam: 'Oostenrijk',
-                awayTeam: 'Oekraïne',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 1,
-                predictedAwayScore: 0,
-            }, {
-                id: '5',
-                date: '12 juli 2019',
-                homeTeam: 'Nederland',
-                awayTeam: 'Oostenrijk',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 0,
-                predictedAwayScore: 1,
-            }, {
-                id: '6',
-                date: '12 juli 2019',
-                homeTeam: 'Roemenië',
-                awayTeam: 'Oekraïne',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 1,
-                predictedAwayScore: 0,
-            }]
-        }, {
-            pouleName: 'B',
-            matches: [{
-                id: '7',
-                date: '12 juli 2019',
-                homeTeam: 'Belgie',
-                awayTeam: 'Rusland',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 0,
-                predictedAwayScore: 0,
-            }]
-        }, {
-            pouleName: 'C',
-            matches: [{
-                id: '7',
-                date: '12 juli 2019',
-                homeTeam: 'C1',
-                awayTeam: 'C2',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 0,
-                predictedAwayScore: 0,
-            }]
-        }, {
-            pouleName: 'D',
-            matches: [{
-                id: '7',
-                date: '12 juli 2019',
-                homeTeam: 'D1',
-                awayTeam: 'D2',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 0,
-                predictedAwayScore: 0,
-            }]
-        }, {
-            pouleName: 'E',
-            matches: [{
-                id: '7',
-                date: '12 juli 2019',
-                homeTeam: 'E1',
-                awayTeam: 'E2',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: null,
-                predictedAwayScore: null,
-            }]
-        }, {
-            pouleName: 'F',
-            matches: [{
-                id: '7',
-                date: '12 juli 2019',
-                homeTeam: 'F1',
-                awayTeam: 'F2',
-                homeScore: null,
-                awayScore: null,
-                predictedHomeScore: 0,
-                predictedAwayScore: 0,
-            }]
-        }];
     }
 
     private punten(gescoord: number, tegen: number) {

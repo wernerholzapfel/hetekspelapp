@@ -1,15 +1,8 @@
 <!--https://www.flaticon.com/packs/countrys-flags-->
 <ion-header>
-    <ion-toolbar color="primary">
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>
-            Poule voorspellingen
-        </ion-title>
-    </ion-toolbar>
+    <app-menu-toolbar title="Inschrijven"></app-menu-toolbar>
     <ion-toolbar>
-        <ion-segment [(ngModel)]="pouleForm.pouleName"
+        <ion-segment [(ngModel)]="pouleName"
                      (ionChange)="selectPoule($event)"
                      scrollable
                      color="primary">
@@ -35,8 +28,13 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <app-match-card [isRegistrationOpen]="isRegistrationOpen" [matches]="pouleForm.matches"></app-match-card>
+    <app-match-card  *ngFor="let matchPrediction of matchPredictions" [isRegistrationOpen]="isRegistrationOpen" [matchPrediction]="matchPrediction" (emitUpdateWedstrijdScore)="updateTable($event)"></app-match-card>
     <app-stand-card (toggleIsSortDisabled)="toggleIsSortDisabled($event)"
                     [isSortDisabled]="isSortDisabled"
-                    [pouleName]="pouleName" [pouleForm]="pouleForm"></app-stand-card>
+                    [pouleName]="pouleName" [matchesPrediction]="matchPredictions"></app-stand-card>
 </ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-button color="secondary" expand="full" fill="solid" (click)="save()">Opslaan</ion-button>
+    </ion-toolbar>
+</ion-footer>

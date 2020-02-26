@@ -14,6 +14,14 @@ const routes: Routes = [
   {
     path: 'list',
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
+  },
+  {
+    path: 'spelregels',
+    loadChildren: () => import('./spelregels/spelregels.module').then( m => m.SpelregelsPageModule)
+  },
+  {
+    path: 'halloffame',
+    loadChildren: () => import('./halloffame/halloffame.module').then( m => m.HalloffamePageModule)
   }
 ];
 

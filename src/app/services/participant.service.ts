@@ -12,7 +12,7 @@ export class ParticipantService {
     }
 
     postParticipant(body: IParticipant): Observable<IParticipant> {
-        return this.http.post<IParticipant>(`${environment.apiBaseUrl}/deelnemer`, body)
+        return this.http.post<IParticipant>(`${environment.apiBaseUrl}/participant`, body)
             .pipe(map(res => res as IParticipant));
     }
 

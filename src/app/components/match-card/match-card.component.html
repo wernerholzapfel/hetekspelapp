@@ -1,54 +1,56 @@
-<ion-card class="match-card" *ngFor="let match of matches">
+<ion-card class="match-card">
   <ion-card-header>
-    <ion-card-subtitle>{{match.date}}</ion-card-subtitle>
-    <ion-card-title color="primary">
+    <ion-card-subtitle>{{matchPrediction.match.date}}</ion-card-subtitle>
+    <ion-card-title>
       <ion-row>
         <ion-col class="ion-no-padding">
-          {{match.homeTeam}}
+          <ion-icon size="medium" src="assets/flags/netherlands.svg"></ion-icon>
+          {{matchPrediction.match?.homeTeam?.name}}
         </ion-col>
         <ion-col class="ion-no-padding" size="1" text-right>
-          {{match.predictedHomeScore}}
+          {{matchPrediction.homeScore}}
         </ion-col>
       </ion-row>
     </ion-card-title>
-    <ion-card-title color="primary">
+    <ion-card-title>
       <ion-row>
         <ion-col class="ion-no-padding">
-          {{match.awayTeam}}
+          <ion-icon size="medium" src="assets/flags/netherlands.svg"></ion-icon>
+          {{matchPrediction.match?.awayTeam?.name}}
         </ion-col>
         <ion-col class="ion-no-padding" size="1" text-right>
-          {{match.predictedAwayScore}}
+          {{matchPrediction.awayScore}}
         </ion-col>
       </ion-row>
     </ion-card-title>
   </ion-card-header>
   <ion-card-content class="padding-left">
     <ion-item *ngIf="!isRegistrationOpen" lines="none" class="ion-no-padding">
-      <ion-label>Uitslag {{match.homeScore}} - {{match.awayScore}}
+      <ion-label>Uitslag {{matchPrediction.match.homeScore}} - {{matchPrediction.match.awayScore}}
       </ion-label>
       <ion-badge mode="md" slot="end">25</ion-badge>
     </ion-item>
     <ng-container *ngIf="isRegistrationOpen">
       <ion-item class="ion-no-padding" lines="none">
-        <ion-fab-button [color]="round === match.predictedHomeScore ? 'primary' : 'light'"
-                        color="light" (click)="updateWedstrijdScore(match, round, match.predictedAwayScore)" size="small"
+        <ion-fab-button [color]="round === matchPrediction.homeScore ? 'medium' : 'light'"
+                        color="light" (click)="updateWedstrijdScore(matchPrediction, round, matchPrediction.awayScore)" size="small"
                         *ngFor="let round of [0,1,2,3]">
           {{round}}
         </ion-fab-button>
         <ion-fab-button color="light"
-                        (click)="updateWedstrijdScore(match, match.predictedHomeScore + 1, match.predictedAwayScore)"
+                        (click)="updateWedstrijdScore(matchPrediction, matchPrediction.homeScore + 1, matchPrediction.awayScore)"
                         size="small">
           +
         </ion-fab-button>
       </ion-item>
       <ion-item class="ion-no-padding" lines="none">
-        <ion-fab-button [color]="round === match.predictedAwayScore ? 'primary' : 'light'"
-                        color="light" (click)="updateWedstrijdScore(match, match.predictedHomeScore, round)" size="small"
+        <ion-fab-button [color]="round === matchPrediction.awayScore ? 'medium' : 'light'"
+                        color="light" (click)="updateWedstrijdScore(matchPrediction, matchPrediction.homeScore, round)" size="small"
                         *ngFor="let round of [0,1,2,3]">
           {{round}}
         </ion-fab-button>
         <ion-fab-button color="light"
-                        (click)="updateWedstrijdScore(match, match.predictedAwayScore, match.predictedAwayScore + 1)"
+                        (click)="updateWedstrijdScore(matchPrediction, matchPrediction.awayScore, matchPrediction.awayScore + 1)"
                         size="small">
           +
         </ion-fab-button>

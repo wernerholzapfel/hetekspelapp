@@ -15,6 +15,8 @@ import {environment} from '../environments/environment';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptor} from './interceptor/token.interceptor';
+import {LoaderService} from './services/loader.service';
+import {LoaderInterceptor} from './interceptor/loader.interceptor';
 
 @NgModule({
     declarations: [AppComponent],
@@ -36,8 +38,14 @@ import {TokenInterceptor} from './interceptor/token.interceptor';
             useClass: TokenInterceptor,
             multi: true
         },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoaderInterceptor,
+            multi: true,
+        },
         AuthService,
-        ParticipantService
+        ParticipantService,
+        LoaderService
     ],
     bootstrap: [AppComponent]
 })

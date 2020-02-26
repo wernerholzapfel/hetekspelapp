@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IMatch} from '../../poule.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {VoorspellingHelperService} from '../../services/voorspelling-helper.service';
+import {IMatchPrediction} from '../../models/participant.model';
 
 @Component({
     selector: 'app-match-card',
@@ -9,8 +9,9 @@ import {VoorspellingHelperService} from '../../services/voorspelling-helper.serv
 })
 export class MatchCardComponent implements OnInit {
 
-    @Input() isRegistrationOpen: Boolean;
-    @Input() matches: IMatch[];
+    @Input() isRegistrationOpen: boolean;
+    @Input() matchPrediction: IMatchPrediction;
+    @Output() emitUpdateWedstrijdScore = new EventEmitter<IMatchPrediction>();
 
     constructor(private voorspellingHelper: VoorspellingHelperService) {
     }
@@ -18,16 +19,7 @@ export class MatchCardComponent implements OnInit {
     ngOnInit() {
     }
 
-    updateWedstrijdScore(match, homeScore, awayScore) {
-        this.matches = this.matches.map(item => {
-            if (item.id === match.id) {
-                return {
-                    ...item, predictedHomeScore: homeScore, predictedAwayScore: awayScore
-                };
-            } else {
-                return item;
-            }
-        });
-        this.voorspellingHelper.berekenStand(this.matches, true);
+    updateWedstrijdScore(matchPrediction: IMatchPrediction, homeScore: number, awayScore: number) {
+        this.emitUpdateWedstrijdScore.emit({...matchPrediction, homeScore, awayScore});
     }
 }

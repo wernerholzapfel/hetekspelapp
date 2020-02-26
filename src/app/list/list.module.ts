@@ -8,6 +8,8 @@ import { ListPage } from './list.page';
 import {LeagueTableRowComponent} from '../components/league-table-row/league-table-row.component';
 import {MatchCardComponent} from '../components/match-card/match-card.component';
 import {StandCardComponent} from '../components/stand-card/stand-card.component';
+import {MenuToolbarComponent} from '../components/menu-toolbar/menu-toolbar.component';
+import {MenuToolbarModule} from '../components/menu-toolbar/menu-toolbar.module';
 
 @NgModule({
   imports: [
@@ -19,7 +21,8 @@ import {StandCardComponent} from '../components/stand-card/stand-card.component'
         path: '',
         component: ListPage
       }
-    ])
+    ]),
+    MenuToolbarModule
   ],
   declarations: [ListPage, LeagueTableRowComponent, MatchCardComponent, StandCardComponent]
 })

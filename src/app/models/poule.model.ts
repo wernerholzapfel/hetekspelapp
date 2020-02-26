@@ -6,21 +6,25 @@ export interface IPoule {
 export interface IMatch {
     id: string;
     date: string;
-    homeTeam: string;
-    awayTeam: string;
+    poule: string;
+    homeTeam: ITeam;
+    awayTeam: ITeam;
     homeScore: number;
     awayScore: number;
-    predictedHomeScore: number;
-    predictedAwayScore: number;
 }
 
+export interface ITeam {
+    id: string,
+    name: string,
+    logoUrl: string,
+}
 export interface ITable {
     // pouleName: string;
     tableLines: ITableLine[]
 }
 
 export interface ITableLine {
-    id: string;
+    team: ITeam;
     positie: number;
     gespeeld: number;
     punten:number;

@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {IPoule, ITableLine} from '../../poule.model';
+import {ITableLine} from '../../models/poule.model';
 import {VoorspellingHelperService} from '../../services/voorspelling-helper.service';
-import { IonReorderGroup } from '@ionic/angular';
+import {IonReorderGroup} from '@ionic/angular';
+import {IMatchPrediction} from '../../models/participant.model';
 
 @Component({
     selector: 'app-stand-card',
@@ -15,7 +16,7 @@ export class StandCardComponent implements OnInit {
     }
 
     @Input() pouleName: string;
-    @Input() pouleForm: IPoule;
+    @Input() matchesPrediction: IMatchPrediction[];
     @Input() isSortDisabled: boolean;
 
     @Output() toggleIsSortDisabled = new EventEmitter<boolean>();
@@ -23,15 +24,13 @@ export class StandCardComponent implements OnInit {
     public stand: ITableLine[];
 
     ngOnInit() {
-        if (this.pouleForm) {
-            this.voorspellingHelper.standen$.pipe().subscribe(standen => {
-                if (standen.length > 0) {
-                    this.stand = standen[0].tableLines;
-                    // todo
-                    // this.stand = standen.find(stand => stand.pouleName === this.pouleName).tableLines;
-                }
-            });
-        }
+        this.voorspellingHelper.standen$.pipe().subscribe(standen => {
+            if (standen.length > 0) {
+                this.stand = standen[0].tableLines;
+                // todo
+                // this.stand = standen.find(stand => stand.pouleName === this.pouleName).tableLines;
+            }
+        });
     }
 
     doReorder(ev: any) {
@@ -42,7 +41,12 @@ export class StandCardComponent implements OnInit {
         // Finish the reorder and position the item in the DOM based on
         // where the gesture ended. Update the items variable to the
         // new order of items
-        this.stand = ev.detail.complete(this.stand);
+        this.stand = ev.detail.complete(this.stand).map((line, index) => {
+            return {
+                ...line,
+                positie: index + 1
+            };
+        });
 
         // After complete is called the items will be in the new order
         console.log('After complete', this.stand);

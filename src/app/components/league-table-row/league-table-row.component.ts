@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ITableLine} from '../../poule.model';
+import {ITableLine} from '../../models/poule.model';
 
 @Component({
   selector: 'app-league-table-row',
