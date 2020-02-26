@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://hetekspelapi.herokuapp.com/',
+  apiBaseUrl: 'https://hetekspelapi.herokuapp.com',
   firebase: {
     apiKey: 'AIzaSyBAd6_Gin6osRevWTSamsixU4cN5xsqxjE',
     authDomain: 'hetekspel-2020.firebaseapp.com',
