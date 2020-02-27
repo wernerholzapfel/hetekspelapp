@@ -2,16 +2,24 @@
     <app-menu-toolbar title="Het EK Spel"></app-menu-toolbar>
 </ion-header>
 <ion-content>
-    <ion-card class="welcome-card">
-        <img src="/assets/banner_euro2020.jpg" alt=""/>
-        <ion-card-header>
-            <ion-card-subtitle>Euro 2020</ion-card-subtitle>
-            <ion-card-title>Het EK Spel</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <p>Welkom bij Het Ek Spel 2020.</p>
-        </ion-card-content>
-    </ion-card>
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col size="12" size-md="6" size-lg="6" size-xl="6">
+                <ion-card class="welcome-card">
+                    <img src="/assets/banner_euro2020.jpg" alt=""/>
+                    <ion-card-header>
+                        <ion-card-subtitle>Euro 2020</ion-card-subtitle>
+                        <ion-card-title>Het EK Spel</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p>Welkom bij Het Ek Spel 2020.</p>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="6" size-xl="6">
+                <app-login></app-login>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
-    <app-login></app-login>
 </ion-content>

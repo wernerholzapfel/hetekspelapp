@@ -17,6 +17,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptor} from './interceptor/token.interceptor';
 import {LoaderService} from './services/loader.service';
 import {LoaderInterceptor} from './interceptor/loader.interceptor';
+import {MenuService} from './services/menu.service';
 
 @NgModule({
     declarations: [AppComponent],
@@ -45,7 +46,8 @@ import {LoaderInterceptor} from './interceptor/loader.interceptor';
         },
         AuthService,
         ParticipantService,
-        LoaderService
+        LoaderService,
+        MenuService
     ],
     bootstrap: [AppComponent]
 })

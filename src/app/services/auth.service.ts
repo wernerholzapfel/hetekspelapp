@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {MenuService} from './menu.service';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,8 @@ export class AuthService {
   public user: firebase.User;
 
   constructor(private angularFireAuth: AngularFireAuth,
-              private router: Router) {
+              private router: Router,
+              private menuService: MenuService) {
     this.user$ = angularFireAuth.authState;
 
     this.user$.subscribe(user => {
@@ -22,12 +24,14 @@ export class AuthService {
           this.user = user;
           this.displayName = user.displayName;
           this.isAdmin = tokenResult.claims.admin;
+          this.menuService.setMenu(this.isAdmin, this.user, false);
         });
       } else {
         console.log('er is geen user meer');
         this.user = null;
         this.displayName = null;
         this.isAdmin = false;
+        this.menuService.setMenu(this.isAdmin, this.user, false);
       }
     });
   }
