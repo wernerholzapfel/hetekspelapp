@@ -9,19 +9,19 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
   },
   {
-    path: 'list',
-    loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
+    path: 'prediction',
+    loadChildren: './pages/predictions_tab/predictions_tab.module#PredictionsTabModule',
   },
   {
     path: 'spelregels',
-    loadChildren: () => import('./spelregels/spelregels.module').then( m => m.SpelregelsPageModule)
+    loadChildren: () => import('./pages/spelregels/spelregels.module').then(m => m.SpelregelsPageModule)
   },
   {
     path: 'halloffame',
-    loadChildren: () => import('./halloffame/halloffame.module').then( m => m.HalloffamePageModule)
+    loadChildren: () => import('./pages/halloffame/halloffame.module').then(m => m.HalloffamePageModule)
   }
 ];
 

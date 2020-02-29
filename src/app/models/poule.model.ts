@@ -7,6 +7,7 @@ export interface IMatch {
     id: string;
     date: string;
     poule: string;
+    city: string;
     homeTeam: ITeam;
     awayTeam: ITeam;
     homeScore: number;

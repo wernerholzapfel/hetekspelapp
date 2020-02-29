@@ -5,8 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import {LoginModule} from '../components/login/login.module';
-import {MenuToolbarModule} from '../components/menu-toolbar/menu-toolbar.module';
+import {LoginModule} from '../../components/login/login.module';
+import {MenuToolbarModule} from '../../components/menu-toolbar/menu-toolbar.module';
 
 @NgModule({
     imports: [

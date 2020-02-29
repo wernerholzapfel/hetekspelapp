@@ -11,10 +11,7 @@ export class VoorspellingHelperService {
     constructor() {
     }
 
-    standen$: BehaviorSubject<ITable[]> = new BehaviorSubject([]);
-
-
-    public berekenStand(matchPredictions: IMatchPrediction[], updateTable: boolean): ITableLine[] {
+    public berekenStand(matchPredictions: IMatchPrediction[], sortTable: boolean): ITableLine[] {
         let table: ITableLine[] = [];
 
         for (const match of matchPredictions) {
@@ -37,7 +34,7 @@ export class VoorspellingHelperService {
             table = this.updateTableLine(table, match);
         }
 
-        if (updateTable) {
+        if (sortTable) {
             table = table.map(line => {
                 return {...line, sortering: this.calculateSortering(line, matchPredictions, table)};
             })
@@ -48,15 +45,14 @@ export class VoorspellingHelperService {
                         positie: this.calculatePosition(currentValue, index, accumulator)
                     })];
                 }, []);
-
-            this.standen$.next([{tableLines: table}]);
         }
         return table;
     }
 
     calculatePosition(tableLine: ITableLine, index, table: ITableLine[]) {
-        return index > 0 && tableLine.sortering === table[index - 1].sortering ?
-            table[index - 1].positie : index + 1;
+        return index + 1;
+        // return index > 0 && tableLine.sortering === table[index - 1].sortering ?
+        //     table[index - 1].positie : index + 1;
     }
 
     calculateSortering(tableLine: ITableLine, matches: IMatchPrediction[], table: ITableLine[]) {

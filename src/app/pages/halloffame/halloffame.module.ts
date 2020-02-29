@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { HalloffamePageRoutingModule } from './halloffame-routing.module';
 
 import { HalloffamePage } from './halloffame.page';
-import {MenuToolbarModule} from '../components/menu-toolbar/menu-toolbar.module';
+import {MenuToolbarModule} from '../../components/menu-toolbar/menu-toolbar.module';
 
 @NgModule({
     imports: [

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ITableLine} from '../../models/poule.model';
 import {VoorspellingHelperService} from '../../services/voorspelling-helper.service';
 import {IonReorderGroup} from '@ionic/angular';
@@ -15,22 +15,16 @@ export class StandCardComponent implements OnInit {
     constructor(private voorspellingHelper: VoorspellingHelperService) {
     }
 
-    @Input() pouleName: string;
+    @Input() poule: { pouleName: string, isSortDisabled: boolean };
     @Input() matchesPrediction: IMatchPrediction[];
-    @Input() isSortDisabled: boolean;
 
-    @Output() toggleIsSortDisabled = new EventEmitter<boolean>();
+    // @Output() toggleIsSortDisabled = new EventEmitter<boolean>();
 
     public stand: ITableLine[];
 
     ngOnInit() {
-        this.voorspellingHelper.standen$.pipe().subscribe(standen => {
-            if (standen.length > 0) {
-                this.stand = standen[0].tableLines;
-                // todo
-                // this.stand = standen.find(stand => stand.pouleName === this.pouleName).tableLines;
-            }
-        });
+        this.stand = this.voorspellingHelper.berekenStand(this.matchesPrediction, true);
+
     }
 
     doReorder(ev: any) {
@@ -53,6 +47,6 @@ export class StandCardComponent implements OnInit {
     }
 
     toggleReorderGroup() {
-        this.toggleIsSortDisabled.emit(!this.isSortDisabled);
+        this.poule.isSortDisabled = !this.poule.isSortDisabled
     }
 }

@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { SpelregelsPageRoutingModule } from './spelregels-routing.module';
 
 import { SpelregelsPage } from './spelregels.page';
-import {MenuToolbarModule} from '../components/menu-toolbar/menu-toolbar.module';
+import {MenuToolbarModule} from '../../components/menu-toolbar/menu-toolbar.module';
 
 @NgModule({
     imports: [

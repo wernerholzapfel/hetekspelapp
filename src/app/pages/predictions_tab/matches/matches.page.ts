@@ -1,20 +1,19 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {VoorspellingHelperService} from '../services/voorspelling-helper.service';
-import {MatchService} from '../services/match.service';
 import {Subject} from 'rxjs';
-import {IMatchPrediction} from '../models/participant.model';
+import {IMatchPrediction} from '../../../models/participant.model';
+import {VoorspellingHelperService} from '../../../services/voorspelling-helper.service';
+import {MatchService} from '../../../services/match.service';
 
 @Component({
-    selector: 'app-list',
-    templateUrl: 'list.page.html',
-    styleUrls: ['list.page.scss']
+    selector: 'app-matches',
+    templateUrl: './matches.page.html',
+    styleUrls: ['./matches.page.scss'],
 })
-export class ListPage implements OnInit, OnDestroy {
+export class MatchesPage implements OnInit, OnDestroy {
     public pouleName = 'A';
     isRegistrationOpen = true;
     matchPredictions: IMatchPrediction[];
     allMatchPredictions: IMatchPrediction[];
-    isSortDisabled = true;
     unsubscribe = new Subject<void>();
 
     constructor(private voorspellingHelper: VoorspellingHelperService, private matchService: MatchService) {
@@ -23,7 +22,6 @@ export class ListPage implements OnInit, OnDestroy {
     selectPoule($event) {
         this.pouleName = $event.detail.value;
         this.setMatches();
-        this.isSortDisabled = true;
     }
 
     ngOnInit() {
@@ -40,10 +38,6 @@ export class ListPage implements OnInit, OnDestroy {
         this.matchPredictions = this.allMatchPredictions.filter(mp => mp.match.poule === this.pouleName);
         this.voorspellingHelper.berekenStand(this.matchPredictions, true);
     };
-
-    toggleIsSortDisabled(event: boolean) {
-        this.isSortDisabled = event;
-    }
 
     updateTable(event: IMatchPrediction) {
         this.matchPredictions = this.matchPredictions.map(mp => {

@@ -1,17 +1,25 @@
-<ion-row>
+<ion-row class="ion-padding" [ngClass]="(index % 2 == 0) ? 'odd' : 'even'">
     <ion-col size="6">
-        {{line.positie}}
         <ion-icon size="medium" src="assets/flags/netherlands.svg"></ion-icon>
-        {{line.team.name}}
+        <ion-text>
+            {{line.positie}}
+            {{line.team.name}}
+        </ion-text>
     </ion-col>
     <ion-col size="2">
-        {{line.gespeeld}}
+        <ion-text>
+            {{line.gespeeld}}
+        </ion-text>
     </ion-col>
     <ion-col size="2">
-        {{line.punten}}
+        <ion-text>
+            {{line.punten}}
+        </ion-text>
     </ion-col>
     <ion-col size="1">
-        {{line.goalsFor - line.goalsAgainst}}
+        <ion-text>
+            {{line.goalsFor - line.goalsAgainst}}
+        </ion-text>
     </ion-col>
     <ion-col size="1" *ngIf="!isSortDisabled">
         <ion-icon name="shuffle-outline"></ion-icon>

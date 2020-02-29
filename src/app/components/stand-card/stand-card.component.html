@@ -4,12 +4,12 @@
             <ion-row class="ion-no-padding ion-justify-content-between">
                 <ion-col>
                     <ion-card-subtitle>
-                        Stand poule {{this.pouleName}}
+                        Stand poule {{poule.pouleName}}
                     </ion-card-subtitle>
                 </ion-col>
                 <ion-col size="1" class="ion-align-self-end">
                     <ion-icon class="toggle-reorder-icon" (click)="toggleReorderGroup()"
-                              [name]="isSortDisabled ? 'lock-closed-outline' : 'lock-open-outline'"></ion-icon>
+                              [name]="poule.isSortDisabled ? 'lock-closed-outline' : 'lock-open-outline'"></ion-icon>
                 </ion-col>
             </ion-row>
         </ion-grid>
@@ -28,9 +28,9 @@
                     +/-
                 </ion-col>
             </ion-row>
-            <ion-reorder-group (ionItemReorder)="doReorder($event)" [disabled]="isSortDisabled">
+            <ion-reorder-group (ionItemReorder)="doReorder($event)" [disabled]="poule.isSortDisabled">
                 <ion-reorder *ngFor="let line of stand; let i = index">
-                    <app-league-table-row [isSortDisabled]="isSortDisabled" [line]="line"></app-league-table-row>
+                    <app-league-table-row [isSortDisabled]="poule.isSortDisabled" [line]="line" [index]="i"></app-league-table-row>
                 </ion-reorder>
             </ion-reorder-group>
         </ion-grid>

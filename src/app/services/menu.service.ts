@@ -33,7 +33,7 @@ export class MenuService {
         },
         {
             title: 'Inschrijven',
-            url: '/list',
+            url: '/prediction',
             icon: 'football-outline',
             active: false,
             onlyForAdmin: false,
