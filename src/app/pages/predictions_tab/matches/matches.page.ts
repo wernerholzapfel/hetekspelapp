@@ -15,6 +15,7 @@ export class MatchesPage implements OnInit, OnDestroy {
     matchPredictions: IMatchPrediction[];
     allMatchPredictions: IMatchPrediction[];
     unsubscribe = new Subject<void>();
+    buttonText = 'Opslaan';
 
     constructor(private voorspellingHelper: VoorspellingHelperService, private matchService: MatchService) {
     }

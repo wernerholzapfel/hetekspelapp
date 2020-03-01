@@ -1,0 +1,56 @@
+:host {
+  ion-card-header {
+    min-height: 160px;
+    background-color: var(--ion-color-primary);
+  }
+
+  ion-card-header.Amsterdam:after {
+    background-image: url(/assets/amsterdam.png);
+  }
+  ion-card-header.Baku:after {
+    background-image: url(/assets/baku.png);
+  }
+  ion-card-header.Bilbao:after {
+    background-image: url(/assets/bilbao.png);
+  }
+  ion-card-header.Boekarest:after {
+    background-image: url(/assets/bucharest.png);
+  }
+  ion-card-header.Budapest:after {
+    background-image: url(/assets/budapest.png);
+  }
+  ion-card-header.Dublin:after {
+    background-image: url(/assets/dublin.png);
+  }
+  ion-card-header.Glasgow:after {
+    background-image: url(/assets/glasgow.png);
+  }
+  ion-card-header.Kopenhagen:after {
+    background-image: url(/assets/kopenhagen.png);
+  }
+  ion-card-header.Londen:after {
+    background-image: url(/assets/london.png);
+  }
+  ion-card-header.München:after {
+    background-image: url(/assets/munich.png);
+  }
+  ion-card-header.Rome:after {
+    background-image: url(/assets/rome.png);
+  }
+  ion-card-header.Sint-Petersburg:after {
+    background-image: url(/assets/st-petersburg.png);
+  }
+
+  ion-card-header:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    background-size: 290px auto;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    z-index: 1;
+  }
+}

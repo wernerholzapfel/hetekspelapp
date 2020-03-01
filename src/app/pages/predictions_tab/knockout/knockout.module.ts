@@ -8,6 +8,7 @@ import { KnockoutPageRoutingModule } from './knockout-routing.module';
 
 import { KnockoutPage } from './knockout.page';
 import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
+import {CustomComponentsModule} from '../../../components/custom-components/custom-components.module';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.m
         FormsModule,
         IonicModule,
         KnockoutPageRoutingModule,
-        MenuToolbarModule
+        MenuToolbarModule,
+        CustomComponentsModule
     ],
   declarations: [KnockoutPage]
 })

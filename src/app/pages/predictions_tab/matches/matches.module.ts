@@ -9,6 +9,8 @@ import {MatchesPage} from './matches.page';
 import {LeagueTableRowComponent} from '../../../components/league-table-row/league-table-row.component';
 import {MatchCardComponent} from '../../../components/match-card/match-card.component';
 import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
+import {CityCardHeaderComponent} from '../../../components/city-card-header/city-card-header.component';
+import {CustomComponentsModule} from '../../../components/custom-components/custom-components.module';
 
 const routes: Routes = [
     {
@@ -24,6 +26,7 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes),
         MenuToolbarModule,
+        CustomComponentsModule,
     ],
     exports: [
         LeagueTableRowComponent

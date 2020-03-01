@@ -1,28 +1,29 @@
 <!--https://www.flaticon.com/packs/countrys-flags-->
 <ion-header>
     <app-menu-toolbar title="Inschrijven"></app-menu-toolbar>
-    <ion-toolbar>
+    <ion-toolbar color="secondary">
         <ion-segment [(ngModel)]="pouleName"
                      (ionChange)="selectPoule($event)"
                      scrollable
-                     color="primary">
+
+                     mode="md">
             <ion-segment-button checked value="A">
-                Poule A
+                Gr. A
             </ion-segment-button>
             <ion-segment-button value="B">
-                Poule B
+                Gr. B
             </ion-segment-button>
             <ion-segment-button value="C">
-                Poule C
+                Gr. C
             </ion-segment-button>
             <ion-segment-button value="D">
-                Poule D
+                Gr. D
             </ion-segment-button>
             <ion-segment-button value="E">
-                Poule E
+                Gr. E
             </ion-segment-button>
             <ion-segment-button value="F">
-                Poule F
+                Gr. F
             </ion-segment-button>
         </ion-segment>
     </ion-toolbar>
@@ -40,6 +41,6 @@
 </ion-content>
 <ion-footer>
     <ion-toolbar>
-        <ion-button color="secondary" expand="full" fill="solid" (click)="save()">Opslaan</ion-button>
+        <ion-button color="secondary" expand="full" fill="solid" (click)="save()">{{buttonText}}</ion-button>
     </ion-toolbar>
 </ion-footer>
