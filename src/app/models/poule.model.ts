@@ -28,8 +28,10 @@ export interface ITableLine {
     team: ITeam;
     positie: number;
     gespeeld: number;
+    winst: number;
     punten:number;
     goalsFor: number;
     goalsAgainst: number;
     sortering: number;
+    thirdPositionScore?: number;
 }

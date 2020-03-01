@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ITable, ITableLine, ITeam} from '../models/poule.model';
-import {BehaviorSubject} from 'rxjs';
+import {ITableLine, ITeam} from '../models/poule.model';
 import {IMatchPrediction} from '../models/participant.model';
 
 @Injectable({
@@ -36,7 +35,11 @@ export class VoorspellingHelperService {
 
         if (sortTable) {
             table = table.map(line => {
-                return {...line, sortering: this.calculateSortering(line, matchPredictions, table)};
+                return {
+                    ...line,
+                    thirdPositionScore: this.calculateScoreForThirdPosition(line),
+                    sortering: this.calculateSortering(line, matchPredictions, table)
+                };
             })
                 .sort((a, b) =>
                     (b.sortering - a.sortering))
@@ -67,14 +70,14 @@ export class VoorspellingHelperService {
             const tableWithTeamsEqualOnPoints: ITableLine[] = this.berekenStand(matchesForTeam, false);
             const tableLineWithTeamEqualOnPoints: ITableLine = tableWithTeamsEqualOnPoints.find(line => line.team.id === tableLine.team.id);
             console.log(tableWithTeamsEqualOnPoints);
-            return (tableLine.punten * 1000000 +
-                tableLineWithTeamEqualOnPoints.punten * 10000 +
+            return (tableLine.punten * 10000000 +
+                tableLineWithTeamEqualOnPoints.punten * 100000 +
                 ((tableLineWithTeamEqualOnPoints.goalsFor - tableLineWithTeamEqualOnPoints.goalsAgainst) * 100) +
                 tableLineWithTeamEqualOnPoints.goalsFor +
                 ((tableLine.goalsFor - tableLine.goalsAgainst) / 100) +
                 tableLine.goalsFor / 10000);
         } else {
-            return (tableLine.punten * 1000000 +
+            return (tableLine.punten * 10000000 +
                 ((tableLine.goalsFor - tableLine.goalsAgainst) * 100) +
                 tableLine.goalsFor);
 
@@ -95,11 +98,24 @@ export class VoorspellingHelperService {
 
     }
 
+
+    // a. higher number of points;
+    // b. superior goal difference;
+    // c. higher number of goals scored;
+    // d. higher number of wins;
+    calculateScoreForThirdPosition(tableLine: ITableLine) {
+        return (tableLine.punten * 1000000 +
+            ((tableLine.goalsFor - tableLine.goalsAgainst) * 10000) +
+            tableLine.goalsFor * 100 +
+            tableLine.winst);
+    }
+
     createInitialTableLine(team: ITeam): ITableLine {
         return {
             team,
             positie: 0,
             gespeeld: 0,
+            winst: 0,
             punten: 0,
             goalsFor: 0,
             goalsAgainst: 0,
@@ -127,6 +143,9 @@ export class VoorspellingHelperService {
             {
                 ...line,
                 gespeeld: line.gespeeld + 1,
+                winst: (this.punten(homeTeam ?
+                    matchPrediction.homeScore : matchPrediction.awayScore, homeTeam ?
+                    matchPrediction.awayScore : matchPrediction.homeScore) === 3) ? line.winst + 1 : line.winst,
                 punten: line.punten +
                     this.punten(homeTeam ?
                         matchPrediction.homeScore : matchPrediction.awayScore, homeTeam ?
@@ -136,7 +155,7 @@ export class VoorspellingHelperService {
             };
     }
 
-    private punten(gescoord: number, tegen: number) {
+    private punten(gescoord: number, tegen: number): number {
         return gescoord === null || tegen === null ?
             0 : gescoord > tegen ?
                 3 : gescoord < tegen ?

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {MatchService} from '../../../services/match.service';
 import {IMatchPrediction} from '../../../models/participant.model';
+import {PoulepredictionService} from '../../../services/pouleprediction.service';
 
 @Component({
     selector: 'app-poule',
@@ -15,7 +16,8 @@ export class PoulePage implements OnInit {
     allMatchPredictions: IMatchPrediction[];
     poules = [];
 
-    constructor(private matchService: MatchService) {
+    constructor(private matchService: MatchService,
+                private poulepredictionService: PoulepredictionService) {
     }
 
     ngOnInit() {
@@ -39,6 +41,6 @@ export class PoulePage implements OnInit {
     }
 
     save() {
-        console.log('ok en nu');
+        this.poulepredictionService.savePoulePredictions(this.poules);
     }
 }

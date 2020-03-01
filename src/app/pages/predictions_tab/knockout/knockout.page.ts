@@ -1,28 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {PoulepredictionService} from '../../../services/pouleprediction.service';
+import {IPoulePrediction} from '../../../models/participant.model';
 
 @Component({
-  selector: 'app-knockout',
-  templateUrl: './knockout.page.html',
-  styleUrls: ['./knockout.page.scss'],
+    selector: 'app-knockout',
+    templateUrl: './knockout.page.html',
+    styleUrls: ['./knockout.page.scss'],
 })
 export class KnockoutPage implements OnInit {
 
-  constructor() { }
+    constructor(private poulePredictionService: PoulepredictionService) {
+    }
 
-  ngOnInit() {
+    private nummerDries: IPoulePrediction[];
+    private nummerDrieIdentifier: string;
 
-    // get all the nr3's from the predictions
+    ngOnInit() {
 
-    // get all the matches played by the nr3's
-    // create table with those matches
-    // determine which poules have the best nr 3. {0-3}
-    // find the right spot for the team in the knockout stage.
+        this.poulePredictionService.getPoulePredictions().subscribe(pp => {
 
-  }
+            // determine which poules have the best nr 3. {0-3}
+            this.nummerDries = pp.filter(item => item.position === 3)
+                .sort((a, b) => b.thirdPositionScore - a.thirdPositionScore)
+                .slice(0, 4);
 
-  select() {
+            this.nummerDrieIdentifier = this.nummerDries.sort((a, b) => {
+                if (b.poule > a.poule) {
+                    return -1;
+                }
+                if (a.poule > b.poule) {
+                    return 1;
+                }
+                return 0;
+            }).reduce((acc: string, val) => acc + val.poule, '');
 
-  }
+            // find the right spot for the team in the knockout stage.
+
+
+        });
+
+    }
+
+    select() {
+
+    }
 
 }
 

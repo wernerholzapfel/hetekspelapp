@@ -3,6 +3,7 @@ import {ITableLine} from '../../models/poule.model';
 import {VoorspellingHelperService} from '../../services/voorspelling-helper.service';
 import {IonReorderGroup} from '@ionic/angular';
 import {IMatchPrediction} from '../../models/participant.model';
+import {PoulepredictionService} from '../../services/pouleprediction.service';
 
 @Component({
     selector: 'app-stand-card',
@@ -12,19 +13,16 @@ import {IMatchPrediction} from '../../models/participant.model';
 export class StandCardComponent implements OnInit {
     @ViewChild(IonReorderGroup, {static: true}) reorderGroup: IonReorderGroup;
 
-    constructor(private voorspellingHelper: VoorspellingHelperService) {
+    constructor(private voorspellingHelper: VoorspellingHelperService, private poulepredictionService: PoulepredictionService) {
     }
 
     @Input() poule: { pouleName: string, isSortDisabled: boolean };
     @Input() matchesPrediction: IMatchPrediction[];
 
-    // @Output() toggleIsSortDisabled = new EventEmitter<boolean>();
-
     public stand: ITableLine[];
 
     ngOnInit() {
         this.stand = this.voorspellingHelper.berekenStand(this.matchesPrediction, true);
-
     }
 
     doReorder(ev: any) {
@@ -47,6 +45,19 @@ export class StandCardComponent implements OnInit {
     }
 
     toggleReorderGroup() {
-        this.poule.isSortDisabled = !this.poule.isSortDisabled
+        this.poule.isSortDisabled = !this.poule.isSortDisabled;
+    }
+
+    save() {
+        this.poulepredictionService.savePoulePredictions(this.stand.map(line => {
+            return {
+                poule: this.poule.pouleName,
+                team: line.team,
+                position: line.positie,
+                thirdPositionScore: line.thirdPositionScore
+            };
+        })).subscribe(response => {
+            console.log(response);
+        });
     }
 }

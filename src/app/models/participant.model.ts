@@ -15,6 +15,9 @@ export interface IMatchPrediction {
   match: IMatch;
 }
 
-interface Id {
-  id: string
+export interface IPoulePrediction {
+  id?: string;
+  poule: string;
+  position: number;
+  thirdPositionScore: number;
 }
