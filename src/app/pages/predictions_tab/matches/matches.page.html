@@ -1,32 +1,29 @@
 <!--https://www.flaticon.com/packs/countrys-flags-->
 <ion-header>
     <app-menu-toolbar title="Inschrijven"></app-menu-toolbar>
-    <ion-toolbar color="secondary">
         <ion-segment [(ngModel)]="pouleName"
                      (ionChange)="selectPoule($event)"
                      scrollable
-
                      mode="md">
-            <ion-segment-button checked value="A">
-                Gr. A
+            <ion-segment-button checked value="A" (click)="scrollSegments(0)">
+                Poule A
             </ion-segment-button>
-            <ion-segment-button value="B">
-                Gr. B
+            <ion-segment-button value="B" (click)="scrollSegments(1)">
+                Poule B
             </ion-segment-button>
-            <ion-segment-button value="C">
-                Gr. C
+            <ion-segment-button value="C" (click)="scrollSegments(2)">
+                Poule C
             </ion-segment-button>
-            <ion-segment-button value="D">
-                Gr. D
+            <ion-segment-button value="D" (click)="scrollSegments(3)">
+                Poule D
             </ion-segment-button>
-            <ion-segment-button value="E">
-                Gr. E
+            <ion-segment-button value="E" (click)="scrollSegments(4)">
+                Poule E
             </ion-segment-button>
-            <ion-segment-button value="F">
-                Gr. F
+            <ion-segment-button value="F" (click)="scrollSegments(5)">
+                Poule F
             </ion-segment-button>
         </ion-segment>
-    </ion-toolbar>
 </ion-header>
 <ion-content>
     <ion-grid class="ion-no-padding">
@@ -39,8 +36,6 @@
         </ion-row>
     </ion-grid>
 </ion-content>
-<ion-footer>
-    <ion-toolbar>
-        <ion-button color="secondary" expand="full" fill="solid" (click)="save()">{{buttonText}}</ion-button>
-    </ion-toolbar>
+<ion-footer class="ion-no-border ion-padding-horizontal">
+        <ion-button color="secondary" expand="block" fill="solid" (click)="save()">{{buttonText}}</ion-button>
 </ion-footer>

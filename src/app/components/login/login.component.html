@@ -18,7 +18,7 @@
             <ion-input placeholder="Email" name="inlogEmail" [(ngModel)]="user.email"></ion-input>
             <ion-input type="password" autocomplete="password" name="inlogPassword" placeholder="Password"
                        [(ngModel)]="user.password"></ion-input>
-            <ion-button expand="full" color="secondary" (click)="signInWithEmail()"
+            <ion-button expand="block" color="secondary" (click)="signInWithEmail()"
                         [disabled]="!user.email || !user.password">
                 Inloggen
             </ion-button>
@@ -36,14 +36,14 @@
             </ion-input>
             <ion-input type="text" placeholder="Teamnaam" formControlName="teamName"
                        [(ngModel)]="user.teamName"></ion-input>
-            <ion-button expand="full" color="secondary" (click)="signUpRegular()" [disabled]="userForm.invalid">
+            <ion-button expand="block" color="secondary" (click)="signUpRegular()" [disabled]="userForm.invalid">
                 Inschrijven
             </ion-button>
         </form>
     </ion-card-content>
     <ion-card-content *ngIf="(authService.user$ | async)">
 
-        <ion-button expand="full" color="secondary" *ngIf="(authService.user$ | async)" (click)="logout()">Uitloggen
+        <ion-button expand="block" color="secondary" *ngIf="(authService.user$ | async)" (click)="logout()">Uitloggen
         </ion-button>
     </ion-card-content>
 </ion-card>
@@ -63,7 +63,7 @@
                 </ion-input>
             </ion-item>
             <div class="button-container">
-                <ion-button expand="full" [color]="user.email ? 'secondary' : 'medium'"
+                <ion-button expand="block" [color]="user.email ? 'secondary' : 'medium'"
                             (click)="sendPasswordResetEmail()"
                             [disabled]="!user.email">Reset wachtwoord
                 </ion-button>

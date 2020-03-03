@@ -9,4 +9,7 @@ ion-menu {
   .inactive-item {
     padding-left: 8px;
   }
+  ion-content {
+    --background: var(--ion-color-primary);
+  }
 }

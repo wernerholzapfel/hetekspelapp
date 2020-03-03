@@ -1,5 +1,7 @@
 {
   "name": "hetekspelapp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
