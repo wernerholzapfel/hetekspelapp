@@ -28,9 +28,11 @@ export class MatchesPage implements OnInit, OnDestroy {
     scrollSegments(index: number) {
         const segment = document.querySelector('ion-segment');
         const active = segment.querySelectorAll('ion-segment-button')[index];
-        active.scrollIntoView({behavior: 'smooth', inline: 'center'});
-
+        if (active) {
+            active.scrollIntoView({behavior: 'smooth', inline: 'center'});
+        }
     }
+
     ngOnInit() {
         this.matchService.getMatchPredictions().subscribe(
             matchPredictions => {

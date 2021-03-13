@@ -3,6 +3,8 @@ import {IPoulePrediction} from '../models/participant.model';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
+import {IKnockout} from '../models/knockout.model';
+import {ISaveKnockoutPredictionsBody} from '../models/knockout-predictions.model';
 
 @Injectable({
     providedIn: 'root'
@@ -16,12 +18,24 @@ export class PoulepredictionService {
         return this.http.post<IPoulePrediction[]>(`${environment.apiBaseUrl}/poule-prediction`, poulePredictions);
     }
 
+    saveKnockoutPredictions(knockoutPredictions: ISaveKnockoutPredictionsBody[]): Observable<any> {
+        return this.http.post<ISaveKnockoutPredictionsBody[]>(`${environment.apiBaseUrl}/knockout-prediction`, knockoutPredictions);
+    }
 
     getPoulePredictions(): Observable<any> {
         return this.http.get<any>(`${environment.apiBaseUrl}/poule-prediction`);
     }
 
-    getPositionForThirdPlacedTeams(): any[] {
+    saveKnockoutRound(knockoutRounds: any[]): Observable<any> {
+        return this.http.post<any[]>(`${environment.apiBaseUrl}/knockout`, knockoutRounds);
+    }
+      // todo get from backend.
+    getSpeelschemaKnockoutRound(): Observable<IKnockout[]> {
+        return this.http.get<IKnockout[]>(`${environment.apiBaseUrl}/knockout`);
+
+    }
+
+    getPositionForThirdPlacedTeams(nummerDrieIdentifier: string): { identifier: string, WB: string, WC: string, WE: string, WF: string } {
         return [
             {
                 identifier: 'ABCD',
@@ -114,6 +128,111 @@ export class PoulepredictionService {
                 WE: '3D',
                 WF: '3C'
             }
-        ];
+        ].find(p => p.identifier === nummerDrieIdentifier);
     }
 }
+// return [
+//     {
+//         id: 38,
+//         round: '16',
+//         home: '2A',
+//         away: '2B',
+//         city: 'Amsterdam'
+//     },
+//     {
+//         id: 37,
+//         round: '16',
+//         home: '1A',
+//         away: '2C',
+//         city: 'London'
+//     },
+//     {
+//         id: 40,
+//         round: '16',
+//         home: '1C',
+//         away: 'WC',
+//         city: 'Budapest'
+//     },
+//     {
+//         id: 39,
+//         round: '16',
+//         home: '1B',
+//         away: 'WB',
+//         city: 'Bilbao'
+//     },
+//     {
+//         id: 42,
+//         round: '16',
+//         home: '2D',
+//         away: '2E',
+//         city: 'Kopenhagen'
+//     },
+//     {
+//         id: 41,
+//         round: '16',
+//         home: '1F',
+//         away: 'WF', // todo
+//         city: 'Boekarest'
+//     },
+//     {
+//         id: 44,
+//         round: '16',
+//         home: '1D',
+//         away: '2F',
+//         city: 'Dublin'
+//     },{
+//         id: 43,
+//         round: '16',
+//         home: '1E',
+//         away: 'WE',
+//         city: 'Glasgow'
+//     },
+//     {
+//         id: 45,
+//         round: '8',
+//         home: '41',
+//         away: '42',
+//         city: 'st-petersburg'
+//     }, {
+//         id: 46,
+//         round: '8',
+//         home: '39',
+//         away: '37',
+//         city: 'munich'
+//     },
+//     {
+//         id: 47,
+//         round: '8',
+//         home: '40',
+//         away: '38',
+//         city: 'baku'
+//     },
+//     {
+//         id: 48,
+//         round: '8',
+//         home: '43',
+//         away: '44',
+//         city: 'rome'
+//     },
+//     {
+//         id: 49,
+//         round: '4',
+//         home: '46',
+//         away: '45',
+//         city: 'london'
+//     },
+//     {
+//         id: 50,
+//         round: '4',
+//         home: '48',
+//         away: '47',
+//         city: 'london'
+//     }, {
+//         id: 51,
+//         round: '2',
+//         home: '49',
+//         away: '50',
+//         city: 'london'
+//     },
+//
+// ]

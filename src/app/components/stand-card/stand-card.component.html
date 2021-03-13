@@ -4,7 +4,7 @@
             <ion-row class="ion-no-padding ion-justify-content-between">
                 <ion-col>
                     <ion-card-subtitle>
-                        Stand poule {{poule.pouleName}}
+                        Stand poule {{poule.poule}}
                     </ion-card-subtitle>
                 </ion-col>
                 <ion-col size="1" class="ion-align-self-end">
@@ -29,7 +29,7 @@
                 </ion-col>
             </ion-row>
             <ion-reorder-group (ionItemReorder)="doReorder($event)" [disabled]="poule.isSortDisabled">
-                <ion-reorder *ngFor="let line of stand; let i = index">
+                <ion-reorder *ngFor="let line of poule.stand; let i = index">
                     <app-league-table-row [isSortDisabled]="poule.isSortDisabled" [line]="line" [index]="i"></app-league-table-row>
                 </ion-reorder>
             </ion-reorder-group>

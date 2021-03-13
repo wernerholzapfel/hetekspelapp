@@ -21,15 +21,15 @@ export class PoulePage implements OnInit {
     }
 
     ngOnInit() {
-        this.matchService.getMatchPredictions().subscribe(
-            matchPredictions => {
-                this.allMatchPredictions = matchPredictions;
-                this.poules = [{pouleName: 'A', isSortDisabled: true},
-                    {pouleName: 'B', isSortDisabled: true},
-                    {pouleName: 'C', isSortDisabled: true},
-                    {pouleName: 'D', isSortDisabled: true},
-                    {pouleName: 'E', isSortDisabled: true},
-                    {pouleName: 'F', isSortDisabled: true}];
+        this.poulepredictionService.getPoulePredictions().subscribe(
+            poulePrediction => {
+
+                this.poules = [{poule: 'A', stand: poulePrediction.filter(p => p.poule === 'A'), isSortDisabled: true},
+                    {poule: 'B', stand: poulePrediction.filter(p => p.poule === 'B'), isSortDisabled: true},
+                    {poule: 'C', stand: poulePrediction.filter(p => p.poule === 'C'), isSortDisabled: true},
+                    {poule: 'D', stand: poulePrediction.filter(p => p.poule === 'D'), isSortDisabled: true},
+                    {poule: 'E', stand: poulePrediction.filter(p => p.poule === 'E'), isSortDisabled: true},
+                    {poule: 'F', stand: poulePrediction.filter(p => p.poule === 'F'), isSortDisabled: true}];
             });
     }
 
@@ -41,6 +41,6 @@ export class PoulePage implements OnInit {
     }
 
     save() {
-        this.poulepredictionService.savePoulePredictions(this.poules);
+        this.poulepredictionService.savePoulePredictions(this.poules).subscribe();
     }
 }

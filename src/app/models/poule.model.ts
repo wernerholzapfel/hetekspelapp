@@ -16,8 +16,8 @@ export interface IMatch {
 
 export interface ITeam {
     id: string,
-    name: string,
-    logoUrl: string,
+    name?: string,
+    logoUrl?: string,
 }
 export interface ITable {
     // pouleName: string;
