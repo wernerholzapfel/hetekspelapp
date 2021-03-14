@@ -19,6 +19,7 @@ import {LoaderService} from './services/loader.service';
 import {LoaderInterceptor} from './interceptor/loader.interceptor';
 import {MenuService} from './services/menu.service';
 import {FilterKnockoutRoundsPipe} from './pipes/filter-knockout-rounds.pipe';
+import {LoaderModule} from './components/loader/loader.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -30,6 +31,7 @@ import {FilterKnockoutRoundsPipe} from './pipes/filter-knockout-rounds.pipe';
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
         AngularFireAuthModule,
+        LoaderModule,
     ],
     providers: [
         StatusBar,

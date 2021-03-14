@@ -1,5 +1,5 @@
 ion-menu {
-  --ion-background-color: var(--ion-color-primary);
+  --ion-background-color: var(--ion-background-color);
 }
 
 :host {
@@ -10,6 +10,6 @@ ion-menu {
     padding-left: 8px;
   }
   ion-content {
-    --background: var(--ion-color-primary);
+    --background: var(--ion-background-color);
   }
 }

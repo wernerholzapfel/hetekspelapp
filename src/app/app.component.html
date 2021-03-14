@@ -5,13 +5,14 @@
         <ion-toolbar color="primary">
           <ion-title>Het EK Spel</ion-title>
         </ion-toolbar>
+        <app-loader></app-loader>
       </ion-header>
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
             <ion-item *ngIf="p.show"
                     [class.active-item]="p.active"
-                      [class.inactive-item]="!p.active" color="primary" [routerDirection]="'root'" [routerLink]="[p.url]">
+                      [class.inactive-item]="!p.active" [routerDirection]="'root'" [routerLink]="[p.url]">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
               <ion-label>
                 {{p.title}}
