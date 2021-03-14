@@ -1,6 +1,6 @@
 <ion-row class="ion-padding" [ngClass]="(index % 2 == 0) ? 'odd' : 'even'">
     <ion-col size="6">
-        <ion-icon size="medium" src="assets/flags/netherlands.svg"></ion-icon>
+        <span class="flag-icon flag-icon-{{line.team.logoUrl}} flag-icon-squared"></span>
         <ion-text>
             {{line.positie}}
             {{line.team.name}}

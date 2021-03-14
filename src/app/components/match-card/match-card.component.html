@@ -5,7 +5,7 @@
             <ion-card-title>
                 <ion-row>
                     <ion-col class="ion-no-padding">
-                        <ion-icon size="medium" src="assets/flags/netherlands.svg"></ion-icon>
+                        <span class="flag-icon flag-icon-{{matchPrediction.match?.homeTeam?.logoUrl}} flag-icon-squared"></span>
                         {{matchPrediction.match?.homeTeam?.name}}
                     </ion-col>
                     <ion-col class="ion-no-padding" size="1" text-right>
@@ -16,7 +16,7 @@
             <ion-card-title>
                 <ion-row>
                     <ion-col class="ion-no-padding">
-                        <ion-icon size="medium" src="assets/flags/netherlands.svg"></ion-icon>
+                        <span class="flag-icon flag-icon-{{matchPrediction.match?.awayTeam?.logoUrl}} flag-icon-squared"></span>
                         {{matchPrediction.match?.awayTeam?.name}}
                     </ion-col>
                     <ion-col class="ion-no-padding" size="1" text-right>
