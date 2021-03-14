@@ -19,7 +19,7 @@
                         <span class="flag-icon flag-icon-{{matchPrediction.match?.awayTeam?.logoUrl}} flag-icon-squared"></span>
                         {{matchPrediction.match?.awayTeam?.name}}
                     </ion-col>
-                    <ion-col class="ion-no-padding" size="1" text-right>
+                    <ion-col class="ion-no-padding text-right" size="1">
                         {{matchPrediction.awayScore}}
                     </ion-col>
                 </ion-row>
@@ -53,7 +53,7 @@
                         {{round}}
                     </ion-fab-button>
                     <ion-fab-button color="light"
-                                    (click)="updateWedstrijdScore(matchPrediction, matchPrediction.awayScore, matchPrediction.awayScore + 1)"
+                                    (click)="updateWedstrijdScore(matchPrediction, matchPrediction.homeScore, matchPrediction.awayScore + 1)"
                                     size="small">
                         +
                     </ion-fab-button>
