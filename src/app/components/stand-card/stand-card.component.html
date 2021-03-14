@@ -17,15 +17,15 @@
     </ion-card-header>
     <ion-card-content>
         <ion-grid>
-            <ion-row>
-                <ion-col offset="6" size="2">
-                    P
+            <ion-row class="ion-padding-horizontal">
+            <ion-col offset="6" size="2">
+                    W
                 </ion-col>
                 <ion-col size="2">
-                    PTS
+                    PT
                 </ion-col>
                 <ion-col size="2">
-                    +/-
+                    DS
                 </ion-col>
             </ion-row>
             <ion-reorder-group (ionItemReorder)="doReorder($event)" [disabled]="poule.isSortDisabled">

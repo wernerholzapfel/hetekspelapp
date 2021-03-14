@@ -8,18 +8,18 @@
                             *ngFor="let round of rounds; let i = index">
             {{round.text}}
         </ion-segment-button>
-<!--                <ion-segment-button value="16" (click)="scrollSegments(1)">-->
-<!--                    1/8 F-->
-<!--                </ion-segment-button>-->
-<!--                <ion-segment-button value="8" (click)="scrollSegments(2)">-->
-<!--                    1/4 F-->
-<!--                </ion-segment-button>-->
-<!--                <ion-segment-button value="4" (click)="scrollSegments(3)">-->
-<!--                    1/2 F-->
-<!--                </ion-segment-button>-->
-<!--                <ion-segment-button value="2" (click)="scrollSegments(4)">-->
-<!--                    Finale-->
-<!--                </ion-segment-button>-->
+        <!--                <ion-segment-button value="16" (click)="scrollSegments(1)">-->
+        <!--                    1/8 F-->
+        <!--                </ion-segment-button>-->
+        <!--                <ion-segment-button value="8" (click)="scrollSegments(2)">-->
+        <!--                    1/4 F-->
+        <!--                </ion-segment-button>-->
+        <!--                <ion-segment-button value="4" (click)="scrollSegments(3)">-->
+        <!--                    1/2 F-->
+        <!--                </ion-segment-button>-->
+        <!--                <ion-segment-button value="2" (click)="scrollSegments(4)">-->
+        <!--                    Finale-->
+        <!--                </ion-segment-button>-->
     </ion-segment>
 </ion-header>
 <ion-content>
@@ -34,11 +34,17 @@
                     <app-city-card-header [match]="match"></app-city-card-header>
                     <ion-radio-group [value]="match.selectedTeam?.id" (ionChange)="setSelectedTeam(match, $event)">
                         <ion-item lines="none">
-                            <ion-label>{{match.homeTeam.name}} {{match.home}}</ion-label>
+                            <ion-label>
+                                <span class="flag-icon flag-icon-{{match.homeTeam.logoUrl}} flag-icon-squared"></span>
+                                {{match.homeTeam.name}} {{match.home}}
+                            </ion-label>
                             <ion-radio slot="start" [value]="match.homeTeam?.id"></ion-radio>
                         </ion-item>
                         <ion-item lines="none">
-                            <ion-label>{{match.awayTeam.name}} {{match.away}}</ion-label>
+                            <ion-label>
+                                <span class="flag-icon flag-icon-{{match.awayTeam.logoUrl}} flag-icon-squared"></span>
+                                {{match.awayTeam.name}} {{match.away}}
+                            </ion-label>
                             <ion-radio slot="start" [value]="match.awayTeam?.id"></ion-radio>
                         </ion-item>
                     </ion-radio-group>
