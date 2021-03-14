@@ -43,6 +43,11 @@ export class StandCardComponent implements OnInit {
         this.poule.isSortDisabled = !this.poule.isSortDisabled;
     }
 
+
+    // todo saveop dit niveau werkt niet goed.
+    //  2 mogelijke fixes.
+    //  Backend bij indienen matches ook direct standen opslaan en dan individueel overschrijven indien gewenst
+    // of bij ophalen stand rekening houden dat een bepaalde stand ook niet opgeslagen kan zijn
     save() {
         this.poulepredictionService.savePoulePredictions(this.poule.stand).subscribe(response => {
             console.log(response);

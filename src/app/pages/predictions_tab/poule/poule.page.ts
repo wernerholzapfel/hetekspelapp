@@ -41,6 +41,12 @@ export class PoulePage implements OnInit {
     }
 
     save() {
-        this.poulepredictionService.savePoulePredictions(this.poules).subscribe();
+        this.poulepredictionService.savePoulePredictions([
+            ...this.poules[0].stand,
+            ...this.poules[1].stand,
+            ...this.poules[2].stand,
+            ...this.poules[3].stand,
+            ...this.poules[4].stand,
+            ...this.poules[5].stand,]).subscribe();
     }
 }
