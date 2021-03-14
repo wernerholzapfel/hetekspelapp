@@ -32,7 +32,7 @@ export class MenuService {
             showAfterRegistration: false
         },
         {
-            title: 'Inschrijven',
+            title: 'Voorspellen',
             url: '/prediction',
             icon: 'football-outline',
             active: false,
