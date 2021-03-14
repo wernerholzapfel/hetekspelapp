@@ -54,6 +54,13 @@ export class MatchesPage implements OnInit, OnDestroy {
                 return mp;
             }
         });
+        this.allMatchPredictions = this.allMatchPredictions.map(mp => {
+            if (mp.match.id === event.match.id) {
+                return event;
+            } else {
+                return mp;
+            }
+        });
         this.voorspellingHelper.berekenStand(this.matchPredictions, true);
     }
 
