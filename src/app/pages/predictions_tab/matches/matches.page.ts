@@ -74,7 +74,6 @@ export class MatchesPage implements OnInit, OnDestroy {
                     return {...mp};
                 }
             });
-            //     // this.toastService.presentToast('Wedstrijden opgeslagen');
         });
     }
 
