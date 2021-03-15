@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {MatchService} from '../../../services/match.service';
 import {IMatchPrediction} from '../../../models/participant.model';
@@ -9,7 +9,7 @@ import {PoulepredictionService} from '../../../services/pouleprediction.service'
     templateUrl: './poule.page.html',
     styleUrls: ['./poule.page.scss'],
 })
-export class PoulePage implements OnInit {
+export class PoulePage {
 
     unsubscribe = new Subject<void>();
     matchPredictions: IMatchPrediction[];
@@ -20,16 +20,40 @@ export class PoulePage implements OnInit {
                 private poulepredictionService: PoulepredictionService) {
     }
 
-    ngOnInit() {
+    ionViewWillEnter() {
         this.poulepredictionService.getPoulePredictions().subscribe(
             poulePrediction => {
 
-                this.poules = [{poule: 'A', stand: poulePrediction.filter(p => p.poule === 'A'), isSortDisabled: true},
-                    {poule: 'B', stand: poulePrediction.filter(p => p.poule === 'B'), isSortDisabled: true},
-                    {poule: 'C', stand: poulePrediction.filter(p => p.poule === 'C'), isSortDisabled: true},
-                    {poule: 'D', stand: poulePrediction.filter(p => p.poule === 'D'), isSortDisabled: true},
-                    {poule: 'E', stand: poulePrediction.filter(p => p.poule === 'E'), isSortDisabled: true},
-                    {poule: 'F', stand: poulePrediction.filter(p => p.poule === 'F'), isSortDisabled: true}];
+                this.poules = [{
+                    poule: 'A', stand: poulePrediction.filter(p => p.poule === 'A')
+                        .sort((a, b) => a.positie - b.positie),
+                    isSortDisabled: true
+                },
+                    {
+                        poule: 'B', stand: poulePrediction.filter(p => p.poule === 'B')
+                            .sort((a, b) => a.positie - b.positie),
+                        isSortDisabled: true
+                    },
+                    {
+                        poule: 'C', stand: poulePrediction.filter(p => p.poule === 'C')
+                            .sort((a, b) => a.positie - b.positie),
+                        isSortDisabled: true
+                    },
+                    {
+                        poule: 'D', stand: poulePrediction.filter(p => p.poule === 'D')
+                            .sort((a, b) => a.positie - b.positie),
+                        isSortDisabled: true
+                    },
+                    {
+                        poule: 'E', stand: poulePrediction.filter(p => p.poule === 'E')
+                            .sort((a, b) => a.positie - b.positie),
+                        isSortDisabled: true
+                    },
+                    {
+                        poule: 'F', stand: poulePrediction.filter(p => p.poule === 'F')
+                            .sort((a, b) => a.positie - b.positie),
+                        isSortDisabled: true
+                    }];
             });
     }
 
@@ -38,6 +62,12 @@ export class PoulePage implements OnInit {
         if (this.allMatchPredictions.length > 0) {
             return this.allMatchPredictions.filter(m => m.match.poule === poule);
         }
+    }
+
+    arePoulesInComplete(): boolean {
+        console.log(this.poules);
+        const newPoules = this.poules.reduce((accumulator, poule) => [...accumulator, poule.stand], []);
+        return [].concat(...newPoules).filter(item => item.gespeeld !== 3).length > 0;
     }
 
     save() {
