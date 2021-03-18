@@ -8,6 +8,7 @@ export interface IKnockout {
   awayId: string;
   round: string;
   city: string;
+  date: string;
   selectedTeam?: ITeam;
   homeTeam?: ITeam;
   awayTeam?: ITeam;

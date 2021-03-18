@@ -3,6 +3,7 @@ import {Subject} from 'rxjs';
 import {IMatchPrediction} from '../../../models/participant.model';
 import {VoorspellingHelperService} from '../../../services/voorspelling-helper.service';
 import {MatchService} from '../../../services/match.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-matches',
@@ -16,8 +17,24 @@ export class MatchesPage implements OnInit, OnDestroy {
     allMatchPredictions: IMatchPrediction[];
     unsubscribe = new Subject<void>();
     buttonText = 'Opslaan';
+    pouleNavigatie = [{
+        current: 'A',
+        next: 'B'
+    }, {
+        current: 'B',
+        next: 'C'
+    }, {
+        current: 'C',
+        next: 'D'
+    }, {
+        current: 'D',
+        next: 'E'
+    }, {
+        current: 'E',
+        next: 'F'
+    }]
 
-    constructor(private voorspellingHelper: VoorspellingHelperService, private matchService: MatchService) {
+    constructor(private voorspellingHelper: VoorspellingHelperService, private matchService: MatchService, private router: Router) {
     }
 
     selectPoule($event) {
@@ -64,8 +81,13 @@ export class MatchesPage implements OnInit, OnDestroy {
         this.voorspellingHelper.berekenStand(this.matchPredictions, true);
     }
 
-    save() {
-        console.log(this.matchPredictions);
+    next() {
+        this.pouleName =  this.pouleNavigatie.find(p => p.current === this.pouleName).next
+        this.save(false);
+        this.setMatches();
+    }
+
+    save(navigeer: boolean) {
         this.matchService.saveMatchPredictions(this.matchPredictions).subscribe(result => {
             this.matchPredictions = this.matchPredictions.map(mp => {
                 if (result.map(item => item.match.id).includes(mp.match.id)) {
@@ -75,21 +97,10 @@ export class MatchesPage implements OnInit, OnDestroy {
                 }
             });
         });
+        if (navigeer) {
+              this.router.navigate(['prediction/prediction/poule']);
+        }
     }
-
-    // add back when alpha.4 is out
-    // navigate(item) {
-    //   this.router.navigate(['/list', JSON.stringify(item)]);
-    // }
-
-    // async slideChanged() {
-    //     this.activeIndex= await this.slider.getActiveIndex();
-    //     document.getElementById("segment-" + activeIndex).scrollIntoView({
-    //         behavior: 'smooth',
-    //         block: 'center',
-    //         inline: 'center'
-    //     });
-    // }
 
     ngOnDestroy(): void {
         this.unsubscribe.next();

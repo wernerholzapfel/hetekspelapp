@@ -9,12 +9,7 @@ import {ITeam} from '../../../models/poule.model';
     templateUrl: './knockout.page.html',
     styleUrls: ['./knockout.page.scss'],
 })
-export class KnockoutPage implements OnInit {
-    // Todo.
-    // Ophalen speelschema, ophalen predictions, dan die mergen
-    // Zorgen dat je ook opnieuw kan updaten.
-    //
-
+export class KnockoutPage {
     constructor(private poulePredictionService: PoulepredictionService) {
     }
 
@@ -27,20 +22,23 @@ export class KnockoutPage implements OnInit {
 
     public rounds = [{
         round: '16',
-        text: '1/8 F'
+        text: '1/8 F',
+        next: '8'
     }, {
         round: '8',
-        text: '1/4 F'
+        text: '1/4 F',
+        next: '4'
     }, {
         round: '4',
-        text: '1/2 F'
+        text: '1/2 F',
+        next: '2'
     }, {
         round: '2',
         text: 'F'
     },
     ]
 
-    ngOnInit() {
+    ionViewWillEnter() {
 
         this.poulePredictionService.getPoulePredictions().subscribe(pp => {
 
@@ -50,8 +48,6 @@ export class KnockoutPage implements OnInit {
             this.nummerDries = pp.filter(item => item.positie === 3)
                 .sort((a, b) => b.thirdPositionScore - a.thirdPositionScore)
                 .slice(0, 4);
-
-            console.log(this.nummerDries);
 
             this.nummerDrieIdentifier = this.nummerDries.sort((a, b) => {
                 if (b.poule > a.poule) {
@@ -63,8 +59,6 @@ export class KnockoutPage implements OnInit {
                 return 0;
             }).reduce((acc: string, val) => acc + val.poule, '');
 
-
-            console.log(this.nummerDrieIdentifier);
             // find the right spot for the team in the knockout stage.
             const thirdplaces = this.poulePredictionService.getPositionForThirdPlacedTeams(this.nummerDrieIdentifier)
 
@@ -88,27 +82,31 @@ export class KnockoutPage implements OnInit {
                     }
                     return {
                         ...match,
-                        homeTeam: this.setTeam(speelschema, match.homeId, match.round),
-                        awayTeam: this.setTeam(speelschema, match.awayId, match.round)
+                        homeTeam: this.setTeam(speelschema, match.homeId, match.round, null),
+                        awayTeam: this.setTeam(speelschema, match.awayId, match.round, null)
                     }
                 });
-                console.log(this.speelschema);
             });
         });
     }
 
-    setTeam(speelschema, id, round): ITeam {
+    setTeam(speelschema, id, round, selectedTeam: string): ITeam {
         if (round === '16') {
             return this.poules.find(p => id === `${p.positie}${p.poule}`).team
         } else {
             const matchWinner = speelschema.find(sp => sp.matchId === id)
-            return matchWinner && matchWinner.prediction ?
-                matchWinner.prediction.selectedTeam :
-                matchWinner.selectedTeam ?
-                    matchWinner.homeTeam.id === matchWinner.selectedTeam.id ?
-                        matchWinner.homeTeam :
-                        matchWinner.awayTeam :
-                    {name: id}
+            const team = selectedTeam ?
+                matchWinner.homeTeam && matchWinner.homeTeam.id === selectedTeam ?
+                    matchWinner.homeTeam :
+                    matchWinner.awayTeam :
+                matchWinner && matchWinner.prediction ?
+                    matchWinner.prediction.selectedTeam :
+                    matchWinner.selectedTeam ?
+                        matchWinner.homeTeam.id === matchWinner.selectedTeam.id ?
+                            matchWinner.homeTeam :
+                            matchWinner.awayTeam :
+                        {name: id}
+            return team;
         }
     }
 
@@ -145,24 +143,23 @@ export class KnockoutPage implements OnInit {
                 if (m.homeId === match.matchId) {
                     return {
                         ...m,
-                        homeTeam: this.setTeam(this.speelschema, m.homeId, m.round)
+                        homeTeam: this.setTeam(this.speelschema, m.homeId, m.round, $event.detail.value)
                     }
                 } else {
                     return {
                         ...m,
-                        awayTeam: this.setTeam(this.speelschema, m.awayId, m.round)
+                        awayTeam: this.setTeam(this.speelschema, m.awayId, m.round, $event.detail.value)
                     }
                 }
             } else {
                 return m;
             }
         })
-        console.log(this.speelschema)
     }
 
-    goToNextSlide() {
+    next() {
+        this.activeKnockoutRound = this.rounds.find(r => r.round === this.activeKnockoutRound).next;
         this.save();
-        this.activeKnockoutRound = this.rounds[this.segmentIndex].round
     }
 
     save() {

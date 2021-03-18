@@ -3,6 +3,7 @@ import {Subject} from 'rxjs';
 import {MatchService} from '../../../services/match.service';
 import {IMatchPrediction} from '../../../models/participant.model';
 import {PoulepredictionService} from '../../../services/pouleprediction.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-poule',
@@ -17,7 +18,8 @@ export class PoulePage {
     poules = [];
 
     constructor(private matchService: MatchService,
-                private poulepredictionService: PoulepredictionService) {
+                private poulepredictionService: PoulepredictionService,
+                private router: Router) {
     }
 
     ionViewWillEnter() {
@@ -77,6 +79,8 @@ export class PoulePage {
             ...this.poules[2].stand,
             ...this.poules[3].stand,
             ...this.poules[4].stand,
-            ...this.poules[5].stand,]).subscribe();
+            ...this.poules[5].stand,]).subscribe(response => {
+            this.router.navigate(['prediction/prediction/knockout']);
+        });
     }
 }

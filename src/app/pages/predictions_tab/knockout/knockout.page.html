@@ -8,25 +8,19 @@
                             *ngFor="let round of rounds; let i = index">
             {{round.text}}
         </ion-segment-button>
-        <!--                <ion-segment-button value="16" (click)="scrollSegments(1)">-->
-        <!--                    1/8 F-->
-        <!--                </ion-segment-button>-->
-        <!--                <ion-segment-button value="8" (click)="scrollSegments(2)">-->
-        <!--                    1/4 F-->
-        <!--                </ion-segment-button>-->
-        <!--                <ion-segment-button value="4" (click)="scrollSegments(3)">-->
-        <!--                    1/2 F-->
-        <!--                </ion-segment-button>-->
-        <!--                <ion-segment-button value="2" (click)="scrollSegments(4)">-->
-        <!--                    Finale-->
-        <!--                </ion-segment-button>-->
     </ion-segment>
 </ion-header>
 <ion-content>
-    <ion-item-divider color="light" sticky>
-        <ion-label>Knockout fase</ion-label>
-    </ion-item-divider>
     <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col size="12">
+                <ion-card>
+                    <ion-card-content>
+                        Verhaaltje van Tom hoe het werkt. Kies de winnaar door er op te klikken en doorloop de gehele knockout tot en met de finale. Succes
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
         <ion-row>
             <ion-col size="12" size-md="6" size-lg="6" size-xl="4"
                      *ngFor="let match of speelschema | filterKnockoutRounds:activeKnockoutRound">
@@ -35,15 +29,15 @@
                     <ion-radio-group [value]="match.selectedTeam?.id" (ionChange)="setSelectedTeam(match, $event)">
                         <ion-item lines="none">
                             <ion-label>
-                                <span class="flag-icon flag-icon-{{match.homeTeam.logoUrl}} flag-icon-squared"></span>
-                                {{match.homeTeam.name}} {{match.home}}
+                                <span class="flag-icon flag-icon-{{match.homeTeam?.logoUrl}} flag-icon-squared"></span>
+                                {{match.homeTeam?.name}} {{match.home}} ({{match.homeId}})
                             </ion-label>
                             <ion-radio slot="start" [value]="match.homeTeam?.id"></ion-radio>
                         </ion-item>
                         <ion-item lines="none">
                             <ion-label>
-                                <span class="flag-icon flag-icon-{{match.awayTeam.logoUrl}} flag-icon-squared"></span>
-                                {{match.awayTeam.name}} {{match.away}}
+                                <span class="flag-icon flag-icon-{{match.awayTeam?.logoUrl}} flag-icon-squared"></span>
+                                {{match.awayTeam?.name}} {{match.away}} ({{match.awayId}})
                             </ion-label>
                             <ion-radio slot="start" [value]="match.awayTeam?.id"></ion-radio>
                         </ion-item>
@@ -54,7 +48,11 @@
     </ion-grid>
 </ion-content>
 <ion-footer class="ion-no-border ion-padding-horizontal">
-    <ion-button color="secondary" expand="block" fill="solid"
+    <ion-button *ngIf="activeKnockoutRound !== '2'" color="secondary" expand="block" fill="solid"
+                [disabled]="!canIGoToNextStep()" (click)="next()">Ga naar
+        Volgende
+    </ion-button>
+    <ion-button *ngIf="activeKnockoutRound === '2'" color="secondary" expand="block" fill="solid"
                 [disabled]="errorInform()" (click)="save()">Opslaan
     </ion-button>
 </ion-footer>
