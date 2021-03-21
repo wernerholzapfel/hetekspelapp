@@ -5,23 +5,11 @@
                  (ionChange)="selectPoule($event)"
                  scrollable
                  mode="md">
-        <ion-segment-button checked value="A" (click)="scrollSegments(0)">
-            Poule A
-        </ion-segment-button>
-        <ion-segment-button value="B" (click)="scrollSegments(1)">
-            Poule B
-        </ion-segment-button>
-        <ion-segment-button value="C" (click)="scrollSegments(2)">
-            Poule C
-        </ion-segment-button>
-        <ion-segment-button value="D" (click)="scrollSegments(3)">
-            Poule D
-        </ion-segment-button>
-        <ion-segment-button value="E" (click)="scrollSegments(4)">
-            Poule E
-        </ion-segment-button>
-        <ion-segment-button value="F" (click)="scrollSegments(5)">
-            Poule F
+        <ion-segment-button *ngFor="let poule of pouleNavigatie; let i = index"
+                            [value]="poule.current"
+                            (click)="scrollSegments(i+1)"
+                            [disabled]="poule.disabled">
+            {{poule.text}}
         </ion-segment-button>
     </ion-segment>
 </ion-header>
@@ -31,7 +19,8 @@
             <ion-col size="12">
                 <ion-card>
                     <ion-card-content>
-                       Verhaaltje van Tom hoe het werkt. Voorspel alle wedstrijden. Je kan boven in navigeren en onderin. Onderin slaat hij je gegevens op, boven in niet.
+                        Verhaaltje van Tom hoe het werkt. Voorspel alle wedstrijden. Je kan boven in navigeren en
+                        onderin. Onderin slaat hij je gegevens op, boven in niet.
                         25 punten volledig goed, 15 voor toto + 1 kant, 10 voor toto.
                     </ion-card-content>
                 </ion-card>
@@ -47,9 +36,11 @@
     </ion-grid>
 </ion-content>
 <ion-footer class="ion-no-border ion-padding-horizontal">
-    <ion-button *ngIf="pouleName !== 'F'" color="secondary" expand="block" fill="solid" (click)="next()">Ga naar
-        volgende poule
+    <ion-button *ngIf="pouleName !== 'F'" color="secondary" expand="block" fill="solid"
+                [disabled]="!areActiveMatchesPredicted()" (click)="next()">
+        {{this.uiService.isDirty.value ? 'Opslaan' : 'Naar volgende poule'}}
     </ion-button>
-    <ion-button *ngIf="pouleName === 'F'" color="secondary" expand="block" fill="solid"
+    <ion-button *ngIf="pouleName === 'F'" color="secondary" expand="block" [disabled]="!areActiveMatchesPredicted()"
+                fill="solid"
                 (click)="save(true)">{{buttonText}}</ion-button>
 </ion-footer>

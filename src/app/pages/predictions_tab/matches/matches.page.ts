@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {ToastService} from '../../../services/toast.service';
 import {UiService} from '../../../services/ui.service';
 import {findIndex} from 'rxjs/operators';
+import {IPoule, ITable, ITableLine} from '../../../models/poule.model';
 
 @Component({
     selector: 'app-matches',
@@ -20,22 +21,39 @@ export class MatchesPage {
     allMatchPredictions: IMatchPrediction[];
     unsubscribe = new Subject<void>();
     buttonText = 'Opslaan';
-    pouleNavigatie = [{
-        current: 'A',
-        next: 'B'
-    }, {
-        current: 'B',
-        next: 'C'
-    }, {
-        current: 'C',
-        next: 'D'
-    }, {
-        current: 'D',
-        next: 'E'
-    }, {
-        current: 'E',
-        next: 'F'
-    }]
+    pouleNavigatie = [
+        {
+            current: 'A',
+            next: 'B',
+            disabled: false,
+            text: 'Poule A'
+        }, {
+            current: 'B',
+            next: 'C',
+            disabled: true,
+            text: 'Poule B'
+        }, {
+            current: 'C',
+            next: 'D',
+            disabled: true,
+            text: 'Poule C'
+        }, {
+            current: 'D',
+            next: 'E',
+            disabled: true,
+            text: 'Poule D'
+        }, {
+            current: 'E',
+            next: 'F',
+            disabled: true,
+            text: 'Poule E'
+        }, {
+            current: 'F',
+            next: null,
+            disabled: true,
+            text: 'Poule F'
+        }]
+    poule: { poule: string, stand: any[], isSortDisabled: boolean };
 
     constructor(private voorspellingHelper: VoorspellingHelperService,
                 private matchService: MatchService,
@@ -49,6 +67,7 @@ export class MatchesPage {
             matchPredictions => {
                 this.allMatchPredictions = matchPredictions;
                 this.setMatches();
+                this.setSegmentsActive();
             });
     }
 
@@ -80,6 +99,24 @@ export class MatchesPage {
         this.voorspellingHelper.berekenStand(this.matchPredictions, true);
     };
 
+    setSegmentsActive() {
+        this.pouleNavigatie = this.pouleNavigatie.map(pn => {
+            if (pn.current !== 'A' && this.allMatchPredictions &&
+                this.allMatchPredictions.filter(mp =>
+                    mp.homeScore !== null && mp.awayScore !== null && mp.match.poule === pn.current).length ===
+                this.matchPredictions.length) {
+                return {
+                    ...pn,
+                    disabled: false
+                }
+            } else {
+                return {
+                    ...pn
+                }
+            }
+        });
+    }
+
     updateTable(event: IMatchPrediction) {
         this.matchPredictions = this.matchPredictions.map(mp => {
             if (mp.match.id === event.match.id) {
@@ -95,12 +132,29 @@ export class MatchesPage {
                 return mp;
             }
         });
-        this.voorspellingHelper.berekenStand(this.matchPredictions, true);
         this.uiService.isDirty.next(true);
     }
 
+    areActiveMatchesPredicted(): boolean {
+        return this.matchPredictions &&
+            this.matchPredictions.filter(mp => mp.homeScore !== null && mp.awayScore !== null).length === this.matchPredictions.length;
+    }
+
     next() {
-        this.pouleName = this.pouleNavigatie.find(p => p.current === this.pouleName).next
+        const activePoule = this.pouleNavigatie.find(p => p.current === this.pouleName)
+        this.pouleName = activePoule.next
+        this.pouleNavigatie = this.pouleNavigatie.map(pn => {
+            if (pn.current === activePoule.next) {
+                return {
+                    ...pn,
+                    disabled: false
+                }
+            } else {
+                return {
+                    ...pn
+                }
+            }
+        });
         this.scrollSegments(this.pouleNavigatie.findIndex(poule => poule.next === this.pouleName));
         if (this.uiService.isDirty.value) {
             this.save(false);

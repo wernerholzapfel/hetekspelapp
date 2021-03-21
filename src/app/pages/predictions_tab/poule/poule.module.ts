@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { PoulePageRoutingModule } from './poule-routing.module';
+import {PoulePageRoutingModule} from './poule-routing.module';
 
-import { PoulePage } from './poule.page';
-import {StandCardComponent} from '../../../components/stand-card/stand-card.component';
+import {PoulePage} from './poule.page';
 import {MatchesPageModule} from '../matches/matches.module';
 import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
 
@@ -20,6 +19,6 @@ import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.m
         MatchesPageModule,
         MenuToolbarModule
     ],
-  declarations: [PoulePage, StandCardComponent]
+  declarations: [PoulePage]
 })
 export class PoulePageModule {}
