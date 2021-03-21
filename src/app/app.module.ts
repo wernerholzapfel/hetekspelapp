@@ -20,6 +20,8 @@ import {LoaderInterceptor} from './interceptor/loader.interceptor';
 import {MenuService} from './services/menu.service';
 import {FilterKnockoutRoundsPipe} from './pipes/filter-knockout-rounds.pipe';
 import {LoaderModule} from './components/loader/loader.module';
+import {UiService} from './services/ui.service';
+import {CanDeactivateGuard} from './guards/candeactivate.guard';
 
 @NgModule({
     declarations: [AppComponent],
@@ -51,6 +53,8 @@ import {LoaderModule} from './components/loader/loader.module';
         ParticipantService,
         LoaderService,
         MenuService,
+        UiService,
+        CanDeactivateGuard,
         FilterKnockoutRoundsPipe
     ],
     bootstrap: [AppComponent]

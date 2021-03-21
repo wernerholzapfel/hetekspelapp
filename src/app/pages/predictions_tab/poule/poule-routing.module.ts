@@ -2,11 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PoulePage } from './poule.page';
+import {CanDeactivateGuard} from '../../../guards/candeactivate.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: PoulePage
+    component: PoulePage,
+    canDeactivate: [CanDeactivateGuard]
+
   }
 ];
 

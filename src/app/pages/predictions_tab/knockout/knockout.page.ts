@@ -3,6 +3,9 @@ import {PoulepredictionService} from '../../../services/pouleprediction.service'
 import {IPoulePrediction} from '../../../models/participant.model';
 import {IKnockout} from '../../../models/knockout.model';
 import {ITeam} from '../../../models/poule.model';
+import {ToastService} from '../../../services/toast.service';
+import {UiService} from '../../../services/ui.service';
+import {Observable, of} from 'rxjs';
 
 @Component({
     selector: 'app-knockout',
@@ -10,7 +13,9 @@ import {ITeam} from '../../../models/poule.model';
     styleUrls: ['./knockout.page.scss'],
 })
 export class KnockoutPage {
-    constructor(private poulePredictionService: PoulepredictionService) {
+    constructor(private poulePredictionService: PoulepredictionService,
+                private toastService: ToastService,
+                private uiService: UiService) {
     }
 
     public activeKnockoutRound = '16';
@@ -90,6 +95,16 @@ export class KnockoutPage {
         });
     }
 
+    canDeactivate(): Observable<boolean> | Promise<boolean> {
+        if (this.uiService.isDirty.value) {
+            return this.toastService.presentAlertConfirm().then(alertResponse => {
+                return alertResponse;
+            });
+        } else {
+            return of(true);
+        }
+    }
+
     setTeam(speelschema, id, round, selectedTeam: string): ITeam {
         if (round === '16') {
             return this.poules.find(p => id === `${p.positie}${p.poule}`).team
@@ -128,6 +143,7 @@ export class KnockoutPage {
         this.speelschema = this.speelschema
             .map(m => {
                 if (m.id === match.id) {
+                    this.uiService.isDirty.next(false);
                     return {
                         ...m,
                         selectedTeam: {id: $event.detail.value}
@@ -177,6 +193,8 @@ export class KnockoutPage {
                         knockout: {id: sp.id},
                     }
             })).subscribe(response => {
+            this.toastService.presentToast('Opslaan is gelukt')
+            this.uiService.isDirty.next(false)
             this.speelschema = this.speelschema.map(item => {
                     return {
                         ...item,
@@ -184,6 +202,8 @@ export class KnockoutPage {
                     };
                 }
             )
+        }, error => {
+            this.toastService.presentToast('Er is iets misgegaan', 'warning')
         });
     }
 

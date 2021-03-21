@@ -2,6 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {VoorspellingHelperService} from '../../services/voorspelling-helper.service';
 import {IonReorderGroup} from '@ionic/angular';
 import {PoulepredictionService} from '../../services/pouleprediction.service';
+import {UiService} from '../../services/ui.service';
 
 @Component({
     selector: 'app-stand-card',
@@ -11,7 +12,9 @@ import {PoulepredictionService} from '../../services/pouleprediction.service';
 export class StandCardComponent implements OnInit {
     @ViewChild(IonReorderGroup, {static: true}) reorderGroup: IonReorderGroup;
 
-    constructor(private voorspellingHelper: VoorspellingHelperService, private poulepredictionService: PoulepredictionService) {
+    constructor(private voorspellingHelper: VoorspellingHelperService,
+                private poulepredictionService: PoulepredictionService,
+                private uiService: UiService) {
     }
 
     @Input() poule: { poule: string, stand: any[], isSortDisabled: boolean };
@@ -35,6 +38,7 @@ export class StandCardComponent implements OnInit {
             };
         });
 
+        this.uiService.isDirty.next(true)
         // After complete is called the items will be in the new order
         // console.log('After complete', this.poule.stand);
     }

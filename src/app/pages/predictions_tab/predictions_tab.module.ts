@@ -7,10 +7,12 @@ import {IonicModule} from '@ionic/angular';
 
 import {PredictionsTabPage} from './predictions_tab.page';
 import {MenuToolbarModule} from '../../components/menu-toolbar/menu-toolbar.module';
+import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
 
 const routes: Routes = [
     {
         path: 'prediction',
+        canDeactivate: [CanDeactivateGuard],
         component: PredictionsTabPage,
         children: [
             {

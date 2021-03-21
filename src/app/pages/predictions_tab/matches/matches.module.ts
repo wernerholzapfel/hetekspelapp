@@ -11,11 +11,14 @@ import {MatchCardComponent} from '../../../components/match-card/match-card.comp
 import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
 import {CityCardHeaderComponent} from '../../../components/city-card-header/city-card-header.component';
 import {CustomComponentsModule} from '../../../components/custom-components/custom-components.module';
+import {CanDeactivateGuard} from '../../../guards/candeactivate.guard';
 
 const routes: Routes = [
     {
         path: '',
         component: MatchesPage,
+        canDeactivate: [CanDeactivateGuard]
+
     }
 ];
 

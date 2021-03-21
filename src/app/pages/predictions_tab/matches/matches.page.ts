@@ -1,16 +1,19 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {IMatchPrediction} from '../../../models/participant.model';
 import {VoorspellingHelperService} from '../../../services/voorspelling-helper.service';
 import {MatchService} from '../../../services/match.service';
 import {Router} from '@angular/router';
+import {ToastService} from '../../../services/toast.service';
+import {UiService} from '../../../services/ui.service';
+import {findIndex} from 'rxjs/operators';
 
 @Component({
     selector: 'app-matches',
     templateUrl: './matches.page.html',
     styleUrls: ['./matches.page.scss'],
 })
-export class MatchesPage implements OnInit, OnDestroy {
+export class MatchesPage {
     public pouleName = 'A';
     isRegistrationOpen = true;
     matchPredictions: IMatchPrediction[];
@@ -34,7 +37,29 @@ export class MatchesPage implements OnInit, OnDestroy {
         next: 'F'
     }]
 
-    constructor(private voorspellingHelper: VoorspellingHelperService, private matchService: MatchService, private router: Router) {
+    constructor(private voorspellingHelper: VoorspellingHelperService,
+                private matchService: MatchService,
+                private router: Router,
+                private uiService: UiService,
+                private toastService: ToastService) {
+    }
+
+    ionViewWillEnter() {
+        this.matchService.getMatchPredictions().subscribe(
+            matchPredictions => {
+                this.allMatchPredictions = matchPredictions;
+                this.setMatches();
+            });
+    }
+
+    canDeactivate(): Observable<boolean> | Promise<boolean> {
+        if (this.uiService.isDirty.value) {
+            return this.toastService.presentAlertConfirm().then(alertResponse => {
+                return alertResponse;
+            });
+        } else {
+            return of(true);
+        }
     }
 
     selectPoule($event) {
@@ -48,14 +73,6 @@ export class MatchesPage implements OnInit, OnDestroy {
         if (active) {
             active.scrollIntoView({behavior: 'smooth', inline: 'center'});
         }
-    }
-
-    ngOnInit() {
-        this.matchService.getMatchPredictions().subscribe(
-            matchPredictions => {
-                this.allMatchPredictions = matchPredictions;
-                this.setMatches();
-            });
     }
 
     setMatches() {
@@ -79,16 +96,23 @@ export class MatchesPage implements OnInit, OnDestroy {
             }
         });
         this.voorspellingHelper.berekenStand(this.matchPredictions, true);
+        this.uiService.isDirty.next(true);
     }
 
     next() {
-        this.pouleName =  this.pouleNavigatie.find(p => p.current === this.pouleName).next
-        this.save(false);
+        this.pouleName = this.pouleNavigatie.find(p => p.current === this.pouleName).next
+        this.scrollSegments(this.pouleNavigatie.findIndex(poule => poule.next === this.pouleName));
+        if (this.uiService.isDirty.value) {
+            this.save(false);
+        }
         this.setMatches();
     }
 
     save(navigeer: boolean) {
         this.matchService.saveMatchPredictions(this.matchPredictions).subscribe(result => {
+            this.uiService.isDirty.next(false);
+            this.toastService.presentToast('Opslaan is gelukt')
+
             this.matchPredictions = this.matchPredictions.map(mp => {
                 if (result.map(item => item.match.id).includes(mp.match.id)) {
                     return {...mp, id: result.find(item => item.match.id === mp.match.id).id};
@@ -96,14 +120,20 @@ export class MatchesPage implements OnInit, OnDestroy {
                     return {...mp};
                 }
             });
+            if (navigeer) {
+                this.router.navigate(['prediction/prediction/poule']);
+            }
+        }, error => {
+            this.toastService.presentToast('Er is iets misgegaan', 'warning')
+
         });
-        if (navigeer) {
-              this.router.navigate(['prediction/prediction/poule']);
-        }
     }
 
-    ngOnDestroy(): void {
+    ionViewDidLeave(): void {
+        this.matchPredictions = [];
+        this.allMatchPredictions = [];
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
+
     }
 }

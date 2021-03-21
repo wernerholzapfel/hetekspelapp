@@ -1,9 +1,11 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {MatchService} from '../../../services/match.service';
 import {IMatchPrediction} from '../../../models/participant.model';
 import {PoulepredictionService} from '../../../services/pouleprediction.service';
 import {Router} from '@angular/router';
+import {ToastService} from '../../../services/toast.service';
+import {UiService} from '../../../services/ui.service';
 
 @Component({
     selector: 'app-poule',
@@ -19,13 +21,15 @@ export class PoulePage {
 
     constructor(private matchService: MatchService,
                 private poulepredictionService: PoulepredictionService,
+                private toastService: ToastService,
+                private uiService: UiService,
                 private router: Router) {
     }
 
     ionViewWillEnter() {
         this.poulepredictionService.getPoulePredictions().subscribe(
             poulePrediction => {
-
+                this.uiService.isDirty.next(this.isFirstTime(poulePrediction));
                 this.poules = [{
                     poule: 'A', stand: poulePrediction.filter(p => p.poule === 'A')
                         .sort((a, b) => a.positie - b.positie),
@@ -59,6 +63,15 @@ export class PoulePage {
             });
     }
 
+    canDeactivate(): Observable<boolean> | Promise<boolean> {
+        if (this.uiService.isDirty.value) {
+            return this.toastService.presentAlertConfirm().then(alertResponse => {
+                return alertResponse;
+            });
+        } else {
+            return of(true);
+        }
+    }
 
     getMatchPredictions(poule: string) {
         if (this.allMatchPredictions.length > 0) {
@@ -66,8 +79,11 @@ export class PoulePage {
         }
     }
 
+    isFirstTime(poulePredictions): boolean {
+        return !poulePredictions.find(p => p.id);
+    }
+
     arePoulesInComplete(): boolean {
-        console.log(this.poules);
         const newPoules = this.poules.reduce((accumulator, poule) => [...accumulator, poule.stand], []);
         return [].concat(...newPoules).filter(item => item.gespeeld !== 3).length > 0;
     }
@@ -80,7 +96,12 @@ export class PoulePage {
             ...this.poules[3].stand,
             ...this.poules[4].stand,
             ...this.poules[5].stand,]).subscribe(response => {
+            this.toastService.presentToast('Opslaan is gelukt')
+            this.uiService.isDirty.next(false);
             this.router.navigate(['prediction/prediction/knockout']);
+        }, error => {
+            this.toastService.presentToast('Er is iets misgegaan', 'warning')
+
         });
     }
 }
