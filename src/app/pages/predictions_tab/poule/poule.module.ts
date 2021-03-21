@@ -9,6 +9,7 @@ import {PoulePageRoutingModule} from './poule-routing.module';
 import {PoulePage} from './poule.page';
 import {MatchesPageModule} from '../matches/matches.module';
 import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
+import {CustomComponentsModule} from '../../../components/custom-components/custom-components.module';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.m
         IonicModule,
         PoulePageRoutingModule,
         MatchesPageModule,
-        MenuToolbarModule
+        MenuToolbarModule,
+        CustomComponentsModule
     ],
   declarations: [PoulePage]
 })

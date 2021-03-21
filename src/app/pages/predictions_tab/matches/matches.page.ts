@@ -58,7 +58,7 @@ export class MatchesPage {
     constructor(private voorspellingHelper: VoorspellingHelperService,
                 private matchService: MatchService,
                 private router: Router,
-                private uiService: UiService,
+                public uiService: UiService,
                 private toastService: ToastService) {
     }
 

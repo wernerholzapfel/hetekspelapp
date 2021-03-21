@@ -6,10 +6,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
 
 import {MatchesPage} from './matches.page';
-import {LeagueTableRowComponent} from '../../../components/league-table-row/league-table-row.component';
 import {MatchCardComponent} from '../../../components/match-card/match-card.component';
 import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
-import {CityCardHeaderComponent} from '../../../components/city-card-header/city-card-header.component';
 import {CustomComponentsModule} from '../../../components/custom-components/custom-components.module';
 import {CanDeactivateGuard} from '../../../guards/candeactivate.guard';
 
@@ -31,10 +29,8 @@ const routes: Routes = [
         MenuToolbarModule,
         CustomComponentsModule,
     ],
-    exports: [
-        LeagueTableRowComponent
-    ],
-    declarations: [MatchesPage, LeagueTableRowComponent, MatchCardComponent]
+    exports: [],
+    declarations: [MatchesPage, MatchCardComponent]
 })
 export class MatchesPageModule {
 }
