@@ -6,7 +6,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
 
 import {MatchesPage} from './matches.page';
-import {MatchCardComponent} from '../../../components/match-card/match-card.component';
 import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
 import {CustomComponentsModule} from '../../../components/custom-components/custom-components.module';
 import {CanDeactivateGuard} from '../../../guards/candeactivate.guard';
@@ -30,7 +29,7 @@ const routes: Routes = [
         CustomComponentsModule,
     ],
     exports: [],
-    declarations: [MatchesPage, MatchCardComponent]
+    declarations: [MatchesPage]
 })
 export class MatchesPageModule {
 }

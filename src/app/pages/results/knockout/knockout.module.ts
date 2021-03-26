@@ -9,7 +9,6 @@ import { KnockoutPageRoutingModule } from './knockout-routing.module';
 import { KnockoutPage } from './knockout.page';
 import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
 import {CustomComponentsModule} from '../../../components/custom-components/custom-components.module';
-import {FilterKnockoutRoundsPipe} from '../../../pipes/filter-knockout-rounds.pipe';
 
 @NgModule({
     imports: [
@@ -20,6 +19,6 @@ import {FilterKnockoutRoundsPipe} from '../../../pipes/filter-knockout-rounds.pi
         MenuToolbarModule,
         CustomComponentsModule
     ],
-    declarations: [KnockoutPage, FilterKnockoutRoundsPipe]
+    declarations: [KnockoutPage]
 })
 export class KnockoutPageModule {}

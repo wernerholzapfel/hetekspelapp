@@ -20,6 +20,6 @@ import {FilterKnockoutRoundsPipe} from '../../../pipes/filter-knockout-rounds.pi
         MenuToolbarModule,
         CustomComponentsModule
     ],
-    declarations: [KnockoutPage, FilterKnockoutRoundsPipe]
+    declarations: [KnockoutPage]
 })
 export class KnockoutPageModule {}

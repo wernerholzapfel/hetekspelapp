@@ -4,19 +4,26 @@ import {CityCardHeaderComponent} from '../city-card-header/city-card-header.comp
 import {IonicModule} from '@ionic/angular';
 import {StandCardComponent} from '../stand-card/stand-card.component';
 import {LeagueTableRowComponent} from '../league-table-row/league-table-row.component';
+import {FilterKnockoutRoundsPipe} from '../../pipes/filter-knockout-rounds.pipe';
+import {MatchCardComponent} from '../match-card/match-card.component';
 
 
 @NgModule({
     declarations: [CityCardHeaderComponent,
         StandCardComponent,
-        LeagueTableRowComponent],
+        LeagueTableRowComponent,
+        FilterKnockoutRoundsPipe,
+        MatchCardComponent
+    ],
     imports: [
         CommonModule,
         IonicModule
     ],
     exports: [CityCardHeaderComponent,
         StandCardComponent,
-        LeagueTableRowComponent]
+        LeagueTableRowComponent,
+        MatchCardComponent,
+        FilterKnockoutRoundsPipe]
 })
 export class CustomComponentsModule {
 }
