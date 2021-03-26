@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PoulepredictionService} from '../../../services/pouleprediction.service';
 import {IPoulePrediction} from '../../../models/participant.model';
 import {IKnockout} from '../../../models/knockout.model';
-import {ITeam} from '../../../models/poule.model';
+import {IMatch, ITeam} from '../../../models/poule.model';
 import {ToastService} from '../../../services/toast.service';
 import {UiService} from '../../../services/ui.service';
 import {Observable, of} from 'rxjs';
@@ -27,7 +27,8 @@ export class KnockoutPage {
     private poules: any[];
     public segmentIndex = 1;
 
-    public rounds = [{
+    public rounds = [
+        {
         round: '16',
         text: '1/8 F',
         next: '8'
@@ -47,7 +48,8 @@ export class KnockoutPage {
 
     ionViewWillEnter() {
 
-        this.poulePredictionService.getPoulePredictions().subscribe(pp => {
+        this.poulePredictionService.getPouleResults()
+            .subscribe(pp => {
 
             this.poules = pp;
 
@@ -69,7 +71,7 @@ export class KnockoutPage {
             // find the right spot for the team in the knockout stage.
             const thirdplaces = this.poulePredictionService.getPositionForThirdPlacedTeams(this.nummerDrieIdentifier)
 
-            this.knockoutService.getPersonalSpeelschema().subscribe(speelschema => {
+            this.knockoutService.getOriginalSpeelschema().subscribe(speelschema => {
                 this.speelschema = speelschema.map(match => {
                     switch (match.awayId) {
                         case 'WB':
@@ -95,16 +97,6 @@ export class KnockoutPage {
                 });
             });
         });
-    }
-
-    canDeactivate(): Observable<boolean> | Promise<boolean> {
-        if (this.uiService.isDirty.value) {
-            return this.toastService.presentAlertConfirm().then(alertResponse => {
-                return alertResponse;
-            });
-        } else {
-            return of(true);
-        }
     }
 
     setTeam(speelschema, id, round, selectedTeam: string): ITeam {
@@ -175,56 +167,28 @@ export class KnockoutPage {
         })
     }
 
-    next() {
-        this.activeKnockoutRound = this.rounds.find(r => r.round === this.activeKnockoutRound).next;
-        this.save();
-    }
-
-    save() {
-        this.poulePredictionService.saveKnockoutPredictions(
-            this.speelschema.filter(sp => sp.selectedTeam && sp.selectedTeam.id).map(sp => {
-                if (sp.prediction && sp.prediction.id) {
-                    return {
-                        id: sp.prediction.id,
-                        selectedTeam: sp.selectedTeam,
-                        knockout: {id: sp.id},
+    save(match: IKnockout) {
+        this.knockoutService.updateKnockout({
+            id: match.id,
+            winnerTeam: match.selectedTeam,
+            homeTeam: {id: match.homeTeam.id},
+            awayTeam: {id: match.awayTeam.id},
+            homeScore: match.homeScore,
+            awayScore: match.awayScore
+        })
+            .subscribe(response => {
+                this.toastService.presentToast('Opslaan is gelukt')
+                this.speelschema = this.speelschema.map(item => {
+                        return {
+                            ...item,
+                            prediction: {selectedTeam: match.selectedTeam}
+                        };
                     }
-                } else
-                    return {
-                        selectedTeam: sp.selectedTeam,
-                        knockout: {id: sp.id},
-                    }
-            })).subscribe(response => {
-            this.toastService.presentToast('Opslaan is gelukt')
-            this.uiService.isDirty.next(false)
-            this.speelschema = this.speelschema.map(item => {
-                    return {
-                        ...item,
-                        prediction: response.find(r => r.knockout.id === item.id)
-                    };
-                }
-            )
-        }, error => {
-            this.toastService.presentToast('Er is iets misgegaan', 'warning')
-        });
+                )
+            }, error => {
+                this.toastService.presentToast('Er is iets misgegaan', 'warning')
+            });
     }
-
-    canIGoToNextStep(): boolean {
-        const matchesInActiveRound = this.speelschema?.filter(sp => sp.round === this.activeKnockoutRound)
-        const matchesInActiveRoundWithSelectedTeam = matchesInActiveRound?.filter(av => av.selectedTeam)
-
-        return (this.speelschema &&
-            matchesInActiveRound.length === matchesInActiveRoundWithSelectedTeam.length)
-    }
-
-    errorInform(): boolean {
-        return this.speelschema &&
-            (this.speelschema.filter(sp => sp.selectedTeam).length !== this.speelschema.length ||
-                this.speelschema.filter(match => match.selectedTeam &&
-                    (match.selectedTeam.id !== match.homeTeam.id &&
-                        match.selectedTeam.id !== match.awayTeam.id)).length > 0);
-    }
-
 }
 
 

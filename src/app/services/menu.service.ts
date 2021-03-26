@@ -40,6 +40,15 @@ export class MenuService {
             onlyForUser: true,
             showAfterRegistration: false
 
+        },{
+            title: 'Resultaten',
+            url: '/results',
+            icon: 'create-outline',
+            active: false,
+            onlyForAdmin: true,
+            onlyForUser: false,
+            showAfterRegistration: false
+
         }, {
             title: 'Spelregels',
             url: '/spelregels',

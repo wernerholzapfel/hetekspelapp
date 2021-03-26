@@ -1,4 +1,4 @@
-<ion-row class="ion-padding" [ngClass]="(index % 2 == 0) ? 'odd' : 'even'">
+<ion-row class="ion-padding" [ngClass]="line.spelpunten === 5 ? 'winner' : (index % 2 == 0) ? 'odd' : 'even'">
     <ion-col size="6">
         <span class="flag-icon flag-icon-{{line.team.logoUrl}} flag-icon-squared"></span>
         <ion-text>

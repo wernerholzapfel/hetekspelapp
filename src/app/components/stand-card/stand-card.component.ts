@@ -3,6 +3,7 @@ import {VoorspellingHelperService} from '../../services/voorspelling-helper.serv
 import {IonReorderGroup} from '@ionic/angular';
 import {PoulepredictionService} from '../../services/pouleprediction.service';
 import {UiService} from '../../services/ui.service';
+import {TeamService} from '../../services/team.service';
 
 @Component({
     selector: 'app-stand-card',
@@ -14,10 +15,12 @@ export class StandCardComponent implements OnInit {
 
     constructor(private voorspellingHelper: VoorspellingHelperService,
                 private poulepredictionService: PoulepredictionService,
+                private teamService: TeamService,
                 private uiService: UiService) {
     }
 
     @Input() poule: { poule: string, stand: any[], isSortDisabled: boolean };
+    @Input() voorspelling = true;
 
     ngOnInit() {
         console.log(this.poule.stand);
@@ -47,13 +50,13 @@ export class StandCardComponent implements OnInit {
         this.poule.isSortDisabled = !this.poule.isSortDisabled;
     }
 
-
-    // todo saveop dit niveau werkt niet goed.
-    //  2 mogelijke fixes.
-    //  Backend bij indienen matches ook direct standen opslaan en dan individueel overschrijven indien gewenst
-    // of bij ophalen stand rekening houden dat een bepaalde stand ook niet opgeslagen kan zijn
     save() {
-        this.poulepredictionService.savePoulePredictions(this.poule.stand).subscribe(response => {
+        this.teamService.updateTeam(this.poule.stand.map(line => {
+            return {
+                id: line.team.id,
+                poulePosition: line.positie
+            }
+        })).subscribe(response => {
             console.log(response);
         });
     }
