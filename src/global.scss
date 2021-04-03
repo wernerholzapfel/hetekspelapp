@@ -34,3 +34,8 @@
   width: 100%;
   //height: auto;
 }
+
+ion-card.message {
+  --background: var(--ion-color-primary-tint);
+  --color: var(--ion-color-light)
+}

@@ -22,6 +22,7 @@ import {FilterKnockoutRoundsPipe} from './pipes/filter-knockout-rounds.pipe';
 import {LoaderModule} from './components/loader/loader.module';
 import {UiService} from './services/ui.service';
 import {CanDeactivateGuard} from './guards/candeactivate.guard';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
 
 @NgModule({
     declarations: [AppComponent],
@@ -32,6 +33,7 @@ import {CanDeactivateGuard} from './guards/candeactivate.guard';
         AppRoutingModule,
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
+        AngularFireDatabaseModule,
         AngularFireAuthModule,
         LoaderModule,
     ],

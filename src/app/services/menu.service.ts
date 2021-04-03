@@ -40,6 +40,15 @@ export class MenuService {
             onlyForUser: true,
             showAfterRegistration: false
 
+        }, {
+            title: 'Stand',
+            url: '/stand',
+            icon: 'trophy',
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: true,
+            showAfterRegistration: false
+
         },{
             title: 'Resultaten',
             url: '/results',

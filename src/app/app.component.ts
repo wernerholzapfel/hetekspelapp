@@ -8,6 +8,8 @@ import {Subject} from 'rxjs';
 import {NavigationEnd, Router, RouterEvent} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {AuthService} from './services/auth.service';
+import {UiService} from './services/ui.service';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 @Component({
     selector: 'app-root',
@@ -24,8 +26,10 @@ export class AppComponent implements OnInit, OnDestroy {
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
         private router: Router,
+        private db: AngularFireDatabase,
         private menuService: MenuService,
-        private authService: AuthService
+        private authService: AuthService,
+        private uiService: UiService
     ) {
         this.initializeApp();
     }
@@ -43,6 +47,14 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.appPages = menu;
             }
         });
+
+        this.db.list<any>(`totaal`)
+            .valueChanges()
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(totaalstand => {
+                this.uiService.totaalstand$.next(totaalstand);
+            })
+
 
         // set linkactive.
         this.router.events.pipe(takeUntil(this.unsubscribe)).subscribe((event: RouterEvent) => {

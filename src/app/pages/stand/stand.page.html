@@ -1,0 +1,28 @@
+<ion-header>
+    <app-menu-toolbar title="Stand"></app-menu-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item *ngFor="let line of stand; let odd = odd;" (click)="navigateToParticipant(line.id)" lines="full"
+              [color]="odd ? 'light' : ''">
+        <ion-grid>
+            <ion-row>
+                <ion-col size="1">{{line.position}}</ion-col>
+                <ion-col>{{line.displayName}}</ion-col>
+                <ion-col size="2" class="ion-align-items-center ion-text-end">{{line.totalPoints}}</ion-col>
+            </ion-row>
+            <hr>
+            <ion-row>
+                <ion-col offset="1" class="match-col ion-align-items-center">
+                    <ion-icon name="football"></ion-icon>
+                    {{line.matchPoints}}</ion-col>
+                <ion-col class="poule-col ion-align-items-center ion-text-center">
+                    <ion-icon name="list"></ion-icon>
+                    {{line.poulePoints}}</ion-col>
+                <ion-col class="knockout-col ion-align-items-center ion-text-end">
+                    <ion-icon name="trophy"></ion-icon>
+                    {{line.knockoutPoints}}</ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-item>
+</ion-content>

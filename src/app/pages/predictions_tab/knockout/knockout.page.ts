@@ -182,19 +182,25 @@ export class KnockoutPage {
 
     save() {
         this.poulePredictionService.saveKnockoutPredictions(
-            this.speelschema.filter(sp => sp.selectedTeam && sp.selectedTeam.id).map(sp => {
-                if (sp.prediction && sp.prediction.id) {
-                    return {
-                        id: sp.prediction.id,
-                        selectedTeam: sp.selectedTeam,
-                        knockout: {id: sp.id},
-                    }
-                } else
-                    return {
-                        selectedTeam: sp.selectedTeam,
-                        knockout: {id: sp.id},
-                    }
-            })).subscribe(response => {
+            this.speelschema
+                .filter(sp => sp.selectedTeam && sp.selectedTeam.id)
+                .map(sp => {
+                    if (sp.prediction && sp.prediction.id) {
+                        return {
+                            id: sp.prediction.id,
+                            selectedTeam: sp.selectedTeam,
+                            homeTeam: sp.homeTeam,
+                            awayTeam: sp.awayTeam,
+                            knockout: {id: sp.id},
+                        }
+                    } else
+                        return {
+                            selectedTeam: sp.selectedTeam,
+                            homeTeam: sp.homeTeam,
+                            awayTeam: sp.awayTeam,
+                            knockout: {id: sp.id},
+                        }
+                })).subscribe(response => {
             this.toastService.presentToast('Opslaan is gelukt')
             this.uiService.isDirty.next(false)
             this.speelschema = this.speelschema.map(item => {
