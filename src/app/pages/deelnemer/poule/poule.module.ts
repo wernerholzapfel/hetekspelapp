@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { PoulePageRoutingModule } from './poule-routing.module';
 
 import { PoulePage } from './poule.page';
+import {CustomComponentsModule} from '../../../components/custom-components/custom-components.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    PoulePageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        PoulePageRoutingModule,
+        CustomComponentsModule
+    ],
   declarations: [PoulePage]
 })
 export class PoulePageModule {}

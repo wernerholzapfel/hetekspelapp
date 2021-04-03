@@ -25,6 +25,10 @@ export class PoulepredictionService {
         return this.http.get<any>(`${environment.apiBaseUrl}/poule-prediction`);
     }
 
+    getPoulePredictionsByParticipant(participantId): Observable<any[]> {
+        return this.http.get<any>(`${environment.apiBaseUrl}/poule-prediction/${participantId}`);
+    }
+
     getPouleResults(): Observable<any> {
         return this.http.get<any>(`${environment.apiBaseUrl}/poule-prediction/results`);
     }
@@ -125,6 +129,7 @@ export class PoulepredictionService {
         ].find(p => p.identifier === nummerDrieIdentifier);
     }
 }
+
 // return [
 //     {
 //         id: 38,

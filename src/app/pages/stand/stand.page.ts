@@ -30,7 +30,7 @@ export class StandPage implements OnInit, OnDestroy {
     }
 
     navigateToParticipant(participantId) {
-        this.router.navigate([`deelnemer/deelnemer/${participantId}/knockout/`]);
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/matches/`]);
 
     }
 

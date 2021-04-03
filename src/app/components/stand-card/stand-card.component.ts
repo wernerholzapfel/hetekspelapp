@@ -20,7 +20,8 @@ export class StandCardComponent implements OnInit {
     }
 
     @Input() poule: { poule: string, stand: any[], isSortDisabled: boolean };
-    @Input() voorspelling = true;
+    @Input() admin = false;
+    @Input() editMode = true;
 
     ngOnInit() {
         console.log(this.poule.stand);
