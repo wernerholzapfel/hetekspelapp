@@ -54,27 +54,29 @@
             </ion-grid>
         </ion-item>
     </ng-container>
-    <ion-grid>
-        <ion-row>
-            <ion-col>Europees Kampioen
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-    <ion-item lines="full">
-        <ion-grid class="ion-no-margin">
-            <ion-row class="ion-no-padding">
-                <ion-col class="ion-no-padding">
-                    <span class="flag-icon flag-icon-{{europeesKampioen?.team.logoUrl}} flag-icon-squared"></span>
-                    {{europeesKampioen?.team.name}}
-                </ion-col>
-                <ion-col size="1" class="ion-no-padding">
-                    <ion-icon *ngIf="europeesKampioen?.winnerSpelpunten > 0" name="checkmark-outline"
-                              color="success"></ion-icon>
-                </ion-col>
-                <ion-col size="2" class="ion-no-padding ion-text-end">
-                    {{europeesKampioen?.winnerSpelpunten}}
+    <ng-container *ngIf="predictions">
+        <ion-grid>
+            <ion-row>
+                <ion-col>Europees Kampioen
                 </ion-col>
             </ion-row>
         </ion-grid>
-    </ion-item>
+        <ion-item lines="full">
+            <ion-grid class="ion-no-margin">
+                <ion-row class="ion-no-padding">
+                    <ion-col class="ion-no-padding">
+                        <span class="flag-icon flag-icon-{{europeesKampioen?.team.logoUrl}} flag-icon-squared"></span>
+                        {{europeesKampioen?.team.name}}
+                    </ion-col>
+                    <ion-col size="1" class="ion-no-padding">
+                        <ion-icon *ngIf="europeesKampioen?.winnerSpelpunten > 0" name="checkmark-outline"
+                                  color="success"></ion-icon>
+                    </ion-col>
+                    <ion-col size="2" class="ion-no-padding ion-text-end">
+                        {{europeesKampioen?.winnerSpelpunten}}
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+    </ng-container>
 </ion-content>

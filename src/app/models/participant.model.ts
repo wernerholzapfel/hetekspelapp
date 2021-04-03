@@ -11,7 +11,7 @@ export interface IMatchPrediction {
   id?: string;
   homeScore: number;
   awayScore: number;
-  punten?: number;
+  spelpunten?: number;
   match: IMatch;
 }
 

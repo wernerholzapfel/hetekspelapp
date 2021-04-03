@@ -28,6 +28,11 @@ export class MatchService {
             .pipe(map(res => res as IMatchPrediction[]));
     }
 
+    getMatchPredictionsForParticipant(participantId): Observable<IMatchPrediction[]> {
+        return this.http.get<IMatchPrediction[]>(`${environment.apiBaseUrl}/match-prediction/${participantId}`)
+    }
+
+
     saveMatchPredictions(matchPredictions: IMatchPrediction[]): Observable<any> {
         return this.http.post<IMatchPrediction[]>(`${environment.apiBaseUrl}/match-prediction`, matchPredictions);
     }
