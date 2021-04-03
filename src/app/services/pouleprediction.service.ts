@@ -30,7 +30,7 @@ export class PoulepredictionService {
     }
 
     getPouleResults(): Observable<any> {
-        return this.http.get<any>(`${environment.apiBaseUrl}/poule-prediction/results`);
+        return this.http.get<any>(`${environment.apiBaseUrl}/poule-prediction/admin/results`);
     }
 
     getPositionForThirdPlacedTeams(nummerDrieIdentifier: string): { identifier: string, WB: string, WC: string, WE: string, WF: string } {
