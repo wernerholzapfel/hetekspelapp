@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {KnockoutPredictionsService} from '../../../services/knockout-predictions.service';
 import {KnockoutService} from '../../../services/knockout.service';
 import {combineLatest, Subject} from 'rxjs';
@@ -12,7 +12,7 @@ import {takeUntil} from 'rxjs/operators';
     templateUrl: './knockout.page.html',
     styleUrls: ['./knockout.page.scss'],
 })
-export class KnockoutPage implements OnInit {
+export class KnockoutPage implements OnInit, OnDestroy {
 
     predictions: any[] // todo model
     speelschema: any[] // todo model
