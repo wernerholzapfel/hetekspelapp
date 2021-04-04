@@ -11,38 +11,47 @@
             punten voor de wedstrijden.
         </ion-card-content>
     </ion-card>
-        <ion-grid *ngFor="let prediction of predictions; let odd = odd">
-            <ion-row>
-                <ion-col style="background-color: #ffffff">
-                    <ion-row>
-                        <ion-col>
-                            {{prediction.match.homeScore}}
-                            <span class="flag-icon flag-icon-{{prediction.match.homeTeam.logoUrl}} flag-icon-squared"></span>
-                            {{prediction.match.homeTeam.name}}
-                        </ion-col>
-                    </ion-row>
-                    <ion-row>
-                        <ion-col>
-                            {{prediction.match.awayScore}}
-                            <span class="flag-icon flag-icon-{{prediction.match.awayTeam.logoUrl}} flag-icon-squared"></span>
-                            {{prediction.match.awayTeam.name}}
-                        </ion-col>
-                    </ion-row>
-                </ion-col>
-                <ion-col size="3" style="background-color: aliceblue">
-                    <ion-row>
-                        <ion-col size="6" class="ion-no-padding">
-                            <ion-row>
-                                <ion-col class="ion-text-end">{{prediction.homeScore}}</ion-col>
-                            </ion-row>
-                            <ion-row>
-                                <ion-col class="ion-text-end">{{prediction.awayScore}}</ion-col>
-                            </ion-row>
-                        </ion-col>
-                        <ion-col size="6"
-                                 class="ion-no-padding ion-text-center ion-align-self-center">{{prediction.spelpunten}}</ion-col>
-                    </ion-row>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
+    <ion-grid>
+        <ion-row *ngFor="let prediction of predictions; let odd = odd" class="hes-border-bottom">
+            <ion-col style="background-color: #ffffff" >
+                <ion-row>
+                    <ion-col>
+                        {{prediction.match.homeScore}}
+                        <span class="flag-icon flag-icon-{{prediction.match.homeTeam.logoUrl}} flag-icon-squared"></span>
+                        {{prediction.match.homeTeam.name}}
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        {{prediction.match.awayScore}}
+                        <span class="flag-icon flag-icon-{{prediction.match.awayTeam.logoUrl}} flag-icon-squared"></span>
+                        {{prediction.match.awayTeam.name}}
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+            <ion-col size="3" style="background-color: aliceblue">
+                <ion-row>
+                    <ion-col size="6" class="ion-no-padding ion-text-start">
+                        <ion-row class="ion-no-padding">
+                            <ion-col class="ion-text-start">{{prediction.homeScore}}</ion-col>
+                        </ion-row>
+                        <ion-row class="ion-no-padding">
+                            <ion-col class="ion-text-start">{{prediction.awayScore}}</ion-col>
+                        </ion-row>
+                    </ion-col>
+                    <ion-col size="6"
+                             class="ion-no-padding ion-text-center ion-align-self-center">
+                        <ion-chip color="primary">
+                            {{prediction.spelpunten}}
+                        </ion-chip>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
+
+
+
+
+

@@ -39,3 +39,7 @@ ion-card.message {
   --background: var(--ion-color-primary-tint);
   --color: var(--ion-color-light)
 }
+
+.hes-border-bottom {
+  border-bottom: 1px solid var(--ion-color-light-shade)
+}
