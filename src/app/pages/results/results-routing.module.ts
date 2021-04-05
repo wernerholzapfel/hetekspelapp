@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ResultsPage } from './results.page';
 import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
-import {PredictionsTabPage} from '../predictions_tab/predictions_tab.page';
 
 const routes: Routes = [
   {

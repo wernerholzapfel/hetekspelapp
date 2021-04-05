@@ -34,6 +34,10 @@ const routes: Routes = [
   {
     path: 'deelnemer',
     loadChildren: () => import('./pages/deelnemer/deelnemer.module').then( m => m.DeelnemerPageModule)
+  },
+  {
+    path: 'match/:id',
+    loadChildren: () => import('./pages/match/match.module').then( m => m.MatchPageModule)
   }
 ];
 

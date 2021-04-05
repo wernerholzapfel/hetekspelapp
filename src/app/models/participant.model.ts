@@ -1,4 +1,5 @@
-import {IMatch} from './poule.model';
+import {IMatch, ITableLine} from './poule.model';
+import {IStandLine} from './stand.model';
 
 export interface IParticipant {
   id?: string;
@@ -12,7 +13,9 @@ export interface IMatchPrediction {
   homeScore: number;
   awayScore: number;
   spelpunten?: number;
-  match: IMatch;
+  match?: IMatch;
+  participant?: IParticipant;
+  tableLine?: IStandLine;
 }
 
 export interface IPoulePrediction {

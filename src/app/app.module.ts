@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouteReuseStrategy} from '@angular/router';
 
@@ -23,6 +23,10 @@ import {LoaderModule} from './components/loader/loader.module';
 import {UiService} from './services/ui.service';
 import {CanDeactivateGuard} from './guards/candeactivate.guard';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
+import localeNl from '@angular/common/locales/nl';
+import {registerLocaleData} from '@angular/common';
+registerLocaleData(localeNl);
+
 
 @NgModule({
     declarations: [AppComponent],
@@ -51,6 +55,7 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
             useClass: LoaderInterceptor,
             multi: true,
         },
+        { provide: LOCALE_ID, useValue: 'nl-NL' },
         AuthService,
         ParticipantService,
         LoaderService,

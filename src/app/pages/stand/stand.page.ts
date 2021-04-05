@@ -31,7 +31,6 @@ export class StandPage implements OnInit, OnDestroy {
 
     navigateToParticipant(participantId) {
         this.router.navigate([`deelnemer/deelnemer/${participantId}/matches/`]);
-
     }
 
     ngOnDestroy(): void {

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {UiService} from '../../../services/ui.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IStandLine} from '../../../models/stand.model';
 import {Subject} from 'rxjs';
 import {MatchService} from '../../../services/match.service';
@@ -20,6 +20,7 @@ export class MatchesPage implements OnInit, OnDestroy {
 
     constructor(private uiService: UiService,
                 private route: ActivatedRoute,
+                private router: Router,
                 private matchService: MatchService
     ) {
     }
@@ -36,6 +37,10 @@ export class MatchesPage implements OnInit, OnDestroy {
                 this.predictions = matchPredictions;
             });
 
+    }
+
+    openMatch(matchId: string) {
+            this.router.navigate([`match/${matchId}`]);
     }
 
     ngOnDestroy(): void {

@@ -43,7 +43,7 @@ export class MenuService {
         }, {
             title: 'Stand',
             url: '/stand',
-            icon: 'trophy',
+            icon: 'podium-outline',
             active: false,
             onlyForAdmin: false,
             onlyForUser: true,

@@ -19,6 +19,10 @@ export class MatchService {
             .pipe(map(res => res as IMatch[]));
     }
 
+    getMatch(matchId): Observable<IMatch> {
+        return this.http.get<IMatch>(`${environment.apiBaseUrl}/match/${matchId}`)
+    }
+
     updateMatch(body: UpdateMatchDto): Observable<IMatch> {
         return this.http.put<IMatch>(`${environment.apiBaseUrl}/match`, body)
     }

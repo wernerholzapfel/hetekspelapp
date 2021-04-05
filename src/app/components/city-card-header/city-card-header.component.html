@@ -1,4 +1,4 @@
 <ion-card-header [class]="match?.city">
-  <ion-card-subtitle color="light">12 juni 21:00{{match?.date}} <span *ngIf="match?.matchId">({{match?.matchId}})</span>
+  <ion-card-subtitle color="light">{{match?.date | date}} <span *ngIf="match?.matchId">({{match?.matchId}})</span>
     @ {{match?.city}}</ion-card-subtitle>
 </ion-card-header>
