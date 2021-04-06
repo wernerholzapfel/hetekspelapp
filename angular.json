@@ -32,7 +32,10 @@
               }
             ],
             "styles": [
-              "node_modules/flag-icon-css/css/flag-icon.min.css",
+              {
+                "input": "node_modules/flag-icon-css/css/flag-icon.min.css",
+                "inject": true
+              },
               {
                 "input": "src/theme/variables.scss",
                 "inject": true
@@ -130,7 +133,9 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "e2e": {

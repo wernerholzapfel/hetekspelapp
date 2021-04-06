@@ -28,16 +28,19 @@ export class MatchPage implements OnInit, OnDestroy {
             this.matchService.getMatch(this.route.snapshot.params.id)])
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(([stand, match]) => {
-                this.match = {
-                    ...match,
-                    matchPredictions: match.matchPredictions.map(mp => {
-                        return {
-                            ...mp,
-                            tableLine: stand.find(line => line.id === mp.participant.id)
-                        };
-                    }).sort((a, b) => a.tableLine.position - b.tableLine.position)
-                };
-            })
+                if (stand.length > 0) {
+
+                    this.match = {
+                        ...match,
+                        matchPredictions: match.matchPredictions.map(mp => {
+                            return {
+                                ...mp,
+                                tableLine: stand.find(line => line.id === mp.participant.id)
+                            };
+                        }).sort((a, b) => a.tableLine.position - b.tableLine.position)
+                    };
+                }
+            });
     }
 
     navigateToParticipant(participantId) {
