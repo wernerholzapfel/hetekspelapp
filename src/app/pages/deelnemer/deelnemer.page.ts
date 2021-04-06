@@ -12,7 +12,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class DeelnemerPage implements OnInit, OnDestroy {
 
-    standLine: IStandLine
+    standLine: IStandLine;
     unsubscribe = new Subject<void>();
 
     constructor(private uiService: UiService,

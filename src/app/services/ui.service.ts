@@ -9,6 +9,7 @@ export class UiService {
 
     isDirty: BehaviorSubject<boolean> = new BehaviorSubject(false);
     totaalstand$: BehaviorSubject<IStandLine[]> = new BehaviorSubject([]);
+    lastUpdated$: BehaviorSubject<{ lastUpdated?: number }> = new BehaviorSubject({});
 
     constructor() {
     }

@@ -49,7 +49,7 @@ export class MenuService {
             onlyForUser: true,
             showAfterRegistration: false
 
-        },{
+        }, {
             title: 'Resultaten',
             url: '/results',
             icon: 'create-outline',

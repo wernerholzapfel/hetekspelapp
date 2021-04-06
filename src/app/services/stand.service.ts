@@ -11,7 +11,7 @@ export class StandService {
     constructor(private http: HttpClient) {
     }
 
-    getStand(): Observable<any[]> {
-        return this.http.get<any[]>(`${environment.apiBaseUrl}/stand/match`)
+    createStand(): Observable<any[]> {
+        return this.http.post<any[]>(`${environment.apiBaseUrl}/stand`, {});
     }
 }

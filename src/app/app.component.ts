@@ -53,14 +53,21 @@ export class AppComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(totaalstand => {
                 this.uiService.totaalstand$.next(totaalstand);
-            })
+            });
+
+        this.db.object<{ lastUpdated: number }>(`lastUpdated`)
+            .valueChanges()
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(item => {
+                this.uiService.lastUpdated$.next(item);
+            });
 
 
         // set linkactive.
         this.router.events.pipe(takeUntil(this.unsubscribe)).subscribe((event: RouterEvent) => {
             if (event instanceof NavigationEnd) {
                 this.menuService.appPages$.getValue().map(p => {
-                    return Object.assign(p, {active: (event.url.startsWith(p.url))});
+                    return Object.assign(p, {active: (event.url.toLowerCase().startsWith(p.url.toLowerCase()))});
                 });
             }
         });

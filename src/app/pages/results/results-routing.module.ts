@@ -21,6 +21,9 @@ const routes: Routes = [
       {
         path: 'poule',
         loadChildren: '../results/poule/poule.module#PoulePageModule'
+      }, {
+        path: 'stand',
+        loadChildren: '../results/stand/stand.module#StandPageModule'
       }]
   }, {
     path: '',
