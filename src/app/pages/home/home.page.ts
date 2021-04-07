@@ -29,7 +29,6 @@ export class HomePage implements OnInit, OnDestroy {
         this.uiService.lastUpdated$
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(item => {
-                console.log(item);
                 this.lastUpdated = item.lastUpdated;
             });
     }

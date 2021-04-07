@@ -25,6 +25,8 @@
         </edit-config>
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
         <allow-intent href="market:*" />
+        <preference name="CodePushPublicKey" value="ItdOYYVoqjHcDqkKhA3BcYKQpuaerURLh8tNB" />
+        <preference name="APP_SECRET" value="71b9658d-f799-4c65-b46b-abf7ff845f2e" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -47,6 +49,8 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <preference name="CodePushPublicKey" value="Jf_bn1Uz77DeYZcr0mUiX7oGiIx5alJIQTtHX" />
+        <preference name="APP_SECRET" value="8b483fc6-76a1-41c6-98db-7867c823fa0f" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />

@@ -25,6 +25,7 @@ import {CanDeactivateGuard} from './guards/candeactivate.guard';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import localeNl from '@angular/common/locales/nl';
 import {registerLocaleData} from '@angular/common';
+import {CodePush} from '@ionic-native/code-push/ngx';
 registerLocaleData(localeNl);
 
 
@@ -57,6 +58,7 @@ registerLocaleData(localeNl);
         },
         { provide: LOCALE_ID, useValue: 'nl-NL' },
         AuthService,
+        CodePush,
         ParticipantService,
         LoaderService,
         MenuService,

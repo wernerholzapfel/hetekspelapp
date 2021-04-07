@@ -15,6 +15,10 @@ export const environment = {
     appId: '1:954917361074:web:1070165d4063f71c8840ab',
     measurementId: 'G-2GH3NBTP0Z'
   },
+  codePush: {
+    iOSCodePush: 'Jf_bn1Uz77DeYZcr0mUiX7oGiIx5alJIQTtHX',
+    androidCodePush: 'ItdOYYVoqjHcDqkKhA3BcYKQpuaerURLh8tNB'
+  }
 };
 
 /*

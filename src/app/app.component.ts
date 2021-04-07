@@ -6,10 +6,13 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {MenuItem, MenuService} from './services/menu.service';
 import {Subject} from 'rxjs';
 import {NavigationEnd, Router, RouterEvent} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 import {AuthService} from './services/auth.service';
 import {UiService} from './services/ui.service';
 import {AngularFireDatabase} from '@angular/fire/database';
+import {CodePush, InstallMode} from '@ionic-native/code-push/ngx';
+import {environment} from '../environments/environment';
+import {LoaderService} from './services/loader.service';
 
 @Component({
     selector: 'app-root',
@@ -29,7 +32,11 @@ export class AppComponent implements OnInit, OnDestroy {
         private db: AngularFireDatabase,
         private menuService: MenuService,
         private authService: AuthService,
-        private uiService: UiService
+        private uiService: UiService,
+        private codePush: CodePush,
+        private loaderService: LoaderService,
+
+
     ) {
         this.initializeApp();
     }
@@ -38,6 +45,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+            if (this.platform.is('cordova')) {
+                this.checkCodePush();
+            }
         });
     }
 
@@ -71,6 +81,34 @@ export class AppComponent implements OnInit, OnDestroy {
                 });
             }
         });
+
+        this.platform.resume.subscribe(() => {
+            if (this.platform.is('cordova')) {
+                this.checkCodePush();
+            }
+        });
+    }
+
+    checkCodePush() {
+        const downloadProgress = (progress) => {
+            this.loaderService.isLoading.next(progress.receivedBytes !== progress.totalBytes);
+        };
+
+        this.codePush.sync({
+            updateDialog: {
+                appendReleaseDescription: false,
+                updateTitle: 'Het EK Spel',
+                mandatoryUpdateMessage: 'Er is een nieuwe update beschikbaar',
+                mandatoryContinueButtonLabel: 'Installeer update'
+            },
+            deploymentKey: this.platform.is('ios') ? environment.codePush.iOSCodePush : environment.codePush.androidCodePush,
+            installMode: InstallMode.IMMEDIATE
+        }, downloadProgress).pipe(take(1)).subscribe(
+            (syncStatus) => {
+            },
+            (error) => {
+                console.error('CODE PUSH ERROR: ' + error);
+            });
     }
 
     ngOnDestroy(): void {
