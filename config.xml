@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.wernerholzapfel.hetekspel" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.wernerholzapfel.hetekspel" version="0.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Het EK Spel</name>
     <description>Het EK Spel 2020</description>
     <author email="werner.holzapfel@gmail.com" href="http://hetekspel-2020.web.app/">Het EK Spel</author>
@@ -49,7 +49,7 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <preference name="CodePushPublicKey" value="Jf_bn1Uz77DeYZcr0mUiX7oGiIx5alJIQTtHX" />
+        <preference name="CodePushDeploymentKey" value="Jf_bn1Uz77DeYZcr0mUiX7oGiIx5alJIQTtHX" />
         <preference name="APP_SECRET" value="8b483fc6-76a1-41c6-98db-7867c823fa0f" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />

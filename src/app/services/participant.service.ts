@@ -16,4 +16,8 @@ export class ParticipantService {
             .pipe(map(res => res as IParticipant));
     }
 
+    putPushToken(body: {pushtoken: string }): Observable<IParticipant> {
+        return this.http.put<IParticipant>(`${environment.apiBaseUrl}/participant/pushtoken`, body);
+    }
+
 }

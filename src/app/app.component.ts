@@ -13,6 +13,8 @@ import {AngularFireDatabase} from '@angular/fire/database';
 import {CodePush, InstallMode} from '@ionic-native/code-push/ngx';
 import {environment} from '../environments/environment';
 import {LoaderService} from './services/loader.service';
+import {FCM} from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
+import {ParticipantService} from './services/participant.service';
 
 @Component({
     selector: 'app-root',
@@ -28,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private platform: Platform,
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
+        private fcm: FCM,
         private router: Router,
         private db: AngularFireDatabase,
         private menuService: MenuService,
@@ -35,8 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private uiService: UiService,
         private codePush: CodePush,
         private loaderService: LoaderService,
-
-
+        private participantService: ParticipantService
     ) {
         this.initializeApp();
     }
@@ -47,6 +49,21 @@ export class AppComponent implements OnInit, OnDestroy {
             this.splashScreen.hide();
             if (this.platform.is('cordova')) {
                 this.checkCodePush();
+                this.requestPushPermission();
+
+                this.fcm.onNotification().subscribe(data => {
+                    if (data.wasTapped) {
+                        console.log('Received in background');
+                    } else {
+                        console.log('Received in foreground');
+                    }
+                });
+
+                this.fcm.onTokenRefresh().subscribe(token => {
+                    this.participantService.putPushToken({pushtoken: token}).subscribe(response => {
+                        console.log(response);
+                    });
+                });
             }
         });
     }
@@ -85,6 +102,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.platform.resume.subscribe(() => {
             if (this.platform.is('cordova')) {
                 this.checkCodePush();
+                this.getToken();
             }
         });
     }
@@ -110,6 +128,30 @@ export class AppComponent implements OnInit, OnDestroy {
                 console.error('CODE PUSH ERROR: ' + error);
             });
     }
+
+    subscribeToTopic() {
+        this.fcm.subscribeToTopic('enappd');
+    }
+
+    requestPushPermission() {
+        this.fcm.requestPushPermission({}).then(hasPermission => {
+            console.log('werner de permission is: ' + hasPermission);
+        });
+    }
+
+    getToken() {
+        this.fcm.getToken().then(token => {
+            this.participantService.putPushToken({pushtoken: token}).subscribe(response => {
+                console.log('token opgeslagen');
+            });
+            console.log('werner: token aangeroepen');
+        });
+    }
+
+    unsubscribeFromTopic() {
+        this.fcm.unsubscribeFromTopic('enappd');
+    }
+
 
     ngOnDestroy(): void {
         this.unsubscribe.next();
