@@ -1,0 +1,5 @@
+
+ionic cordova build ios --prod
+
+
+appcenter codepush release -a werner.holzapfel-gmail.com/hetekspel-ios -c ./platforms/ios/www/ -t 0.0.3  -d Production -m
