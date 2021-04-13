@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "hetekspel-2020"
+  },
+  "targets": {
+    "hetekspel-2020": {
+      "hosting": {
+        "app": [
+          "hetekspel-2020"
+        ]
+      }
+    }
   }
 }
