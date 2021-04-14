@@ -2,8 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UiService} from '../../services/ui.service';
 import {takeUntil} from 'rxjs/operators';
 import {IStandLine} from '../../models/stand.model';
-import {Subject} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {combineLatest, Subject} from 'rxjs';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
     selector: 'app-home',
@@ -13,17 +13,19 @@ import {ActivatedRoute} from '@angular/router';
 export class HomePage implements OnInit, OnDestroy {
 
     standLine: IStandLine;
+    participantStandLine: IStandLine;
     lastUpdated: number;
     unsubscribe = new Subject<void>();
 
-    constructor(private uiService: UiService) {
+    constructor(private uiService: UiService, public authService: AuthService) {
     }
 
     ngOnInit() {
-        this.uiService.totaalstand$
+        combineLatest([this.uiService.totaalstand$, this.uiService.participant$])
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe(s => {
+            .subscribe(([s, participant]) => {
                 this.standLine = s[0];
+                this.participantStandLine = s.find(line => participant && line.id === participant.id);
             });
 
         this.uiService.lastUpdated$

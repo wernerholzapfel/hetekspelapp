@@ -27,15 +27,48 @@
         <form *ngIf="activeSegment === 'inschrijven'" [formGroup]="userForm" class="login-form">
             <ion-input type="text" placeholder="Naam" formControlName="displayName"
                        [(ngModel)]="user.displayName"></ion-input>
+            <div *ngIf="userForm.controls['displayName'].invalid && (userForm.controls['displayName'].dirty || userForm.controls['displayName'].touched)"
+                 class="alert">
+                <ion-text color="danger" *ngIf="userForm.controls['displayName'].errors.required">
+                    Je naam is verplicht
+                </ion-text>
+            </div>
             <ion-input placeholder="Email" formControlName="emailFormControl"
                        [(ngModel)]="user.email">
             </ion-input>
+            <div *ngIf="userForm.controls['emailFormControl'].invalid && (userForm.controls['emailFormControl'].dirty || userForm.controls['emailFormControl'].touched)"
+                 class="alert">
+                <ion-text color="danger" *ngIf="userForm.controls['emailFormControl'].errors.required">
+                    Je emailadres is verplicht
+                </ion-text>
+                <ion-text color="danger" *ngIf="userForm.controls['emailFormControl'].errors.email">
+                    Je emailadres is niet geldig
+                </ion-text>
+            </div>
             <ion-input type="password" autocomplete="password" placeholder="Password (min 8 tekens)"
                        formControlName="passwordFormControl"
                        [(ngModel)]="user.password">
             </ion-input>
+            <div *ngIf="userForm.controls['passwordFormControl'].invalid && (userForm.controls['passwordFormControl'].dirty || userForm.controls['passwordFormControl'].touched)"
+                 class="alert">
+                <ion-text color="danger" *ngIf="userForm.controls['passwordFormControl'].errors.required">
+                    Je bent vergeten een wachtwoord op te geven
+                </ion-text>
+                <ion-text color="danger" *ngIf="userForm.controls['passwordFormControl'].errors.minlength">
+                    Je wachtwoord moet minimaal 8 tekens zijn
+                </ion-text>
+            </div>
             <ion-input type="text" placeholder="Teamnaam" formControlName="teamName"
                        [(ngModel)]="user.teamName"></ion-input>
+            <div *ngIf="userForm.controls['teamName'].invalid && (userForm.controls['teamName'].dirty || userForm.controls['teamName'].touched)"
+                 class="alert">
+                <ion-text color="danger" *ngIf="userForm.controls['teamName'].errors.required">
+                    Je moet een teamnaam opgeven
+                </ion-text>
+                <ion-text color="danger" *ngIf="userForm.controls['teamName'].errors.maxlength">
+                    Je teamnaam mag maximaal 25 tekens zijn
+                </ion-text>
+            </div>
             <ion-button expand="block" color="secondary" (click)="signUpRegular()" [disabled]="userForm.invalid">
                 Inschrijven
             </ion-button>
@@ -48,7 +81,7 @@
     </ion-card-content>
 </ion-card>
 
-<ion-card *ngIf="wachtwoordvergeten" label="wachtwoord vergeten">
+<ion-card *ngIf="wachtwoordvergeten">
     <ion-card-header>
         <ion-segment mode="md" color="primary">
             <ion-segment-button mode="md" checked="true">

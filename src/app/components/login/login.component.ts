@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {ToastController} from '@ionic/angular';
@@ -25,8 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     constructor(public authService: AuthService,
                 public toastController: ToastController,
-                private participantService: ParticipantService,
-                private router: Router) {
+                private participantService: ParticipantService) {
     }
 
     userForm = new FormGroup({
@@ -59,8 +57,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                 console.log(res);
                 this.user.email = '';
                 this.user.password = '';
-                // this.store.dispatch(new fromParticipantForm.ClearParticipantform());
-                this.router.navigate(['/list']);
             }, async err => {
             const toast = await this.toastController.create({
                 message: err.message,
@@ -73,7 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     sendPasswordResetEmail() {
         this.authService.sendPasswordResetEmail(this.user.email)
-            .then(async (res) => {
+            .then(async () => {
                 const toast = await this.toastController.create({
                     message: 'Verzoek om wachtwoord te wijzigen is ontvangen.',
                     duration: 2000
@@ -95,18 +91,17 @@ export class LoginComponent implements OnInit, OnDestroy {
             .then((res) => {
                     if (res) {
                         delete this.user.password;
-                        // this.authService.updateProfile(this.user.displayName);
+                        this.authService.updateProfile(this.user.displayName);
                         this.participantService.postParticipant({
                             displayName: this.user.displayName,
                             teamName: this.user.teamName,
                             email: this.user.email
                         })
-                            .subscribe(response => {
+                            .subscribe(() => {
                                 this.user.teamName = '';
                                 this.user.displayName = '';
                                 this.user.email = '';
                                 this.user.password = '';
-                                console.log('user opgeslagen in database');
                             }, error1 => {
                                 console.log(error1);
                             });

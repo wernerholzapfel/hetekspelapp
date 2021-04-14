@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private router: Router,
         private db: AngularFireDatabase,
         private menuService: MenuService,
-        private authService: AuthService,
+        public authService: AuthService,
         private uiService: UiService,
         private codePush: CodePush,
         private loaderService: LoaderService,

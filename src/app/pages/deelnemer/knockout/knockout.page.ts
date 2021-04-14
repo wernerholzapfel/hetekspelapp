@@ -14,10 +14,10 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class KnockoutPage implements OnInit, OnDestroy {
 
-    predictions: any[] // todo model
-    speelschema: any[] // todo model
-    standLine: IStandLine
-    europeesKampioen: any
+    predictions: any[]; // todo model
+    speelschema: any[]; // todo model
+    standLine: IStandLine;
+    europeesKampioen: any;
     unsubscribe = new Subject<void>();
 
     constructor(private knockoutPredictionService: KnockoutPredictionsService,
@@ -31,24 +31,24 @@ export class KnockoutPage implements OnInit, OnDestroy {
             this.knockoutPredictionService.getKnockoutForParticipant(this.route.snapshot.parent.parent.params.id),
             this.knockoutService.getOriginalSpeelschema()])
             .subscribe(([results, speelschema]) => {
-                this.speelschema = speelschema
+                this.speelschema = speelschema;
                 this.predictions = results.map(prediction => {
                     if (prediction.knockout.round === '2') {
-                        this.setEuropeesKampioen(prediction)
+                        this.setEuropeesKampioen(prediction);
                     }
                     return {
                         ...prediction,
                         homeInRound: !!speelschema.find(schema => {
                             return schema.round === prediction.knockout.round &&
-                                (prediction.homeTeam.id === schema.homeTeam.id || prediction.homeTeam.id === schema.awayTeam.id)
+                                (prediction.homeTeam.id === schema.homeTeam.id || prediction.homeTeam.id === schema.awayTeam.id);
                         }),
                         awayInRound: !!speelschema.find(schema => {
                             return schema.round === prediction.knockout.round &&
-                                (prediction.awayTeam.id === schema.homeTeam.id || prediction.awayTeam.id === schema.awayTeam.id)
+                                (prediction.awayTeam.id === schema.homeTeam.id || prediction.awayTeam.id === schema.awayTeam.id);
                         }),
-                    }
+                    };
                 });
-            })
+            });
 
         this.uiService.totaalstand$
             .pipe(takeUntil(this.unsubscribe))
@@ -61,21 +61,21 @@ export class KnockoutPage implements OnInit, OnDestroy {
         this.europeesKampioen = {
             team: finaleWedstrijd.selectedTeam,
             winnerSpelpunten: finaleWedstrijd.winnerSpelpunten
-        }
+        };
     }
 
     roundText(round: string) {
         switch (round) {
             case '16':
-                return 'Achtste finales'
+                return 'Achtste finales';
             case '8':
-                return 'Kwartfinales'
+                return 'Kwartfinales';
             case '4':
-                return 'Halve Finales'
+                return 'Halve Finales';
             case '2':
-                return 'Finale'
+                return 'Finale';
             default:
-                return 'Winnaar'
+                return 'Winnaar';
         }
     }
 

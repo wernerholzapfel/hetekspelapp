@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IMatchPrediction, IParticipant} from '../models/participant.model';
+import {IMatchPrediction} from '../models/participant.model';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
@@ -20,11 +20,11 @@ export class MatchService {
     }
 
     getMatch(matchId): Observable<IMatch> {
-        return this.http.get<IMatch>(`${environment.apiBaseUrl}/match/${matchId}`)
+        return this.http.get<IMatch>(`${environment.apiBaseUrl}/match/${matchId}`);
     }
 
     updateMatch(body: UpdateMatchDto): Observable<IMatch> {
-        return this.http.put<IMatch>(`${environment.apiBaseUrl}/match`, body)
+        return this.http.put<IMatch>(`${environment.apiBaseUrl}/match`, body);
     }
 
     getMatchPredictions(): Observable<IMatchPrediction[]> {
@@ -33,7 +33,7 @@ export class MatchService {
     }
 
     getMatchPredictionsForParticipant(participantId): Observable<IMatchPrediction[]> {
-        return this.http.get<IMatchPrediction[]>(`${environment.apiBaseUrl}/match-prediction/${participantId}`)
+        return this.http.get<IMatchPrediction[]>(`${environment.apiBaseUrl}/match-prediction/${participantId}`);
     }
 
 

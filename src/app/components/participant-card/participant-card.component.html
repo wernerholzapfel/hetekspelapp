@@ -1,0 +1,25 @@
+<ion-card *ngIf="standLine" [color]="color">
+    <ion-card-header>
+        <ion-card-title>{{standLine?.displayName}} staat {{standLine.position}}e</ion-card-title>
+        <ion-card-subtitle>{{lastUpdated | fromNow}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <ion-row class="ion-align-items-stretch">
+                <app-punten-chip [iconName]="'podium-outline'"
+                                 [color]="color === 'primary' ? 'light' : 'dark'"
+                                 [deltaPoints]="standLine.deltaTotalPoints"
+                                 [points]="standLine.totalPoints"></app-punten-chip>
+                <app-punten-chip [iconName]="'football'" [deltaPoints]="standLine.deltaMatchPoints"
+                                 [color]="color === 'primary' ? 'light' : 'dark'"
+                                 [points]="standLine.matchPoints"></app-punten-chip>
+                <app-punten-chip [iconName]="'list'" [deltaPoints]="standLine.deltaPoulePoints"
+                                 [color]="color === 'primary' ? 'light' : 'dark'"
+                                 [points]="standLine.poulePoints"></app-punten-chip>
+                <app-punten-chip [iconName]="'trophy'" [deltaPoints]="standLine.deltaKnockoutPoints"
+                                 [color]="color === 'primary' ? 'light' : 'dark'"
+                                 [points]="standLine.knockoutPoints"></app-punten-chip>
+            </ion-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>

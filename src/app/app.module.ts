@@ -26,7 +26,10 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
 import localeNl from '@angular/common/locales/nl';
 import {registerLocaleData} from '@angular/common';
 import {CodePush} from '@ionic-native/code-push/ngx';
-import { FCM } from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
+import {FCM} from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
+import {HeadlineService} from './services/headline.service';
+import {FromNowPipe} from './pipes/fromNow.pipe';
+
 registerLocaleData(localeNl);
 
 
@@ -57,16 +60,18 @@ registerLocaleData(localeNl);
             useClass: LoaderInterceptor,
             multi: true,
         },
-        { provide: LOCALE_ID, useValue: 'nl-NL' },
+        {provide: LOCALE_ID, useValue: 'nl-NL'},
         AuthService,
         CodePush,
         FCM,
+        HeadlineService,
         ParticipantService,
         LoaderService,
         MenuService,
         UiService,
         CanDeactivateGuard,
-        FilterKnockoutRoundsPipe
+        FilterKnockoutRoundsPipe,
+        FromNowPipe
     ],
     bootstrap: [AppComponent]
 })

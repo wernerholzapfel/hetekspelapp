@@ -4,19 +4,32 @@ import {environment} from '../../environments/environment';
 import {IParticipant} from '../models/participant.model';
 import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
+import {UiService} from './ui.service';
 
 @Injectable()
 export class ParticipantService {
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private uiService: UiService) {
     }
+
 
     postParticipant(body: IParticipant): Observable<IParticipant> {
         return this.http.post<IParticipant>(`${environment.apiBaseUrl}/participant`, body)
-            .pipe(map(res => res as IParticipant));
+            .pipe(map(res => {
+                this.uiService.participant$.next(res);
+                return res as IParticipant;
+            }));
     }
 
-    putPushToken(body: {pushtoken: string }): Observable<IParticipant> {
+    getParticipant(): Observable<IParticipant> {
+        return this.http.get<IParticipant>(`${environment.apiBaseUrl}/participant/mine`)
+            .pipe(map(res => {
+                this.uiService.participant$.next(res);
+                return res as IParticipant;
+            }));
+    }
+
+    putPushToken(body: { pushtoken: string }): Observable<IParticipant> {
         return this.http.put<IParticipant>(`${environment.apiBaseUrl}/participant/pushtoken`, body);
     }
 

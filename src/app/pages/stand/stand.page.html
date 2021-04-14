@@ -4,11 +4,17 @@
 
 <ion-content>
     <ion-item *ngFor="let line of stand; let odd = odd;" (click)="navigateToParticipant(line.id)" lines="full"
-              [color]="odd ? 'accent' : ''">
+              [color]="odd ? 'accent' : ''"
+              class="ion-no-padding">
         <ion-grid>
             <ion-row>
-                <ion-col size="1">{{line.position}}</ion-col>
-                <ion-col>{{line.displayName}}</ion-col>
+                <ion-col size="1">
+                    {{line.position}}</ion-col>
+                <ion-col>
+                    <ion-icon
+                            [name]="line.deltaPosition > 0 ? 'caret-up-outline' : line.deltaPosition === 0 ? 'caret-forward-outline' : 'caret-down-outline'"
+                            [color]="line.deltaPosition > 0 ? 'success' : line.deltaPosition === 0 ? 'medium' : 'danger'"></ion-icon>
+                    {{line.displayName}}</ion-col>
                 <ion-col size="3" class="ion-align-items-center ion-text-end">
                     <ion-icon name="podium-outline"></ion-icon>
                     {{line.totalPoints}}</ion-col>
@@ -19,18 +25,33 @@
                     <ion-text color="medium">
                         <ion-icon name="football"></ion-icon>
                         {{line.matchPoints}}
+                        <ion-text
+                                class="hes-delta-text"
+                                *ngIf="line.deltaMatchPoints > 0">
+                            (+{{line.deltaMatchPoints}})
+                        </ion-text>
                     </ion-text>
                 </ion-col>
                 <ion-col class="poule-col ion-align-items-center ion-text-center">
                     <ion-text color="medium">
                         <ion-icon name="list"></ion-icon>
                         {{line.poulePoints}}
+                        <ion-text
+                                class="hes-delta-text"
+                                *ngIf="line.deltaPoulePoints > 0">
+                            (+{{line.deltaPoulePoints}})
+                        </ion-text>
                     </ion-text>
                 </ion-col>
                 <ion-col class="knockout-col ion-align-items-center ion-text-end">
                     <ion-text color="medium">
                         <ion-icon name="trophy"></ion-icon>
                         {{line.knockoutPoints}}
+                        <ion-text
+                                class="hes-delta-text"
+                                *ngIf="line.deltaKnockoutPoints > 0">
+                            (+{{line.deltaKnockoutPoints}})
+                        </ion-text>
                     </ion-text>
                 </ion-col>
             </ion-row>

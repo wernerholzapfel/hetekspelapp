@@ -1,9 +1,8 @@
 import {IMatchPrediction} from './participant.model';
-import {IStandLine} from './stand.model';
 
 export interface IPoule {
-    pouleName: string,
-    matches: IMatch[]
+    pouleName: string;
+    matches: IMatch[];
 }
 
 export interface IMatch {
@@ -15,6 +14,7 @@ export interface IMatch {
     awayTeam: ITeam;
     homeScore: number;
     awayScore: number;
+    ordering: number;
     matchPredictions?: IMatchPrediction[];
 }
 
@@ -26,9 +26,9 @@ export class UpdateMatchDto {
 }
 
 export interface ITeam {
-    id: string,
-    name?: string,
-    logoUrl?: string,
+    id: string;
+    name?: string;
+    logoUrl?: string;
 }
 
 export class UpdateTeamPositionDto {
@@ -37,8 +37,7 @@ export class UpdateTeamPositionDto {
 }
 
 export interface ITable {
-    // pouleName: string;
-    tableLines: ITableLine[]
+    tableLines: ITableLine[];
 }
 
 export interface ITableLine {
