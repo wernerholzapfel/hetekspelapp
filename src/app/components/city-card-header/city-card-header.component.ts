@@ -9,7 +9,7 @@ import {IKnockout} from '../../models/knockout.model';
 })
 export class CityCardHeaderComponent implements OnInit {
 
-    @Input() match: IKnockout | IMatch;
+    @Input() match: IKnockout;
 
     constructor() {
     }
