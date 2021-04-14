@@ -59,6 +59,15 @@ export class MenuService {
             showAfterRegistration: false
 
         }, {
+            title: 'Statistieken',
+            url: '/stats',
+            icon: 'stats-chart-outline',
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: false,
+            showAfterRegistration: false
+
+        }, {
             title: 'Spelregels',
             url: '/spelregels',
             icon: 'bulb-outline',

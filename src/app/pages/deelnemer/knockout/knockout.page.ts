@@ -64,21 +64,6 @@ export class KnockoutPage implements OnInit, OnDestroy {
         };
     }
 
-    roundText(round: string) {
-        switch (round) {
-            case '16':
-                return 'Achtste finales';
-            case '8':
-                return 'Kwartfinales';
-            case '4':
-                return 'Halve Finales';
-            case '2':
-                return 'Finale';
-            default:
-                return 'Winnaar';
-        }
-    }
-
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();

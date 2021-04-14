@@ -12,7 +12,7 @@
     <ion-grid>
         <ng-container *ngFor="let prediction of predictions;let i = index">
             <ion-row *ngIf="i === 0 || predictions[i-1].knockout.round !== prediction.knockout.round">
-                <ion-col>{{roundText(prediction.knockout.round)}}
+                <ion-col>{{prediction.knockout.round | roundText}}
                 </ion-col>
             </ion-row>
             <ion-row class="ion-no-padding hes-border-bottom">

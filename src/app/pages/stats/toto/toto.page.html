@@ -1,0 +1,38 @@
+<ion-header>
+    <app-menu-toolbar title="Finale ronde"></app-menu-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ng-container *ngFor="let toto of totoStats">
+            <!--            <ion-row style="font-size: x-small">-->
+            <!--                <ion-col size="6" class="ion-padding ion-text-start" style="background-color: #ffffff">-->
+            <!--                    <ion-text color="medium">-->
+            <!--                        {{toto.date | date}}-->
+            <!--                    </ion-text>-->
+            <!--                </ion-col>-->
+            <!--                <ion-col size="6" class="ion-padding ion-text-end" style="background-color: #ffffff">-->
+            <!--                    <ion-text color="medium">-->
+            <!--                        Poule {{toto.poule}}-->
+            <!--                    </ion-text>-->
+            <!--                </ion-col>-->
+            <!--            </ion-row>-->
+            <ion-row style="background-color: #ffffff">
+                <ion-col>
+                    <span class="flag-icon flag-icon-{{toto.homeTeam.logoUrl}} flag-icon-squared"></span>
+                    {{toto.awayTeam.name}} -
+
+                    <span class="flag-icon flag-icon-{{toto.awayTeam.logoUrl}} flag-icon-squared"></span>
+                    {{toto.homeTeam.name}}
+                </ion-col>
+                <ion-col class="ion-text-end">
+                    {{toto.homeScore}} - {{toto.awayScore}}
+                </ion-col>
+            </ion-row>
+            <ion-row class="hes-border-bottom" style="background-color: #ffffff">
+                <ion-col class="ion-text-start">1tje {{toto.toto1}}</ion-col>
+                <ion-col class="ion-text-center">2tje {{toto.toto2}}</ion-col>
+                <ion-col class="ion-text-end">3tje {{toto.toto3}}</ion-col>
+            </ion-row>
+        </ng-container>
+    </ion-grid>
+</ion-content>

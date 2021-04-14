@@ -4,21 +4,22 @@ import {FormsModule} from '@angular/forms';
 
 import {IonicModule} from '@ionic/angular';
 
-import {KnockoutPageRoutingModule} from './knockout-routing.module';
+import {KnockoutStatsPageRoutingModule} from './knockout-routing.module';
 
 import {KnockoutPage} from './knockout.page';
-import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
 import {CustomComponentsModule} from '../../../components/custom-components/custom-components.module';
+import {MenuToolbarModule} from '../../../components/menu-toolbar/menu-toolbar.module';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        KnockoutPageRoutingModule,
-        MenuToolbarModule,
-        CustomComponentsModule
+        KnockoutStatsPageRoutingModule,
+        CustomComponentsModule,
+        MenuToolbarModule
     ],
-  declarations: [KnockoutPage]
+    declarations: [KnockoutPage]
 })
-export class KnockoutPageModule {}
+export class KnockoutStatsPageModule {
+}

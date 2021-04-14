@@ -12,6 +12,7 @@ import {FromNowPipe} from '../../pipes/fromNow.pipe';
 import {HeadlineComponent} from '../headline/headline.component';
 import {EditHeadlineComponent} from '../edit-headline/edit-headline.component';
 import {FormsModule} from '@angular/forms';
+import {RoundTextPipe} from '../../pipes/roundText.pipe';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {FormsModule} from '@angular/forms';
         LeagueTableRowComponent,
         FilterKnockoutRoundsPipe,
         FromNowPipe,
+        RoundTextPipe,
         MatchCardComponent,
         PuntenChipComponent,
         ParticipantCardComponent,
@@ -40,7 +42,8 @@ import {FormsModule} from '@angular/forms';
         HeadlineComponent,
         EditHeadlineComponent,
         FilterKnockoutRoundsPipe,
-        FromNowPipe
+        FromNowPipe,
+        RoundTextPipe
     ]
 })
 export class CustomComponentsModule {

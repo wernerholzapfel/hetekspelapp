@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
   {
@@ -29,15 +29,19 @@ const routes: Routes = [
   },
   {
     path: 'stand',
-    loadChildren: () => import('./pages/stand/stand.module').then( m => m.StandPageModule)
+    loadChildren: () => import('./pages/stand/stand.module').then(m => m.StandPageModule)
   },
   {
     path: 'deelnemer',
-    loadChildren: () => import('./pages/deelnemer/deelnemer.module').then( m => m.DeelnemerPageModule)
+    loadChildren: () => import('./pages/deelnemer/deelnemer.module').then(m => m.DeelnemerPageModule)
+  },
+  {
+    path: 'stats',
+    loadChildren: () => import('./pages/stats/stats.module').then(m => m.StatsPageModule)
   },
   {
     path: 'match/:id',
-    loadChildren: () => import('./pages/match/match.module').then( m => m.MatchPageModule)
+    loadChildren: () => import('./pages/match/match.module').then(m => m.MatchPageModule)
   }
 ];
 
