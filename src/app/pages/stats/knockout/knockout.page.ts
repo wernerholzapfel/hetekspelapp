@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {AngularFireDatabase} from '@angular/fire/database';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-poule',
@@ -12,7 +13,8 @@ export class KnockoutPage implements OnInit, OnDestroy {
     knockoutStats: any[];
     unsubscribe = new Subject<void>();
 
-    constructor(private db: AngularFireDatabase) {
+    constructor(private db: AngularFireDatabase,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -22,6 +24,10 @@ export class KnockoutPage implements OnInit, OnDestroy {
             .subscribe(knockoutStats => {
                 this.knockoutStats = knockoutStats;
             });
+    }
+
+    openKoTeam(team, round) {
+        this.router.navigate([`stats/knockout/round/${round}/team/${team}`]);
     }
 
     ngOnDestroy(): void {

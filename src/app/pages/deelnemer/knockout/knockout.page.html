@@ -18,13 +18,13 @@
             <ion-row class="ion-no-padding hes-border-bottom">
                 <ion-col style="background-color: #ffffff">
                     <ion-row>
-                        <ion-col>
+                        <ion-col (click)="openKoTeam(prediction.homeTeam?.id, prediction.knockout.round)">
                             <span class="flag-icon flag-icon-{{prediction.homeTeam?.logoUrl}} flag-icon-squared"></span>
                             {{prediction.homeTeam?.name}}
                         </ion-col>
                     </ion-row>
                     <ion-row>
-                        <ion-col>
+                        <ion-col (click)="openKoTeam(prediction.awayTeam?.id, prediction.knockout.round)">
                             <span class="flag-icon flag-icon-{{prediction.awayTeam?.logoUrl}} flag-icon-squared"></span>
                             {{prediction.awayTeam?.name}}
                         </ion-col>
@@ -68,7 +68,7 @@
                 </ion-col>
             </ion-row>
         </ion-grid>
-        <ion-item lines="full">
+        <ion-item lines="full" (click)="openKoTeam(europeesKampioen?.team.id, '1')">
             <ion-grid class="ion-no-margin">
                 <ion-row class="ion-no-padding">
                     <ion-col class="ion-no-padding">

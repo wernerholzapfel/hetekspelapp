@@ -13,7 +13,7 @@ import {combineLatest, Subject} from 'rxjs';
 })
 export class MatchPage implements OnInit, OnDestroy {
 
-    match: IMatch
+    match: IMatch;
     unsubscribe = new Subject<void>();
 
     constructor(private matchService: MatchService,

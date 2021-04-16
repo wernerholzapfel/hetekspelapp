@@ -31,6 +31,12 @@ export interface ITeam {
     logoUrl?: string;
 }
 
+export interface ITeamKnockout extends ITeam {
+    isInRound?: boolean;
+    points?: boolean;
+}
+
+
 export class UpdateTeamPositionDto {
     id: string;
     poulePosition: number;

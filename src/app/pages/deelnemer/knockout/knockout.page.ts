@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {KnockoutPredictionsService} from '../../../services/knockout-predictions.service';
 import {KnockoutService} from '../../../services/knockout.service';
 import {combineLatest, Subject} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UiService} from '../../../services/ui.service';
 import {IStandLine} from '../../../models/stand.model';
 import {takeUntil} from 'rxjs/operators';
@@ -23,6 +23,7 @@ export class KnockoutPage implements OnInit, OnDestroy {
     constructor(private knockoutPredictionService: KnockoutPredictionsService,
                 private knockoutService: KnockoutService,
                 private uiService: UiService,
+                private router: Router,
                 private route: ActivatedRoute) {
     }
 
@@ -62,6 +63,10 @@ export class KnockoutPage implements OnInit, OnDestroy {
             team: finaleWedstrijd.selectedTeam,
             winnerSpelpunten: finaleWedstrijd.winnerSpelpunten
         };
+    }
+
+    openKoTeam(team, round) {
+        this.router.navigate([`stats/knockout/round/${round}/team/${team}`]);
     }
 
     ngOnDestroy(): void {

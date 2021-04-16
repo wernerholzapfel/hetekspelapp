@@ -46,7 +46,7 @@ export class MenuService {
         }, {
             title: 'Stand',
             url: '/stand',
-            urls: ['/stand', '/deelnemer'],
+            urls: ['/stand', '/deelnemer', '/match'],
             icon: 'podium-outline',
             active: false,
             onlyForAdmin: false,
