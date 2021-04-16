@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {PoulepredictionService} from '../../../services/pouleprediction.service';
 import {IPoulePrediction} from '../../../models/participant.model';
 import {IKnockout} from '../../../models/knockout.model';
@@ -17,7 +17,7 @@ export class KnockoutPage {
     constructor(private poulePredictionService: PoulepredictionService,
                 private knockoutService: KnockoutService,
                 private toastService: ToastService,
-                private uiService: UiService) {
+                public uiService: UiService) {
     }
 
     public activeKnockoutRound = '16';
@@ -98,7 +98,7 @@ export class KnockoutPage {
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> {
-        if (this.uiService.isDirty.value) {
+        if (this.uiService.isDirty$.value) {
             return this.toastService.presentAlertConfirm().then(alertResponse => {
                 return alertResponse;
             });
@@ -145,7 +145,7 @@ export class KnockoutPage {
         this.speelschema = this.speelschema
             .map(m => {
                 if (m.id === match.id) {
-                    this.uiService.isDirty.next(false);
+                    this.uiService.isDirty$.next(false);
                     return {
                         ...m,
                         selectedTeam: {id: $event.detail.value}
@@ -202,7 +202,7 @@ export class KnockoutPage {
                         }
                 })).subscribe(response => {
             this.toastService.presentToast('Opslaan is gelukt')
-            this.uiService.isDirty.next(false)
+            this.uiService.isDirty$.next(false)
             this.speelschema = this.speelschema.map(item => {
                     return {
                         ...item,
@@ -211,7 +211,7 @@ export class KnockoutPage {
                 }
             )
         }, error => {
-            this.toastService.presentToast('Er is iets misgegaan', 'warning')
+            this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
         });
     }
 

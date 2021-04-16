@@ -23,7 +23,7 @@
         </ion-row>
     </ion-grid>
 </ion-content>
-<ion-footer class="ion-no-border ion-padding-horizontal">
+<ion-footer class="ion-no-border ion-padding-horizontal" *ngIf="uiService.isRegistrationOpen$ | async">
     <ion-button color="secondary" expand="block" fill="solid" [disabled]="arePoulesInComplete()" (click)="save()">
         Opslaan
     </ion-button>

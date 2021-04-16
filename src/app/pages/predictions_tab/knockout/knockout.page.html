@@ -32,14 +32,16 @@
                                 <span class="flag-icon flag-icon-{{match.homeTeam?.logoUrl}} flag-icon-squared"></span>
                                 {{match.homeTeam?.name}} {{match.home}} ({{match.homeId}})
                             </ion-label>
-                            <ion-radio slot="start" [value]="match.homeTeam?.id"></ion-radio>
+                            <ion-radio slot="start" [value]="match.homeTeam?.id"
+                                       [disabled]="!(uiService.isRegistrationOpen$ | async)"></ion-radio>
                         </ion-item>
                         <ion-item lines="none">
                             <ion-label>
                                 <span class="flag-icon flag-icon-{{match.awayTeam?.logoUrl}} flag-icon-squared"></span>
                                 {{match.awayTeam?.name}} {{match.away}} ({{match.awayId}})
                             </ion-label>
-                            <ion-radio slot="start" [value]="match.awayTeam?.id"></ion-radio>
+                            <ion-radio slot="start" [value]="match.awayTeam?.id"
+                                       [disabled]="!(uiService.isRegistrationOpen$ | async)"></ion-radio>
                         </ion-item>
                     </ion-radio-group>
                 </ion-card>
@@ -47,7 +49,7 @@
         </ion-row>
     </ion-grid>
 </ion-content>
-<ion-footer class="ion-no-border ion-padding-horizontal">
+<ion-footer class="ion-no-border ion-padding-horizontal" *ngIf="uiService.isRegistrationOpen$ | async">
     <ion-button *ngIf="activeKnockoutRound !== '2'" color="secondary" expand="block" fill="solid"
                 [disabled]="!canIGoToNextStep()" (click)="next()">Ga naar
         Volgende

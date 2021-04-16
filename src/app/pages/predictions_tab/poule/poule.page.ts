@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
 import {MatchService} from '../../../services/match.service';
 import {IMatchPrediction} from '../../../models/participant.model';
@@ -22,14 +22,14 @@ export class PoulePage {
     constructor(private matchService: MatchService,
                 private poulepredictionService: PoulepredictionService,
                 private toastService: ToastService,
-                private uiService: UiService,
+                public uiService: UiService,
                 private router: Router) {
     }
 
     ionViewWillEnter() {
         this.poulepredictionService.getPoulePredictions().subscribe(
             poulePrediction => {
-                this.uiService.isDirty.next(this.isFirstTime(poulePrediction));
+                this.uiService.isDirty$.next(this.isFirstTime(poulePrediction));
                 this.poules = [{
                     poule: 'A', stand: poulePrediction.filter(p => p.poule === 'A')
                         .sort((a, b) => a.positie - b.positie),
@@ -64,7 +64,7 @@ export class PoulePage {
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> {
-        if (this.uiService.isDirty.value) {
+        if (this.uiService.isDirty$.value) {
             return this.toastService.presentAlertConfirm().then(alertResponse => {
                 return alertResponse;
             });
@@ -95,12 +95,12 @@ export class PoulePage {
             ...this.poules[2].stand,
             ...this.poules[3].stand,
             ...this.poules[4].stand,
-            ...this.poules[5].stand,]).subscribe(response => {
-            this.toastService.presentToast('Opslaan is gelukt')
-            this.uiService.isDirty.next(false);
+            ...this.poules[5].stand]).subscribe(response => {
+            this.toastService.presentToast('Opslaan is gelukt');
+            this.uiService.isDirty$.next(false);
             this.router.navigate(['prediction/prediction/knockout']);
         }, error => {
-            this.toastService.presentToast('Er is iets misgegaan', 'warning')
+            this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
 
         });
     }

@@ -25,4 +25,8 @@
     background-position: center bottom;
     z-index: 1;
   }
+
+  ion-label, ion-radio {
+    opacity: 1 !important;
+  }
 }

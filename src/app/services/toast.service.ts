@@ -14,7 +14,7 @@ export class ToastService {
                        color: string = 'success',
                        showCloseButton: boolean = true,
                        closeButtonText: string = 'OK',
-                       duration: number = 2000) {
+                       duration: number = 3000) {
         const toast = await this.toastController.create({
             position: 'top',
             color,
@@ -43,7 +43,7 @@ export class ToastService {
                     role: 'cancel',
                     cssClass: 'secondary',
                     handler: (blah) => {
-                        this.uiService.isDirty.next(false);
+                        this.uiService.isDirty$.next(false);
                     }
                 }, {
                     text: 'Nee',

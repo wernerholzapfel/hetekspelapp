@@ -13,6 +13,7 @@ import {HeadlineComponent} from '../headline/headline.component';
 import {EditHeadlineComponent} from '../edit-headline/edit-headline.component';
 import {FormsModule} from '@angular/forms';
 import {RoundTextPipe} from '../../pipes/roundText.pipe';
+import {ScrollVanishDirective} from '../../directives/scroll-vanish.directive';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {RoundTextPipe} from '../../pipes/roundText.pipe';
         PuntenChipComponent,
         ParticipantCardComponent,
         HeadlineComponent,
-        EditHeadlineComponent
+        EditHeadlineComponent,
+        ScrollVanishDirective
     ],
     imports: [
         CommonModule,
@@ -43,7 +45,8 @@ import {RoundTextPipe} from '../../pipes/roundText.pipe';
         EditHeadlineComponent,
         FilterKnockoutRoundsPipe,
         FromNowPipe,
-        RoundTextPipe
+        RoundTextPipe,
+        ScrollVanishDirective,
     ]
 })
 export class CustomComponentsModule {

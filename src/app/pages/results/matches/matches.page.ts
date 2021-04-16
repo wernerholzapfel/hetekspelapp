@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {MatchService} from '../../../services/match.service';
 import {Router} from '@angular/router';
 import {ToastService} from '../../../services/toast.service';
@@ -33,9 +33,9 @@ export class MatchesPage {
 
     save(match: IMatch) {
         this.matchService.updateMatch({id: match.id, homeScore: match.homeScore, awayScore: match.awayScore}).subscribe(result => {
-            this.toastService.presentToast('Opslaan is gelukt')
+            this.toastService.presentToast('Opslaan is gelukt');
         }, error => {
-            this.toastService.presentToast('Er is iets misgegaan', 'warning')
+            this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
 
         });
     }

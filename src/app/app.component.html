@@ -2,7 +2,7 @@
     <ion-split-pane contentId="main-content">
         <ion-menu contentId="main-content" type="overlay">
             <ion-header>
-                <ion-toolbar color="primary">
+                <ion-toolbar>
                     <ion-title>Het EK Spel</ion-title>
                 </ion-toolbar>
                 <app-loader></app-loader>
@@ -22,7 +22,7 @@
                             </ion-item>
                         </ng-container>
                         <ion-item class="inactive-item" *ngIf="(authService.user$ | async)"
-                                  (click)="authService.logout()">
+                                  (click)="authService.logout()" detail="true">
                             <ion-icon slot="start" name="log-out-outline"></ion-icon>
                             <ion-label>Uitloggen</ion-label>
                         </ion-item>

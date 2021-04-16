@@ -16,7 +16,7 @@ export class StandCardComponent implements OnInit {
     constructor(private voorspellingHelper: VoorspellingHelperService,
                 private poulepredictionService: PoulepredictionService,
                 private teamService: TeamService,
-                private uiService: UiService) {
+                public uiService: UiService) {
     }
 
     @Input() poule: { poule: string, stand: any[], isSortDisabled: boolean };
@@ -42,7 +42,7 @@ export class StandCardComponent implements OnInit {
             };
         });
 
-        this.uiService.isDirty.next(true)
+        this.uiService.isDirty$.next(true)
         // After complete is called the items will be in the new order
         // console.log('After complete', this.poule.stand);
     }

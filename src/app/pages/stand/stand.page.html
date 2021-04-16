@@ -1,8 +1,11 @@
 <ion-header>
     <app-menu-toolbar title="Stand"></app-menu-toolbar>
 </ion-header>
-
-<ion-content>
+<ion-toolbar color="accent" [myScrollVanish]="scrollArea" [elementHeight]="'68px'">
+    <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer"
+                   debounce="500"></ion-searchbar>
+</ion-toolbar>
+<ion-content #scrollArea scrollEvents="true">
     <ion-item *ngFor="let line of stand; let odd = odd;" (click)="navigateToParticipant(line.id)" lines="full"
               [color]="odd ? 'accent' : ''"
               class="ion-no-padding">

@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {AngularFireDatabase} from '@angular/fire/database';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-knockout',
@@ -13,7 +14,8 @@ export class TotoPage implements OnInit, OnDestroy {
     totoStats: any[];
     unsubscribe = new Subject<void>();
 
-    constructor(private db: AngularFireDatabase,) {
+    constructor(private db: AngularFireDatabase,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -24,6 +26,10 @@ export class TotoPage implements OnInit, OnDestroy {
                 console.log(totoStats)
                 this.totoStats = totoStats;
             });
+    }
+
+    openMatch(matchId: string) {
+        this.router.navigate([`match/${matchId}`]);
     }
 
     ngOnDestroy(): void {

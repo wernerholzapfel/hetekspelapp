@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
 import {IMatchPrediction} from '../../../models/participant.model';
 import {VoorspellingHelperService} from '../../../services/voorspelling-helper.service';
@@ -6,8 +6,6 @@ import {MatchService} from '../../../services/match.service';
 import {Router} from '@angular/router';
 import {ToastService} from '../../../services/toast.service';
 import {UiService} from '../../../services/ui.service';
-import {findIndex} from 'rxjs/operators';
-import {IPoule, ITable, ITableLine} from '../../../models/poule.model';
 
 @Component({
     selector: 'app-matches',
@@ -16,7 +14,6 @@ import {IPoule, ITable, ITableLine} from '../../../models/poule.model';
 })
 export class MatchesPage {
     public pouleName = 'A';
-    isRegistrationOpen = true;
     matchPredictions: IMatchPrediction[];
     allMatchPredictions: IMatchPrediction[];
     unsubscribe = new Subject<void>();
@@ -52,7 +49,7 @@ export class MatchesPage {
             next: null,
             disabled: true,
             text: 'Poule F'
-        }]
+        }];
     poule: { poule: string, stand: any[], isSortDisabled: boolean };
 
     constructor(private voorspellingHelper: VoorspellingHelperService,
@@ -63,6 +60,7 @@ export class MatchesPage {
     }
 
     ionViewWillEnter() {
+
         this.matchService.getMatchPredictions().subscribe(
             matchPredictions => {
                 this.allMatchPredictions = matchPredictions;
@@ -72,7 +70,7 @@ export class MatchesPage {
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> {
-        if (this.uiService.isDirty.value) {
+        if (this.uiService.isDirty$.value) {
             return this.toastService.presentAlertConfirm().then(alertResponse => {
                 return alertResponse;
             });
@@ -132,7 +130,7 @@ export class MatchesPage {
                 return mp;
             }
         });
-        this.uiService.isDirty.next(true);
+        this.uiService.isDirty$.next(true);
     }
 
     areActiveMatchesPredicted(): boolean {
@@ -156,7 +154,7 @@ export class MatchesPage {
             }
         });
         this.scrollSegments(this.pouleNavigatie.findIndex(poule => poule.next === this.pouleName));
-        if (this.uiService.isDirty.value) {
+        if (this.uiService.isDirty$.value) {
             this.save(false);
         }
         this.setMatches();
@@ -164,7 +162,7 @@ export class MatchesPage {
 
     save(navigeer: boolean) {
         this.matchService.saveMatchPredictions(this.matchPredictions).subscribe(result => {
-            this.uiService.isDirty.next(false);
+            this.uiService.isDirty$.next(false);
             this.toastService.presentToast('Opslaan is gelukt')
 
             this.matchPredictions = this.matchPredictions.map(mp => {
@@ -178,7 +176,7 @@ export class MatchesPage {
                 this.router.navigate(['prediction/prediction/poule']);
             }
         }, error => {
-            this.toastService.presentToast('Er is iets misgegaan', 'warning')
+            this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
 
         });
     }

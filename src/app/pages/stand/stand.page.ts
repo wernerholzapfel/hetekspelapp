@@ -1,8 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {StandService} from '../../services/stand.service';
 import {Router} from '@angular/router';
 import {UiService} from '../../services/ui.service';
-import {Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {IStandLine} from '../../models/stand.model';
 
@@ -13,6 +12,8 @@ import {IStandLine} from '../../models/stand.model';
 })
 export class StandPage implements OnInit, OnDestroy {
 
+    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
+
     stand: IStandLine[];
     unsubscribe = new Subject<void>();
 
@@ -21,12 +22,18 @@ export class StandPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.uiService.totaalstand$
+        combineLatest([
+            this.uiService.totaalstand$,
+            this.searchTerm$])
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe(stand => {
-                    this.stand = stand;
+            .subscribe(([stand, searchTerm]) => {
+                    this.stand = this.uiService.filterDeelnemers(searchTerm, stand);
                 }
-            )
+            );
+    }
+
+    search($event) {
+        this.searchTerm$.next($event.detail.value);
     }
 
     navigateToParticipant(participantId) {

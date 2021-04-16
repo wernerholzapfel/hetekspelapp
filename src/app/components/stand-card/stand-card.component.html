@@ -7,7 +7,7 @@
                         Stand poule {{poule.poule}}
                     </ion-card-subtitle>
                 </ion-col>
-                <ion-col size="1" class="ion-align-self-end" *ngIf="editMode">
+                <ion-col size="1" class="ion-align-self-end" *ngIf="editMode && uiService.isRegistrationOpen$ | async">
                     <ion-icon class="toggle-reorder-icon" (click)="toggleReorderGroup()"
                               [name]="poule.isSortDisabled ? 'lock-closed-outline' : 'lock-open-outline'"></ion-icon>
                 </ion-col>

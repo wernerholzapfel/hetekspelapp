@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {PoulepredictionService} from '../../../services/pouleprediction.service';
 import {IPoulePrediction} from '../../../models/participant.model';
 import {IKnockout} from '../../../models/knockout.model';
-import {IMatch, ITeam} from '../../../models/poule.model';
+import {ITeam} from '../../../models/poule.model';
 import {ToastService} from '../../../services/toast.service';
 import {UiService} from '../../../services/ui.service';
-import {Observable, of} from 'rxjs';
 import {KnockoutService} from '../../../services/knockout.service';
 
 @Component({
@@ -137,7 +136,7 @@ export class KnockoutPage {
         this.speelschema = this.speelschema
             .map(m => {
                 if (m.id === match.id) {
-                    this.uiService.isDirty.next(false);
+                    this.uiService.isDirty$.next(false);
                     return {
                         ...m,
                         selectedTeam: {id: $event.detail.value}
@@ -186,7 +185,7 @@ export class KnockoutPage {
                     }
                 )
             }, error => {
-                this.toastService.presentToast('Er is iets misgegaan', 'warning')
+                this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
             });
     }
 }

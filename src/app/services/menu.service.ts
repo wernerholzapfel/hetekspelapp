@@ -4,6 +4,7 @@ import {BehaviorSubject} from 'rxjs';
 export interface MenuItem {
     title: string;
     url: string;
+    urls: string[];
     icon: string;
     active: boolean;
     onlyForAdmin: boolean;
@@ -25,6 +26,7 @@ export class MenuService {
         {
             title: 'Home',
             url: '/home',
+            urls: ['/home'],
             icon: 'home',
             active: true,
             onlyForAdmin: false,
@@ -34,6 +36,7 @@ export class MenuService {
         {
             title: 'Voorspellen',
             url: '/prediction',
+            urls: ['/prediction'],
             icon: 'football-outline',
             active: false,
             onlyForAdmin: false,
@@ -43,6 +46,7 @@ export class MenuService {
         }, {
             title: 'Stand',
             url: '/stand',
+            urls: ['/stand', '/deelnemer'],
             icon: 'podium-outline',
             active: false,
             onlyForAdmin: false,
@@ -50,17 +54,9 @@ export class MenuService {
             showAfterRegistration: false
 
         }, {
-            title: 'Resultaten',
-            url: '/results',
-            icon: 'create-outline',
-            active: false,
-            onlyForAdmin: true,
-            onlyForUser: false,
-            showAfterRegistration: false
-
-        }, {
             title: 'Statistieken',
             url: '/stats',
+            urls: ['/stats'],
             icon: 'stats-chart-outline',
             active: false,
             onlyForAdmin: false,
@@ -70,6 +66,7 @@ export class MenuService {
         }, {
             title: 'Spelregels',
             url: '/spelregels',
+            urls: ['/spelregels'],
             icon: 'bulb-outline',
             active: false,
             onlyForAdmin: false,
@@ -79,11 +76,22 @@ export class MenuService {
         }, {
             title: 'Hall of Fame',
             url: '/halloffame',
+            urls: ['/halloffame'],
             icon: 'ribbon-outline',
             active: false,
             onlyForAdmin: false,
             onlyForUser: false,
             showAfterRegistration: false
+        }, {
+            title: 'Admin',
+            url: '/results',
+            urls: ['/results'],
+            icon: 'create-outline',
+            active: false,
+            onlyForAdmin: true,
+            onlyForUser: false,
+            showAfterRegistration: false
+
         }
     ]);
 

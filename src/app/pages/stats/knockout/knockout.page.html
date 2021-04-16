@@ -3,6 +3,15 @@
 </ion-header>
 <ion-content>
     <ion-grid>
+        <ion-row class="ion-no-padding">
+            <ion-col size="12" class="ion-no-padding">
+                <ion-card color="primary">
+                    <ion-card-content>
+                        De Knockoutstatistieken laten zien hoevaak een team gekozen is in die specifieke ronde.
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
         <ng-container *ngFor="let knockout of knockoutStats">
             <ion-row>
                 <ion-col>{{knockout.round | roundText}} </ion-col>
@@ -10,13 +19,13 @@
             <ng-container *ngFor="let team of knockout.teams">
                 <ion-row *ngIf="team.count > 0" class="hes-border-bottom">
                     <ion-col size="6" class="ion-padding ion-text-start" style="background-color: #ffffff">
-                        <ion-text color="medium">
+                        <ion-text>
                             <span class="flag-icon flag-icon-{{team.logoUrl}} flag-icon-squared"></span>
                             {{team.name}}
                         </ion-text>
                     </ion-col>
                     <ion-col size="6" class="ion-padding ion-text-end" style="background-color: #ffffff">
-                        <ion-text color="medium">
+                        <ion-text>
                             {{team.count}}
                         </ion-text>
                     </ion-col>

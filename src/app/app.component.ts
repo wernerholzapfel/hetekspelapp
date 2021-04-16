@@ -4,7 +4,7 @@ import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {MenuItem, MenuService} from './services/menu.service';
-import {Subject} from 'rxjs';
+import {Subject, timer} from 'rxjs';
 import {NavigationEnd, Router, RouterEvent} from '@angular/router';
 import {take, takeUntil} from 'rxjs/operators';
 import {AuthService} from './services/auth.service';
@@ -15,6 +15,8 @@ import {environment} from '../environments/environment';
 import {LoaderService} from './services/loader.service';
 import {FCM} from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
 import {ParticipantService} from './services/participant.service';
+import * as moment from 'moment';
+import {HetekspelService} from './services/hetekspel.service';
 
 @Component({
     selector: 'app-root',
@@ -38,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private uiService: UiService,
         private codePush: CodePush,
         private loaderService: LoaderService,
+        private hetEKSpelService: HetekspelService,
         private participantService: ParticipantService
     ) {
         this.initializeApp();
@@ -47,6 +50,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+            this.checkDeadline();
+
             if (this.platform.is('cordova')) {
                 this.checkCodePush();
                 this.requestPushPermission();
@@ -94,7 +99,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.router.events.pipe(takeUntil(this.unsubscribe)).subscribe((event: RouterEvent) => {
             if (event instanceof NavigationEnd) {
                 this.menuService.appPages$.getValue().map(p => {
-                    return Object.assign(p, {active: (event.url.toLowerCase().startsWith(p.url.toLowerCase()))});
+                    return Object.assign(p, {
+                        active: p.urls.filter(url =>
+                            (event.urlAfterRedirects.toLowerCase().startsWith(url.toLowerCase()))).length > 0
+                    });
                 });
             }
         });
@@ -152,6 +160,23 @@ export class AppComponent implements OnInit, OnDestroy {
         this.fcm.unsubscribeFromTopic('enappd');
     }
 
+    checkDeadline() {
+        this.hetEKSpelService.getHetEKSpel().subscribe(hetekspel => {
+            const deadline = moment(hetekspel.deadline);
+            const now = moment(new Date());
+            const diffDays = deadline.diff(now, 'milliseconds');
+            console.log(diffDays);
+            timer(diffDays)
+                .pipe(takeUntil(this.unsubscribe)).subscribe(
+                (x) => console.log(x),
+                (x) => console.log(x),
+                () => {
+                    console.log('deadlinepassed');
+                    this.uiService.isRegistrationOpen$.next(false);
+                }
+            );
+        });
+    }
 
     ngOnDestroy(): void {
         this.unsubscribe.next();
