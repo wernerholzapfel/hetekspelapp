@@ -41,11 +41,13 @@ export class KnockoutPage implements OnInit, OnDestroy {
                         ...prediction,
                         homeInRound: !!speelschema.find(schema => {
                             return schema.round === prediction.knockout.round &&
-                                (prediction.homeTeam.id === schema.homeTeam.id || prediction.homeTeam.id === schema.awayTeam.id);
+                                (schema.homeTeam && prediction.homeTeam.id === schema.homeTeam.id ||
+                                    schema.awayTeam && prediction.homeTeam.id === schema.awayTeam.id);
                         }),
                         awayInRound: !!speelschema.find(schema => {
                             return schema.round === prediction.knockout.round &&
-                                (prediction.awayTeam.id === schema.homeTeam.id || prediction.awayTeam.id === schema.awayTeam.id);
+                                (schema.homeTeam && prediction.awayTeam.id === schema.homeTeam.id ||
+                                    schema.awayTeam && prediction.awayTeam.id === schema.awayTeam.id);
                         }),
                     };
                 });

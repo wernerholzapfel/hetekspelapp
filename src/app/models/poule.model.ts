@@ -33,7 +33,7 @@ export interface ITeam {
 
 export interface ITeamKnockout extends ITeam {
     isInRound?: boolean;
-    points?: boolean;
+    points?: number;
 }
 
 

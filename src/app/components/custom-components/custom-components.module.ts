@@ -14,6 +14,7 @@ import {EditHeadlineComponent} from '../edit-headline/edit-headline.component';
 import {FormsModule} from '@angular/forms';
 import {RoundTextPipe} from '../../pipes/roundText.pipe';
 import {ScrollVanishDirective} from '../../directives/scroll-vanish.directive';
+import {KnockoutTeamHeaderComponent} from '../knockout-team-header/knockout-team-header.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {ScrollVanishDirective} from '../../directives/scroll-vanish.directive';
         ParticipantCardComponent,
         HeadlineComponent,
         EditHeadlineComponent,
-        ScrollVanishDirective
+        ScrollVanishDirective,
+        KnockoutTeamHeaderComponent,
     ],
     imports: [
         CommonModule,
@@ -47,6 +49,7 @@ import {ScrollVanishDirective} from '../../directives/scroll-vanish.directive';
         FromNowPipe,
         RoundTextPipe,
         ScrollVanishDirective,
+        KnockoutTeamHeaderComponent
     ]
 })
 export class CustomComponentsModule {

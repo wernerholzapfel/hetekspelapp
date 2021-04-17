@@ -6,14 +6,8 @@
         <ion-row>
             <ion-col>{{koTeamStats?.round | roundText}} </ion-col>
         </ion-row>
-        <ion-row>
-            <ion-col size="12" class="ion-padding ion-text-start" style="background-color: #ffffff">
-                <ion-text>
-                    <span class="flag-icon flag-icon-{{koTeamStats?.team.logoUrl}} flag-icon-squared"></span>
-                    {{koTeamStats?.team.name}}
-                </ion-text>
-            </ion-col>
-        </ion-row>
+        <app-knockout-team-header [team]="koTeamStats?.team"
+                                  [punten]="koTeamStats?.team.points"></app-knockout-team-header>
     </ion-grid>
     <ion-grid>
         <ng-container *ngFor="let participant of koTeamStats?.participants">
@@ -45,25 +39,6 @@
                                 <ion-icon name="trophy"></ion-icon>
                                 {{participant.tableLine.knockoutPoints}}
                             </ion-text>
-                        </ion-col>
-                    </ion-row>
-                </ion-col>
-                <ion-col size="3" class="hes-accent-background">
-                    <ion-row>
-                        <ion-col size="6" class="ion-no-padding ion-text-start">
-                            <ion-row class="ion-no-padding">
-                                <ion-col class="ion-text-start">
-                                    <ion-icon
-                                            [name]="koTeamStats.team.isInRound ? 'checkmark-outline' : 'close-outline'"
-                                            [color]="koTeamStats.team.isInRound ? 'success' : 'danger'"></ion-icon>
-                                </ion-col>
-                            </ion-row>
-                        </ion-col>
-                        <ion-col size="6"
-                                 class="ion-no-padding ion-text-center ion-align-self-center">
-                            <ion-chip color="primary">
-                                {{koTeamStats.team.points}}
-                            </ion-chip>
                         </ion-col>
                     </ion-row>
                 </ion-col>
