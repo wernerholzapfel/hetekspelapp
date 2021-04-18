@@ -37,16 +37,28 @@
                                 <ion-col class="ion-text-start">
                                     <ion-icon *ngIf="prediction.homeSpelpunten > 0" name="checkmark-outline"
                                               color="success"></ion-icon>
-                                    <ion-icon *ngIf="prediction.homeSpelpunten === 0" name="close-outline"
-                                              color="danger"></ion-icon>
+                                    <ion-icon
+                                            *ngIf="prediction.homeSpelpunten === 0 && prediction.homeTeam.isEliminated"
+                                            name="close-outline"
+                                            color="danger"></ion-icon>
+                                    <ion-icon
+                                            *ngIf="prediction.homeSpelpunten === null && !prediction.homeTeam.isEliminated"
+                                            name="help-outline"
+                                            color="medium"></ion-icon>
                                 </ion-col>
                             </ion-row>
                             <ion-row class="ion-no-padding">
                                 <ion-col class="ion-text-start">
                                     <ion-icon *ngIf="prediction.awaySpelpunten > 0" name="checkmark-outline"
                                               color="success"></ion-icon>
-                                    <ion-icon *ngIf="prediction.awaySpelpunten === 0" name="close-outline"
-                                              color="danger"></ion-icon>
+                                    <ion-icon
+                                            *ngIf="prediction.homeSpelpunten === 0 && prediction.awayTeam.isEliminated"
+                                            name="close-outline"
+                                            color="danger"></ion-icon>
+                                    <ion-icon
+                                            *ngIf="prediction.homeSpelpunten === null && !prediction.awayTeam.isEliminated"
+                                            name="help-outline"
+                                            color="medium"></ion-icon>
                                 </ion-col>
                             </ion-row>
                         </ion-col>
@@ -71,7 +83,7 @@
         </ion-grid>
         <ion-grid (click)="openKoTeam(europeesKampioen?.team.id, '1')">
             <app-knockout-team-header [team]="europeesKampioen?.team"
-                                      [punten]="europeesKampioen?.winnerSpelpunten"></app-knockout-team-header>
+                                      [punten]="europeesKampioen?.winnerSpelpunten ? europeesKampioen?.winnerSpelpunten : 0"></app-knockout-team-header>
         </ion-grid>
     </ng-container>
 </ion-content>

@@ -29,6 +29,7 @@ export interface ITeam {
     id: string;
     name?: string;
     logoUrl?: string;
+    isEliminated?: boolean;
 }
 
 export interface ITeamKnockout extends ITeam {
