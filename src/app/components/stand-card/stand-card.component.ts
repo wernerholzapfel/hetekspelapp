@@ -24,7 +24,6 @@ export class StandCardComponent implements OnInit {
     @Input() editMode = true;
 
     ngOnInit() {
-        console.log(this.poule.stand);
     }
 
     doReorder(ev: any) {
@@ -42,7 +41,7 @@ export class StandCardComponent implements OnInit {
             };
         });
 
-        this.uiService.isDirty$.next(true)
+        this.uiService.isDirty$.next(true);
         // After complete is called the items will be in the new order
         // console.log('After complete', this.poule.stand);
     }
@@ -55,8 +54,10 @@ export class StandCardComponent implements OnInit {
         this.teamService.updateTeam(this.poule.stand.map(line => {
             return {
                 id: line.team.id,
-                poulePosition: line.positie
-            }
+                poulePosition: line.positie,
+                isEliminated: line.team.isEliminated,
+                eliminationRound: '32'
+            };
         })).subscribe(response => {
             console.log(response);
         });

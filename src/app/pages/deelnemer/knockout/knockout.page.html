@@ -38,7 +38,7 @@
                                     <ion-icon *ngIf="prediction.homeSpelpunten > 0" name="checkmark-outline"
                                               color="success"></ion-icon>
                                     <ion-icon
-                                            *ngIf="prediction.homeSpelpunten === 0 && prediction.homeTeam.isEliminated"
+                                            *ngIf="prediction.homeSpelpunten === null && prediction.homeTeam.isEliminated"
                                             name="close-outline"
                                             color="danger"></ion-icon>
                                     <ion-icon
@@ -52,11 +52,11 @@
                                     <ion-icon *ngIf="prediction.awaySpelpunten > 0" name="checkmark-outline"
                                               color="success"></ion-icon>
                                     <ion-icon
-                                            *ngIf="prediction.homeSpelpunten === 0 && prediction.awayTeam.isEliminated"
+                                            *ngIf="prediction.awaySpelpunten === null && prediction.awayTeam.isEliminated"
                                             name="close-outline"
                                             color="danger"></ion-icon>
                                     <ion-icon
-                                            *ngIf="prediction.homeSpelpunten === null && !prediction.awayTeam.isEliminated"
+                                            *ngIf="prediction.awaySpelpunten === null && !prediction.awayTeam.isEliminated"
                                             name="help-outline"
                                             color="medium"></ion-icon>
                                 </ion-col>
@@ -65,7 +65,10 @@
                         <ion-col size="8"
                                  class="ion-no-padding ion-align-self-center ion-text-center">
                             <ion-chip color="primary"
-                                      *ngIf="prediction.homeSpelpunten != null || prediction.awaySpelpunten != null">
+                                      *ngIf="prediction.homeTeam?.isEliminated ||
+                                      prediction.awayTeam?.isEliminated ||
+                                      prediction.homeSpelpunten != null ||
+                                      prediction.awaySpelpunten != null">
                                 {{prediction.homeSpelpunten + prediction.awaySpelpunten}}
                             </ion-chip>
                         </ion-col>
