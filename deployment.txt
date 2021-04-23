@@ -8,4 +8,20 @@ ng build --prod
 ng deploy
 
 ANDROID:
-todo
+
+build project:
+ionic cordova build android --prod --release
+copy project and key to
+cp /Users/wernerholzapfel/Projects/Prive/hetekspel/hetekspelapp/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ~/Library/Android/sdk/build-tools/30.0.1/
+
+Go to ~/Library/Android/sdk/build-tools/30.0.1/
+cd ~/Library/Android/sdk/build-tools/30.0.1/
+and run:
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore hetekspel-release-key.keystore app-release-unsigned.apk hetekspel_key
+./zipalign -v 4 app-release-unsigned.apk hetekspel_0.0.4.apk
+
+
+Appcenter:
+
+ionic cordova build android --prod --release
+appcenter codepush release -a werner.holzapfel-gmail.com/hetekspel-android -c ./platforms/android/app/src/main/assets/www/ -t 0.0.4 -d Production -m

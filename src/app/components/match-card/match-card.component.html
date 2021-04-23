@@ -24,10 +24,11 @@
                     </ion-col>
                 </ion-row>
             </ion-card-title>
-            <ion-item *ngIf="!isRegistrationOpen" lines="none" class="ion-no-padding">
+            <ion-item *ngIf="!isRegistrationOpen && matchPrediction.match.homeScore" lines="none"
+                      class="ion-no-padding">
                 <ion-label>Uitslag {{matchPrediction.match.homeScore}} - {{matchPrediction.match.awayScore}}
                 </ion-label>
-                <ion-badge mode="md" slot="end">25</ion-badge>
+                <ion-chip slot="end">{{matchPrediction.spelpunten}}</ion-chip>
             </ion-item>
             <ng-container *ngIf="isRegistrationOpen">
                 <ion-item class="ion-no-padding" lines="none">
