@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService.signInRegular(this.user.email, this.user.password)
             .pipe(takeUntil(this.unsubscribe))
             .subscribe((res) => {
-                console.log(res);
                 this.user.email = '';
                 this.user.password = '';
             }, async err => {
@@ -63,7 +62,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                 duration: 2000
             });
             toast.present();
-            console.log('error: ' + err);
         });
     }
 
@@ -82,7 +80,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                     duration: 2000
                 });
                 toast.present();
-                console.log('error: ' + err);
             });
     }
 
@@ -103,7 +100,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                                 this.user.email = '';
                                 this.user.password = '';
                             }, error1 => {
-                                console.log(error1);
                             });
                     }
                 }
@@ -114,7 +110,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                     duration: 2000
                 });
                 toast.present();
-                console.log('error: ' + err);
             });
     }
 

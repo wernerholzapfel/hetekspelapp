@@ -58,15 +58,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.fcm.onNotification().subscribe(data => {
                     if (data.wasTapped) {
-                        console.log('Received in background');
                     } else {
-                        console.log('Received in foreground');
                     }
                 });
 
                 this.fcm.onTokenRefresh().subscribe(token => {
                     this.participantService.putPushToken({pushtoken: token}).subscribe(response => {
-                        console.log(response);
                     });
                 });
             }
@@ -143,16 +140,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     requestPushPermission() {
         this.fcm.requestPushPermission({}).then(hasPermission => {
-            console.log('werner de permission is: ' + hasPermission);
         });
     }
 
     getToken() {
         this.fcm.getToken().then(token => {
             this.participantService.putPushToken({pushtoken: token}).subscribe(response => {
-                console.log('token opgeslagen');
             });
-            console.log('werner: token aangeroepen');
         });
     }
 
@@ -165,13 +159,11 @@ export class AppComponent implements OnInit, OnDestroy {
             const deadline = moment(hetekspel.deadline);
             const now = moment(new Date());
             const diffDays = deadline.diff(now, 'milliseconds');
-            console.log(diffDays);
             timer(diffDays)
                 .pipe(takeUntil(this.unsubscribe)).subscribe(
-                (x) => console.log(x),
-                (x) => console.log(x),
+                (x) => null,
+                (x) => null,
                 () => {
-                    console.log('deadlinepassed');
                     this.uiService.isRegistrationOpen$.next(false);
                 }
             );

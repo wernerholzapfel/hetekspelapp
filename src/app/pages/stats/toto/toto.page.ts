@@ -23,7 +23,6 @@ export class TotoPage implements OnInit, OnDestroy {
             .valueChanges()
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(totoStats => {
-                console.log(totoStats)
                 this.totoStats = totoStats;
             });
     }

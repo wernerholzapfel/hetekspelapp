@@ -23,7 +23,6 @@ export class DeelnemerPage implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        console.log('hier kom ik echt wel langs');
         if (this.route.snapshot.params.id) {
             this.uiService.totaalstand$
                 .pipe(takeUntil(this.unsubscribe))

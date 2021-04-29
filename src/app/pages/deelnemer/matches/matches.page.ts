@@ -60,7 +60,6 @@ export class MatchesPage implements OnInit, OnDestroy {
     }
 
     onTap($event) {
-        console.log($event);
     }
 
     onSwipe($event) {
@@ -76,10 +75,8 @@ export class MatchesPage implements OnInit, OnDestroy {
     }
 
     onDoubleTap($event) {
-        console.log($event);
     }
 
     onPress($event) {
-        console.log($event);
     }
 }

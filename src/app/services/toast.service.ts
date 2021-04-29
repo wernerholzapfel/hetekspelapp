@@ -25,7 +25,6 @@ export class ToastService {
                     text: closeButtonText,
                     role: 'cancel',
                     handler: () => {
-                        console.log('Close clicked');
                     }
                 }
             ]

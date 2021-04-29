@@ -34,7 +34,6 @@ export class StandCardComponent implements OnInit {
     doReorder(ev: any) {
         // Before complete is called with the items they will remain in the
         // order before the drag
-        console.log('Before complete', this.poule.stand);
 
         // Finish the reorder and position the item in the DOM based on
         // where the gesture ended. Update the items variable to the

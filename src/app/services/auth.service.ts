@@ -41,7 +41,6 @@ export class AuthService {
                 this.uiService.isAdmin$.next(this.isAdmin);
                 this.menuService.setMenu(this.isAdmin, !!this.user, false);
             } else {
-                console.log('er is geen user meer');
                 this.user = null;
                 this.displayName = null;
                 this.isAdmin = false;

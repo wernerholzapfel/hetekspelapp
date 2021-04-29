@@ -39,9 +39,7 @@ export class StandPage implements OnInit {
     }
 
     sendNotification() {
-        console.log('ik zit in de sendnotification');
         this.notificationService.sendNotification().subscribe(() => {
-            console.log('ik zit in de subscribe');
             this.toastService.presentToast('notificatie vestuurd');
         });
     }

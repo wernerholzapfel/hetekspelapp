@@ -69,7 +69,6 @@ export class VoorspellingHelperService {
             });
             const tableWithTeamsEqualOnPoints: ITableLine[] = this.berekenStand(matchesForTeam, false);
             const tableLineWithTeamEqualOnPoints: ITableLine = tableWithTeamsEqualOnPoints.find(line => line.team.id === tableLine.team.id);
-            console.log(tableWithTeamsEqualOnPoints);
             return (tableLine.punten * 10000000 +
                 tableLineWithTeamEqualOnPoints.punten * 100000 +
                 ((tableLineWithTeamEqualOnPoints.goalsFor - tableLineWithTeamEqualOnPoints.goalsAgainst) * 100) +
