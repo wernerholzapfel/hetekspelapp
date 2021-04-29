@@ -18,7 +18,7 @@
     <ion-card-content>
         <ion-grid>
             <ion-row class="ion-padding-horizontal">
-                <ion-col [offset]="admin ? 5 : 6" size="2">
+                <ion-col [offset]="admin || !(isRegistrationOpen | async) && !admin ? 5 : 6" size="2">
                     W
                 </ion-col>
                 <ion-col size="2">
@@ -30,10 +30,14 @@
                 <ion-col size="1" *ngIf="admin">
                     Uit
                 </ion-col>
+                <ion-col size="1" *ngIf="!(isRegistrationOpen | async) && !admin">
+
+                </ion-col>
             </ion-row>
             <ion-reorder-group (ionItemReorder)="doReorder($event)" [disabled]="poule.isSortDisabled">
                 <ion-reorder *ngFor="let line of poule.stand; let i = index">
-                    <app-league-table-row [admin]="admin" [isSortDisabled]="poule.isSortDisabled" [line]="line"
+                    <app-league-table-row [admin]="admin" [isRegistrationOpen$]="isRegistrationOpen"
+                                          [isSortDisabled]="poule.isSortDisabled" [line]="line"
                                           [index]="i"></app-league-table-row>
                 </ion-reorder>
             </ion-reorder-group>

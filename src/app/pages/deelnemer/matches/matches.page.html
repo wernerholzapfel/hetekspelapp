@@ -4,7 +4,12 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content appGestures
+             [gestureOpts]="gestureOpts"
+             (tap)="onTap($event)"
+             (doubleTap)="onDoubleTap($event)"
+             (press)="onPress($event)"
+             (swipe)="onSwipe($event)">
     <ion-card class="message">
         <ion-card-content *ngIf="standLine">
             {{standLine?.displayName}} staat op plek {{standLine?.position}} en heeft {{standLine?.matchPoints}}

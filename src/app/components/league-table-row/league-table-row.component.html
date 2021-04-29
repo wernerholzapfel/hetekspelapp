@@ -1,4 +1,4 @@
-<ion-row class="ion-padding" [ngClass]="line.spelpunten === 5 ? 'winner' : (index % 2 == 0) ? 'odd' : 'even'">
+<ion-row class="ion-padding" [ngClass]="(index % 2 == 0) ? 'odd' : 'even'">
     <ion-col>
         <span class="flag-icon flag-icon-{{line.team.logoUrl}} flag-icon-squared"></span>
         <ion-text>
@@ -21,8 +21,34 @@
             {{line.goalsFor - line.goalsAgainst}}
         </ion-text>
     </ion-col>
+    <ion-col size="1" *ngIf="!(isRegistrationOpen$ | async) && !admin">
+        <ion-icon *ngIf="line.spelpunten === 0" name="close-outline"
+                  color="danger"></ion-icon>
+        <ion-icon *ngIf="line.spelpunten === null"
+                  name="help-outline"
+                  color="medium"></ion-icon>
+        <ion-icon *ngIf="line.spelpunten === 5"
+                  name="checkmark-outline"
+                  color="success"></ion-icon>
+    </ion-col>
     <ion-col size="1" *ngIf="admin">
-        <ion-checkbox [(ngModel)]="line.team.isEliminated"></ion-checkbox>
+        <ion-select [(ngModel)]="line.team.isEliminated" placeholder="Uitgeschakeld" class="internal" #mySelect>
+            <ion-select-option [value]="null">Nog niet bekend</ion-select-option>
+            <ion-select-option [value]="true">Uitgeschakeld</ion-select-option>
+            <ion-select-option [value]="false">Door</ion-select-option>
+        </ion-select>
+        <ion-icon (click)="openSelect()"
+                  *ngIf="line.team.isEliminated" name="close-outline"
+                  color="danger"></ion-icon>
+        <ion-icon (click)="openSelect()"
+                  *ngIf="line.team.isEliminated === null"
+                  name="help-outline"
+                  color="medium"></ion-icon>
+        <ion-icon (click)="openSelect()"
+                  *ngIf="line.team.isEliminated === false && line.team.isEliminated != null"
+                  name="checkmark-outline"
+                  color="success"></ion-icon>
+
     </ion-col>
     <ion-col size="1" *ngIf="!isSortDisabled">
         <ion-icon name="shuffle-outline"></ion-icon>

@@ -40,6 +40,18 @@ export class StandPage implements OnInit, OnDestroy {
         this.router.navigate([`deelnemer/deelnemer/${participantId}/matches/`]);
     }
 
+    openMatches(participantId) {
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/matches/`]);
+    }
+
+    openPoules(participantId) {
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/poule/`]);
+    }
+
+    openKnockout(participantId) {
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/knockout/`]);
+    }
+
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();

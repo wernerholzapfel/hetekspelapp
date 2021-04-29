@@ -15,6 +15,7 @@ import {FormsModule} from '@angular/forms';
 import {RoundTextPipe} from '../../pipes/roundText.pipe';
 import {ScrollVanishDirective} from '../../directives/scroll-vanish.directive';
 import {KnockoutTeamHeaderComponent} from '../knockout-team-header/knockout-team-header.component';
+import {GestureDirective} from '../../directives/gestures.directive';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {KnockoutTeamHeaderComponent} from '../knockout-team-header/knockout-team
         HeadlineComponent,
         EditHeadlineComponent,
         ScrollVanishDirective,
+        GestureDirective,
         KnockoutTeamHeaderComponent,
     ],
     imports: [
@@ -49,6 +51,7 @@ import {KnockoutTeamHeaderComponent} from '../knockout-team-header/knockout-team
         FromNowPipe,
         RoundTextPipe,
         ScrollVanishDirective,
+        GestureDirective,
         KnockoutTeamHeaderComponent
     ]
 })

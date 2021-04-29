@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {DeelnemerPage} from './deelnemer.page';
 
 const routes: Routes = [
@@ -20,8 +20,8 @@ const routes: Routes = [
                 loadChildren: () => import('./poule/poule.module').then(m => m.PoulePageModule)
             }]
     }, {
-        path: '',
-        redirectTo: 'deelnemer/matches',
+        path: 'deelnemer',
+        component: DeelnemerPage,
         pathMatch: 'full'
     }
 ];

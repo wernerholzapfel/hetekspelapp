@@ -6,11 +6,11 @@
                    debounce="500"></ion-searchbar>
 </ion-toolbar>
 <ion-content #scrollArea scrollEvents="true">
-    <ion-item *ngFor="let line of stand; let odd = odd;" (click)="navigateToParticipant(line.id)" lines="full"
+    <ion-item *ngFor="let line of stand; let odd = odd;" lines="full"
               [color]="odd ? 'accent' : ''"
               class="ion-no-padding">
         <ion-grid>
-            <ion-row>
+            <ion-row (click)="navigateToParticipant(line.id)">
                 <ion-col size="1">
                     {{line.position}}</ion-col>
                 <ion-col>
@@ -24,7 +24,7 @@
             </ion-row>
             <hr>
             <ion-row>
-                <ion-col offset="1" class="match-col ion-align-items-center">
+                <ion-col offset="1" class="match-col ion-align-items-center" (click)="openMatches(line.id)">
                     <ion-text color="medium">
                         <ion-icon name="football"></ion-icon>
                         {{line.matchPoints}}
@@ -35,7 +35,7 @@
                         </ion-text>
                     </ion-text>
                 </ion-col>
-                <ion-col class="poule-col ion-align-items-center ion-text-center">
+                <ion-col class="poule-col ion-align-items-center ion-text-center" (click)="openPoules(line.id)">
                     <ion-text color="medium">
                         <ion-icon name="list"></ion-icon>
                         {{line.poulePoints}}
@@ -46,7 +46,7 @@
                         </ion-text>
                     </ion-text>
                 </ion-col>
-                <ion-col class="knockout-col ion-align-items-center ion-text-end">
+                <ion-col class="knockout-col ion-align-items-center ion-text-end" (click)="openKnockout(line.id)">
                     <ion-text color="medium">
                         <ion-icon name="trophy"></ion-icon>
                         {{line.knockoutPoints}}

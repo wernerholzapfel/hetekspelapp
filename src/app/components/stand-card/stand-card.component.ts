@@ -4,6 +4,8 @@ import {IonReorderGroup} from '@ionic/angular';
 import {PoulepredictionService} from '../../services/pouleprediction.service';
 import {UiService} from '../../services/ui.service';
 import {TeamService} from '../../services/team.service';
+import {ToastService} from '../../services/toast.service';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-stand-card',
@@ -15,6 +17,7 @@ export class StandCardComponent implements OnInit {
 
     constructor(private voorspellingHelper: VoorspellingHelperService,
                 private poulepredictionService: PoulepredictionService,
+                private toastService: ToastService,
                 private teamService: TeamService,
                 public uiService: UiService) {
     }
@@ -22,8 +25,10 @@ export class StandCardComponent implements OnInit {
     @Input() poule: { poule: string, stand: any[], isSortDisabled: boolean };
     @Input() admin = false;
     @Input() editMode = true;
+    isRegistrationOpen: Observable<boolean>;
 
     ngOnInit() {
+        this.isRegistrationOpen = this.uiService.isRegistrationOpen$;
     }
 
     doReorder(ev: any) {
@@ -58,8 +63,8 @@ export class StandCardComponent implements OnInit {
                 isEliminated: line.team.isEliminated,
                 eliminationRound: '32'
             };
-        })).subscribe(response => {
-            console.log(response);
-        });
+        })).subscribe(() => {
+            this.toastService.presentToast('opslaan gelukt');
+        }, () => this.toastService.presentToast('opslaan mislukt', 'danger'));
     }
 }

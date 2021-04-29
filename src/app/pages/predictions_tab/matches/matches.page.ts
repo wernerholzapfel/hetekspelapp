@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
 import {IMatchPrediction} from '../../../models/participant.model';
 import {VoorspellingHelperService} from '../../../services/voorspelling-helper.service';
@@ -13,6 +13,8 @@ import {UiService} from '../../../services/ui.service';
     styleUrls: ['./matches.page.scss'],
 })
 export class MatchesPage {
+    @ViewChild('topScrollAnchor') topScroll: ElementRef;
+
     public pouleName = 'A';
     matchPredictions: IMatchPrediction[];
     allMatchPredictions: IMatchPrediction[];
@@ -89,13 +91,14 @@ export class MatchesPage {
         const active = segment.querySelectorAll('ion-segment-button')[index];
         if (active) {
             active.scrollIntoView({behavior: 'smooth', inline: 'center'});
+            setTimeout(() => this.topScroll.nativeElement.scrollIntoView({behavior: 'smooth'}), 500);
         }
     }
 
     setMatches() {
         this.matchPredictions = this.allMatchPredictions.filter(mp => mp.match.poule === this.pouleName);
         this.voorspellingHelper.berekenStand(this.matchPredictions, true);
-    };
+    }
 
     setSegmentsActive() {
         this.pouleNavigatie = this.pouleNavigatie.map(pn => {
@@ -106,11 +109,11 @@ export class MatchesPage {
                 return {
                     ...pn,
                     disabled: false
-                }
+                };
             } else {
                 return {
                     ...pn
-                }
+                };
             }
         });
     }
@@ -139,18 +142,18 @@ export class MatchesPage {
     }
 
     next() {
-        const activePoule = this.pouleNavigatie.find(p => p.current === this.pouleName)
-        this.pouleName = activePoule.next
+        const activePoule = this.pouleNavigatie.find(p => p.current === this.pouleName);
+        this.pouleName = activePoule.next;
         this.pouleNavigatie = this.pouleNavigatie.map(pn => {
             if (pn.current === activePoule.next) {
                 return {
                     ...pn,
                     disabled: false
-                }
+                };
             } else {
                 return {
                     ...pn
-                }
+                };
             }
         });
         this.scrollSegments(this.pouleNavigatie.findIndex(poule => poule.next === this.pouleName));
@@ -163,7 +166,7 @@ export class MatchesPage {
     save(navigeer: boolean) {
         this.matchService.saveMatchPredictions(this.matchPredictions).subscribe(result => {
             this.uiService.isDirty$.next(false);
-            this.toastService.presentToast('Opslaan is gelukt')
+            this.toastService.presentToast('Opslaan is gelukt');
 
             this.matchPredictions = this.matchPredictions.map(mp => {
                 if (result.map(item => item.match.id).includes(mp.match.id)) {

@@ -10,6 +10,7 @@ export interface MenuItem {
     onlyForAdmin: boolean;
     onlyForUser: boolean;
     showAfterRegistration?: boolean;
+    hideAfterRegistration?: boolean;
     show?: boolean;
 }
 
@@ -41,7 +42,18 @@ export class MenuService {
             active: false,
             onlyForAdmin: false,
             onlyForUser: true,
-            showAfterRegistration: false
+            showAfterRegistration: false,
+            hideAfterRegistration: true
+
+        }, {
+            title: 'Voorspelling',
+            url: '/deelnemer/deelnemer/',
+            urls: ['/prediction'],
+            icon: 'football-outline',
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: true,
+            showAfterRegistration: true
 
         }, {
             title: 'Stand',
@@ -60,7 +72,7 @@ export class MenuService {
             icon: 'stats-chart-outline',
             active: false,
             onlyForAdmin: false,
-            onlyForUser: false,
+            onlyForUser: true,
             showAfterRegistration: false
 
         }, {
@@ -101,11 +113,13 @@ export class MenuService {
                 ...item,
                 show: item.onlyForAdmin
                     ? admin
-                    : item.onlyForUser
-                        ? user
-                        : item.showAfterRegistration
-                            ? admin || !registrationOpen
-                            : true
+                    : item.hideAfterRegistration
+                        ? registrationOpen
+                        : item.onlyForUser
+                            ? user
+                            : item.showAfterRegistration
+                                ? admin || !registrationOpen
+                                : true
             };
         }));
     }
