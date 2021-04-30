@@ -12,7 +12,7 @@
     <ion-grid>
         <ng-container *ngFor="let participant of koTeamStats?.participants">
             <ion-row class="hes-border-bottom" (click)="openParticipant(participant.participant.id)">
-                <ion-col style="background-color: #ffffff">
+                <ion-col class="hes-background">
                     <ion-row>
                         <ion-col>
                             {{participant.tableLine.position}}) {{participant.participant.displayName}}

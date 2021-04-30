@@ -35,19 +35,19 @@
 
     <ion-grid class="ion-padding" *ngIf="false">
         <ion-row style="font-size: x-small">
-            <ion-col size="6" class="ion-padding ion-text-start" style="background-color: #ffffff">
+            <ion-col size="6" class="ion-padding ion-text-start hes-background">
                 <ion-text color="medium">
                     {{match?.date | date}}
                 </ion-text>
             </ion-col>
-            <ion-col size="6" class="ion-padding ion-text-end" style="background-color: #ffffff">
+            <ion-col size="6" class="ion-padding ion-text-end hes-background">
                 <ion-text color="medium">
                     Poule {{match?.poule}}
                 </ion-text>
             </ion-col>
         </ion-row>
         <ion-row class="hes-border-bottom">
-            <ion-col style="background-color: #ffffff">
+            <ion-col class="hes-background">
                 <ion-row>
                     <ion-col>
                         {{match?.homeScore}}
@@ -68,7 +68,7 @@
     <ion-grid>
         <ng-container *ngFor="let prediction of match?.matchPredictions">
             <ion-row class="hes-border-bottom" (click)="navigateToParticipant(prediction.participant.id)">
-                <ion-col style="background-color: #ffffff">
+                <ion-col class="hes-background">
                     <ion-row>
                         <ion-col>
                             {{prediction.tableLine.position}}) {{prediction.participant.displayName}}

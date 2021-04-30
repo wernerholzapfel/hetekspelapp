@@ -18,13 +18,13 @@
             </ion-row>
             <ng-container *ngFor="let team of knockout.teams">
                 <ion-row *ngIf="team.count > 0" class="hes-border-bottom" (click)="openKoTeam(team.id, knockout.round)">
-                    <ion-col size="6" class="ion-padding ion-text-start" style="background-color: #ffffff">
+                    <ion-col size="6" class="ion-padding ion-text-start hes-background">
                         <ion-text>
                             <span class="flag-icon flag-icon-{{team.logoUrl}} flag-icon-squared"></span>
                             {{team.name}}
                         </ion-text>
                     </ion-col>
-                    <ion-col size="6" class="ion-padding ion-text-end" style="background-color: #ffffff">
+                    <ion-col size="6" class="ion-padding ion-text-end hes-background">
                         <ion-text>
                             {{team.count}}
                         </ion-text>

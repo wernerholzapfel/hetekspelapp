@@ -10,7 +10,7 @@
         <p [innerHTML]="headline.text">
     </ion-card-content>
     <ion-footer>
-        <ion-item lines="none">
+        <ion-toolbar>
             <ion-buttons slot="start">
                 <ion-button fill="clear" [disabled]="headlineIndex === 0" (click)="previousHeadline()">
                     <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
@@ -31,6 +31,6 @@
                 </ion-button>
             </ion-buttons>
 
-        </ion-item>
+        </ion-toolbar>
     </ion-footer>
 </ion-card>

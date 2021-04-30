@@ -20,19 +20,19 @@
         <ng-container *ngFor="let prediction of predictions; let odd = odd">
             <div (click)="openMatch(prediction.match.id)">
                 <ion-row style="font-size: x-small">
-                    <ion-col size="6" class="ion-padding ion-text-start" style="background-color: #ffffff">
+                    <ion-col size="6" class="ion-padding ion-text-start hes-background">
                         <ion-text color="medium">
                             {{prediction.match.date | date : 'dd MMMM  HH:mm'}}
                         </ion-text>
                     </ion-col>
-                    <ion-col size="6" class="ion-padding ion-text-end" style="background-color: #ffffff">
+                    <ion-col size="6" class="ion-padding ion-text-end hes-background">
                         <ion-text color="medium">
                             Poule {{prediction.match.poule}}
                         </ion-text>
                     </ion-col>
                 </ion-row>
                 <ion-row class="hes-border-bottom">
-                    <ion-col style="background-color: #ffffff">
+                    <ion-col class="hes-background">
                         <ion-row>
                             <ion-col>
                                 {{prediction.match.homeScore}}
