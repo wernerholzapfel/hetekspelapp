@@ -14,4 +14,22 @@ export class StandService {
     createStand(): Observable<any[]> {
         return this.http.post<any[]>(`${environment.apiBaseUrl}/stand`, {});
     }
+
+    calculatePosition(stand: any[]) {
+        let previousPosition = 1;
+        return stand.map((participant, index) => {
+            if (index > 0 && participant && participant.totalPoints === stand[index - 1].totalPoints) {
+                return {
+                    ...participant,
+                    position: previousPosition,
+                };
+            } else {
+                previousPosition = index + 1;
+                return {
+                    ...participant,
+                    position: index + 1,
+                };
+            }
+        });
+    }
 }
