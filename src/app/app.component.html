@@ -3,7 +3,10 @@
         <ion-menu contentId="main-content" type="overlay">
             <ion-header>
                 <ion-toolbar>
-                    <ion-title>Het EK Spel</ion-title>
+                    <ion-title>
+                        <img [src]="(uiService.prefersDark$ | async) ? '/assets/header_hetekspel_dark_mode.png' : '/assets/header_hetekspel_light_mode.png'"
+                             height="36px;">
+                    </ion-title>
                 </ion-toolbar>
                 <app-loader></app-loader>
             </ion-header>
@@ -14,7 +17,8 @@
                             <ion-item *ngIf="p.show"
                                       [class.active-item]="p.active"
                                       [class.inactive-item]="!p.active" [routerDirection]="'root'"
-                                      [routerLink]="[p.url]">
+                                      [routerLink]="[p.url]"
+                                      detail="false">
                                 <ion-icon slot="start" [name]="p.icon"></ion-icon>
                                 <ion-label>
                                     {{p.title}}
@@ -22,7 +26,7 @@
                             </ion-item>
                         </ng-container>
                         <ion-item class="inactive-item" *ngIf="(authService.user$ | async)"
-                                  (click)="authService.logout()" detail="true">
+                                  (click)="authService.logout()">
                             <ion-icon slot="start" name="log-out-outline"></ion-icon>
                             <ion-label>Uitloggen</ion-label>
                         </ion-item>

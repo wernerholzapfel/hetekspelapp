@@ -5,6 +5,8 @@ import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {IStandLine} from '../../models/stand.model';
 import {StandService} from '../../services/stand.service';
+import {PopoverController} from '@ionic/angular';
+import {ToggleStandListComponent} from '../../components/toggle-stand-list/toggle-stand-list.component';
 
 @Component({
     selector: 'app-stand',
@@ -17,15 +19,15 @@ export class StandPage implements OnInit, OnDestroy {
 
     stand: IStandLine[];
     unsubscribe = new Subject<void>();
-    isMatchStandActive$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
     constructor(private uiService: UiService,
                 private standService: StandService,
-                private router: Router) {
+                private router: Router,
+                private popoverController: PopoverController) {
     }
 
     ngOnInit() {
-        this.isMatchStandActive$.pipe(switchMap(isMatchStandActive => {
+        this.uiService.isMatchStandActive$.pipe(switchMap(isMatchStandActive => {
             return combineLatest([
                 this.uiService.totaalstand$.pipe(map(stand =>
                     this.standService.calculatePosition(stand.sort((a, b) => {
@@ -65,7 +67,21 @@ export class StandPage implements OnInit, OnDestroy {
         this.unsubscribe.unsubscribe();
     }
 
-    toggleMatchStand() {
-        this.isMatchStandActive$.next(!this.isMatchStandActive$.getValue());
+    async toggleMatchStand(ev: any) {
+        const popover = await this.popoverController.create({
+            component: ToggleStandListComponent,
+            // data: {
+            //     isMatchStandActive: this.isMatchStandActive$.getValue()
+            // },
+            event: ev,
+            translucent: true
+        });
+        await popover.present();
+
+        await popover.onDidDismiss().then(response => {
+            this.uiService.isMatchStandActive$.next(response.data.isMatchStandActive);
+        });
+        // console.log('onDidDismiss resolved with role', role);
+        // this.isMatchStandActive$.next(!this.isMatchStandActive$.getValue());
     }
 }

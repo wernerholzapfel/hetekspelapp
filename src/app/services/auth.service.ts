@@ -27,19 +27,22 @@ export class AuthService {
 
         this.user$.pipe(switchMap(user => {
             if (user) {
-                return combineLatest([this.participantService.getParticipant(), of(user), this.getTokenResult()]);
+                return combineLatest([this.participantService.getParticipant(),
+                    of(user),
+                    this.getTokenResult(),
+                    this.uiService.isRegistrationOpen$]);
             } else {
                 return combineLatest([of(null), of(user), of(null)]);
             }
 
-        })).subscribe(([participant, user, tokenResult]) => {
+        })).subscribe(([participant, user, tokenResult, isRegistrationOpen]) => {
             if (user && participant && tokenResult) {
                 this.user = user;
                 this.displayName = user.displayName;
                 this.uiService.participant$.next(participant);
                 this.isAdmin = tokenResult && tokenResult.claims ? tokenResult.claims.admin : false;
                 this.uiService.isAdmin$.next(this.isAdmin);
-                this.menuService.setMenu(this.isAdmin, !!this.user, false);
+                this.menuService.setMenu(this.isAdmin, !!this.user, isRegistrationOpen);
             } else {
                 this.user = null;
                 this.displayName = null;

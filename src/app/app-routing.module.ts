@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {DeadlineGuard} from './guards/deadline.guard';
 
 const routes: Routes = [
     {
@@ -9,6 +10,7 @@ const routes: Routes = [
     {
         path: 'prediction',
         loadChildren: './pages/predictions_tab/predictions_tab.module#PredictionsTabModule',
+        canActivate: [DeadlineGuard],
     },
     {
         path: 'spelregels',
@@ -37,6 +39,10 @@ const routes: Routes = [
     {
         path: 'stats/knockout/round/:roundid/team/:teamid',
         loadChildren: () => import('./pages/stats/knockout/participant/knockout-participants/knockout-participants.module').then(m => m.KnockoutParticipantsPageModule)
+    },
+    {
+        path: 'disclaimer',
+        loadChildren: () => import('./pages/disclaimer/disclaimer.module').then(m => m.DisclaimerPageModule)
     },
     {
         path: 'match/:id',

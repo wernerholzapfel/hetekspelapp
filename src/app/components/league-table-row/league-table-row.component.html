@@ -32,20 +32,17 @@
                   color="success"></ion-icon>
     </ion-col>
     <ion-col size="1" *ngIf="admin">
-        <ion-select [(ngModel)]="line.team.isEliminated" placeholder="Uitgeschakeld" class="internal" #mySelect>
-            <ion-select-option [value]="null">Nog niet bekend</ion-select-option>
-            <ion-select-option [value]="true">Uitgeschakeld</ion-select-option>
-            <ion-select-option [value]="false">Door</ion-select-option>
-        </ion-select>
         <ion-icon (click)="openSelect()"
-                  *ngIf="line.team.isEliminated" name="close-outline"
+                  *ngIf="line.team.isEliminated && line.team.eliminationRound === '32'" name="close-outline"
                   color="danger"></ion-icon>
         <ion-icon (click)="openSelect()"
-                  *ngIf="line.team.isEliminated === null"
+                  *ngIf="line.team.isEliminated === null ||
+                  (!line.team.isEliminated && line.team.eliminationRound !== '32')"
                   name="help-outline"
                   color="medium"></ion-icon>
         <ion-icon (click)="openSelect()"
-                  *ngIf="line.team.isEliminated === false && line.team.isEliminated != null"
+                  *ngIf="(line.team.isEliminated === false && line.team.isEliminated != null) ||
+                  line.team.isEliminated && line.team.eliminationRound !== '32'"
                   name="checkmark-outline"
                   color="success"></ion-icon>
 

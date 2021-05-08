@@ -14,7 +14,6 @@ export class DeelnemerPage implements OnInit, OnDestroy {
 
     standLine: IStandLine;
     unsubscribe = new Subject<void>();
-    title: string;
 
     constructor(private uiService: UiService,
                 private route: ActivatedRoute,
@@ -29,7 +28,6 @@ export class DeelnemerPage implements OnInit, OnDestroy {
                 .subscribe(s => {
                     if (s.length > 0) {
                         this.standLine = s.find(line => line.id === this.route.snapshot.params.id);
-                        this.title = `${this.standLine?.displayName} staat ${this.standLine?.position}e met ${this.standLine?.totalPoints} punten`;
                     }
                 });
         } else {

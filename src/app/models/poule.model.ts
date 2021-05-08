@@ -30,6 +30,8 @@ export interface ITeam {
     name?: string;
     logoUrl?: string;
     isEliminated?: boolean;
+    eliminationRound?: string;
+    poulePosition?: number;
 }
 
 export interface ITeamKnockout extends ITeam {
@@ -41,6 +43,9 @@ export interface ITeamKnockout extends ITeam {
 export class UpdateTeamPositionDto {
     id: string;
     poulePosition: number;
+    isEliminated: boolean;
+    eliminationRound: string;
+    isPositionFinal: boolean;
 }
 
 export interface ITable {
@@ -58,4 +63,5 @@ export interface ITableLine {
     sortering: number;
     thirdPositionScore?: number;
     spelpunten?: number;
+    isPositionFinal?: boolean;
 }

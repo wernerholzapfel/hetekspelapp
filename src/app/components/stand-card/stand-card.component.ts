@@ -53,17 +53,4 @@ export class StandCardComponent implements OnInit {
     toggleReorderGroup() {
         this.poule.isSortDisabled = !this.poule.isSortDisabled;
     }
-
-    save() {
-        this.teamService.updateTeam(this.poule.stand.map(line => {
-            return {
-                id: line.team.id,
-                poulePosition: line.positie,
-                isEliminated: line.team.isEliminated,
-                eliminationRound: '32'
-            };
-        })).subscribe(() => {
-            this.toastService.presentToast('opslaan gelukt');
-        }, () => this.toastService.presentToast('opslaan mislukt', 'danger'));
-    }
 }

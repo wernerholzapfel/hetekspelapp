@@ -6,10 +6,21 @@ ion-menu {
   .active-item {
     border-left: 8px solid var(--ion-color-secondary);
   }
+
   .inactive-item {
-    padding-left: 8px;
+    border-left: 8px solid var(--ion-color-light);
+
   }
+
   ion-content {
     --background: var(--ion-background-color);
+  }
+
+  ion-menu ion-content {
+    --background: var(--ion-color-light);
+  }
+
+  ion-menu ion-content ion-list {
+    background: var(--ion-color-light);
   }
 }

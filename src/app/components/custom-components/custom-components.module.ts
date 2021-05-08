@@ -16,6 +16,7 @@ import {RoundTextPipe} from '../../pipes/roundText.pipe';
 import {ScrollVanishDirective} from '../../directives/scroll-vanish.directive';
 import {KnockoutTeamHeaderComponent} from '../knockout-team-header/knockout-team-header.component';
 import {GestureDirective} from '../../directives/gestures.directive';
+import {ToggleStandListComponent} from '../toggle-stand-list/toggle-stand-list.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {GestureDirective} from '../../directives/gestures.directive';
         ScrollVanishDirective,
         GestureDirective,
         KnockoutTeamHeaderComponent,
+        ToggleStandListComponent
     ],
     imports: [
         CommonModule,
@@ -52,7 +54,8 @@ import {GestureDirective} from '../../directives/gestures.directive';
         RoundTextPipe,
         ScrollVanishDirective,
         GestureDirective,
-        KnockoutTeamHeaderComponent
+        KnockoutTeamHeaderComponent,
+        ToggleStandListComponent
     ]
 })
 export class CustomComponentsModule {

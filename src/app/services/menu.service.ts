@@ -11,6 +11,7 @@ export interface MenuItem {
     onlyForUser: boolean;
     showAfterRegistration?: boolean;
     hideAfterRegistration?: boolean;
+    hideBeforeRegistration?: boolean;
     show?: boolean;
 }
 
@@ -53,7 +54,8 @@ export class MenuService {
             active: false,
             onlyForAdmin: false,
             onlyForUser: true,
-            showAfterRegistration: true
+            showAfterRegistration: true,
+            hideBeforeRegistration: true
 
         }, {
             title: 'Stand',
@@ -63,7 +65,7 @@ export class MenuService {
             active: false,
             onlyForAdmin: false,
             onlyForUser: true,
-            showAfterRegistration: false
+            showAfterRegistration: true
 
         }, {
             title: 'Statistieken',
@@ -73,7 +75,7 @@ export class MenuService {
             active: false,
             onlyForAdmin: false,
             onlyForUser: true,
-            showAfterRegistration: false
+            showAfterRegistration: true
 
         }, {
             title: 'Spelregels',
@@ -104,6 +106,16 @@ export class MenuService {
             onlyForUser: false,
             showAfterRegistration: false
 
+        }, {
+            title: 'Disclaimer',
+            url: '/disclaimer',
+            urls: ['/disclaimer'],
+            icon: 'document-outline',
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: false,
+            showAfterRegistration: false
+
         }
     ]);
 
@@ -113,13 +125,15 @@ export class MenuService {
                 ...item,
                 show: item.onlyForAdmin
                     ? admin
-                    : item.hideAfterRegistration
-                        ? registrationOpen
-                        : item.onlyForUser
-                            ? user
+                    : item.hideBeforeRegistration ?
+                        !registrationOpen
+                        : item.hideAfterRegistration
+                            ? registrationOpen
                             : item.showAfterRegistration
-                                ? admin || !registrationOpen
-                                : true
+                                ? !registrationOpen
+                                : item.onlyForUser
+                                    ? user
+                                    : true
             };
         }));
     }

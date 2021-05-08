@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 
 import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
@@ -6,7 +6,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {MenuItem, MenuService} from './services/menu.service';
 import {Subject, timer} from 'rxjs';
 import {NavigationEnd, Router, RouterEvent} from '@angular/router';
-import {take, takeUntil} from 'rxjs/operators';
+import {switchMap, take, takeUntil} from 'rxjs/operators';
 import {AuthService} from './services/auth.service';
 import {UiService} from './services/ui.service';
 import {AngularFireDatabase} from '@angular/fire/database';
@@ -37,20 +37,23 @@ export class AppComponent implements OnInit, OnDestroy {
         private db: AngularFireDatabase,
         private menuService: MenuService,
         public authService: AuthService,
-        private uiService: UiService,
+        public uiService: UiService,
         private codePush: CodePush,
         private loaderService: LoaderService,
         private hetEKSpelService: HetekspelService,
-        private participantService: ParticipantService
+        private participantService: ParticipantService,
+        private ngZone: NgZone
     ) {
         this.initializeApp();
     }
 
     initializeApp() {
+        this.checkDeadline();
+        this.checkDarkmode();
         this.platform.ready().then(() => {
+
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            this.checkDeadline();
 
             if (this.platform.is('cordova')) {
                 this.checkCodePush();
@@ -71,6 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+
         this.menuService.appPages$.pipe(takeUntil(this.unsubscribe)).subscribe(menu => {
             if (menu) {
                 this.appPages = menu;
@@ -154,20 +158,35 @@ export class AppComponent implements OnInit, OnDestroy {
         this.fcm.unsubscribeFromTopic('enappd');
     }
 
-    checkDeadline() {
-        this.hetEKSpelService.getHetEKSpel().subscribe(hetekspel => {
-            const deadline = moment(hetekspel.deadline);
-            const now = moment(new Date());
-            const diffDays = deadline.diff(now, 'milliseconds');
-            timer(diffDays)
-                .pipe(takeUntil(this.unsubscribe)).subscribe(
-                (x) => null,
-                (x) => null,
-                () => {
-                    this.uiService.isRegistrationOpen$.next(false);
-                }
-            );
+    checkDarkmode() {
+        const prefersDarkMQL = window.matchMedia('(prefers-color-scheme: dark)');
+        this.uiService.prefersDark$.next(prefersDarkMQL.matches);
+        prefersDarkMQL.addListener((e) => {
+            this.ngZone.run(() => {
+                this.uiService.prefersDark$.next(e.matches);
+            });
         });
+
+    }
+
+    checkDeadline() {
+        this.hetEKSpelService.getHetEKSpel().pipe(take(1))
+            .pipe(switchMap((hetekspel) => {
+                const deadline = moment(hetekspel.deadline);
+                const now = moment(new Date());
+                const diffDays = deadline.diff(now, 'milliseconds');
+                this.uiService.isRegistrationOpen$.next(diffDays > 0);
+
+                return timer(diffDays);
+            })).pipe(takeUntil(this.unsubscribe)).subscribe(
+            (x) => {
+            },
+            (x) => console.log(x),
+            () => {
+                console.log('deadlinepasssed');
+                this.uiService.isRegistrationOpen$.next(false);
+            }
+        );
     }
 
     ngOnDestroy(): void {
