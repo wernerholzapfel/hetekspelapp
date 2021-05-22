@@ -29,6 +29,10 @@ export class ParticipantService {
             }));
     }
 
+    getParticipants(): Observable<IParticipant[]> {
+        return this.http.get<IParticipant[]>(`${environment.apiBaseUrl}/participant`);
+    }
+
     putPushToken(body: { pushtoken: string }): Observable<IParticipant> {
         return this.http.put<IParticipant>(`${environment.apiBaseUrl}/participant/pushtoken`, body);
     }

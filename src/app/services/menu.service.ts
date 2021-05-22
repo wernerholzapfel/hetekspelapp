@@ -47,6 +47,17 @@ export class MenuService {
             hideAfterRegistration: true
 
         }, {
+            title: 'Deelnemers',
+            url: '/deelnemers',
+            urls: ['/deelnemers'],
+            icon: 'person-outline',
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: true,
+            showAfterRegistration: false,
+            hideAfterRegistration: true
+
+        }, {
             title: 'Voorspelling',
             url: '/deelnemer/deelnemer/',
             urls: ['/prediction'],

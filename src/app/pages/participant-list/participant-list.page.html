@@ -1,0 +1,12 @@
+<ion-header>
+  <app-menu-toolbar>
+  </app-menu-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let p of participants$ | async">
+      {{p.displayName}}
+    </ion-item>
+  </ion-list>
+</ion-content>
