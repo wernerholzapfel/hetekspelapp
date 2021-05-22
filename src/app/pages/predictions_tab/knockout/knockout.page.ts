@@ -29,23 +29,24 @@ export class KnockoutPage {
     private poules: any[];
     public segmentIndex = 1;
 
-    public rounds = [{
-        round: '16',
-        text: '1/8 F',
-        next: '8'
-    }, {
-        round: '8',
-        text: '1/4 F',
-        next: '4'
-    }, {
-        round: '4',
-        text: '1/2 F',
-        next: '2'
-    }, {
-        round: '2',
-        text: 'F',
-        next: null
-    },
+    public rounds = [
+        {
+            round: '16',
+            text: '1/8 F',
+            next: '8'
+        }, {
+            round: '8',
+            text: '1/4 F',
+            next: '4'
+        }, {
+            round: '4',
+            text: '1/2 F',
+            next: '2'
+        }, {
+            round: '2',
+            text: 'F',
+            next: null
+        },
     ];
 
     ionViewWillEnter() {

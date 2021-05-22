@@ -13,6 +13,8 @@ export class MatchCardComponent implements OnInit {
 
     @Input() isRegistrationOpen: boolean;
     @Input() matchPrediction: IMatchPrediction;
+    isLoading = false;
+    isLoadingColor = 'primary';
 
     constructor(private uiService: UiService, private matchService: MatchService, private toastService: ToastService) {
     }
@@ -28,7 +30,10 @@ export class MatchCardComponent implements OnInit {
 
     save() {
         if (!(this.matchPrediction.homeScore === null) && !(this.matchPrediction.awayScore === null)) {
+            this.isLoading = true;
             this.matchService.saveMatchPrediction(this.matchPrediction).subscribe(result => {
+                this.isLoading = false;
+                this.isLoadingColor = 'primary';
                 this.matchPrediction = {...this.matchPrediction, id: result.id};
 
                 this.uiService.matchPredictions$.next(this.uiService.matchPredictions$.getValue()
@@ -40,6 +45,8 @@ export class MatchCardComponent implements OnInit {
                         }
                     }));
             }, error => {
+                this.isLoading = false;
+                this.isLoadingColor = 'danger';
                 this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
             });
         }

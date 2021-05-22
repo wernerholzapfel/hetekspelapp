@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {IMatchPrediction} from '../../../models/participant.model';
 import {VoorspellingHelperService} from '../../../services/voorspelling-helper.service';
@@ -13,13 +13,13 @@ import {PouleNav} from '../../../models/poule.model';
     templateUrl: './matches.page.html',
     styleUrls: ['./matches.page.scss'],
 })
-export class MatchesPage implements OnDestroy {
+export class MatchesPage {
     @ViewChild('topScrollAnchor') topScroll: ElementRef;
 
     public pouleName = 'A';
     isRegistrationOpen$: BehaviorSubject<boolean>;
     matchPredictions: IMatchPrediction[];
-    unsubscribe = new Subject<void>();
+    unsubscribe: Subject<void>;
     pouleNavigatie: PouleNav[];
     activePoule: PouleNav;
 
@@ -30,21 +30,20 @@ export class MatchesPage implements OnDestroy {
     }
 
     ionViewWillEnter() {
+        this.unsubscribe = new Subject<void>();
 
         this.matchService.getMatchPredictions().subscribe(
             matchPredictions => {
                 this.matchPredictions = matchPredictions;
-                // this.setSegmentsActive(matchPredictions);
                 this.uiService.matchPredictions$.next(matchPredictions);
 
                 this.uiService.getArePouleMatchesPredicted()
                     .pipe(takeUntil(this.unsubscribe))
                     .subscribe(response => {
+                        console.log(response);
                         this.pouleNavigatie = response;
                         this.activePoule = this.pouleNavigatie.find(p => p.current === this.pouleName);
                     });
-
-
             });
         this.isRegistrationOpen$ = this.uiService.isRegistrationOpen$;
     }
@@ -84,7 +83,7 @@ export class MatchesPage implements OnDestroy {
         this.router.navigate([`prediction/prediction/poule/`]);
     }
 
-    ngOnDestroy(): void {
+    ionViewDidLeave(): void {
         this.matchPredictions = [];
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();

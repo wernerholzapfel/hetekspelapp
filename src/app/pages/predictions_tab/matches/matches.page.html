@@ -16,7 +16,7 @@
 <ion-content>
     <div #topScrollAnchor></div>
     <ion-grid class="ion-no-padding">
-        <ion-row *ngIf="pouleName === 'A'">
+        <ion-row *ngIf="activePoule?.current === 'A'">
             <ion-col size="12">
                 <ion-card class="message">
                     <ion-card-content>
@@ -30,7 +30,7 @@
         </ion-row>
         <ion-row>
             <ion-col size="12" size-md="6" size-lg="6" size-xl="4"
-                     *ngFor="let matchPrediction of this.matchPredictions | filterPouleMatches:pouleName">
+                     *ngFor="let matchPrediction of this.matchPredictions | filterPouleMatches:activePoule?.current">
                 <app-match-card
                         [isRegistrationOpen]="isRegistrationOpen$ | async"
                         [matchPrediction]="matchPrediction"></app-match-card>
@@ -40,13 +40,13 @@
 </ion-content>
 <ion-footer>
     <ng-container class="ion-no-border ion-padding-horizontal">
-        <ion-button *ngIf="(isRegistrationOpen$ | async) && pouleName !== 'F'"
+        <ion-button *ngIf="(isRegistrationOpen$ | async) && activePoule?.current !== 'F'"
                     [disabled]="!activePoule?.isFinal"
                     color="secondary" expand="full" fill="solid"
                     (click)="next()">
             Naar volgende poule
         </ion-button>
-        <ion-button *ngIf="(isRegistrationOpen$ | async) && pouleName === 'F'"
+        <ion-button *ngIf="(isRegistrationOpen$ | async) && activePoule?.current === 'F'"
                     [disabled]="!activePoule?.isFinal"
                     color="secondary" expand="full" fill="solid"
                     (click)="navigateToPoulePredictions()">
