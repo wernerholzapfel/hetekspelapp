@@ -1,6 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {VoorspellingHelperService} from '../../services/voorspelling-helper.service';
+import {Component, Input, OnInit} from '@angular/core';
 import {IMatchPrediction} from '../../models/participant.model';
+import {UiService} from '../../services/ui.service';
+import {MatchService} from '../../services/match.service';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
     selector: 'app-match-card',
@@ -11,15 +13,35 @@ export class MatchCardComponent implements OnInit {
 
     @Input() isRegistrationOpen: boolean;
     @Input() matchPrediction: IMatchPrediction;
-    @Output() emitUpdateWedstrijdScore = new EventEmitter<IMatchPrediction>();
 
-    constructor(private voorspellingHelper: VoorspellingHelperService) {
+    constructor(private uiService: UiService, private matchService: MatchService, private toastService: ToastService) {
     }
 
     ngOnInit() {
     }
 
     updateWedstrijdScore(matchPrediction: IMatchPrediction, homeScore: number, awayScore: number) {
-        this.emitUpdateWedstrijdScore.emit({...matchPrediction, homeScore, awayScore});
+        this.matchPrediction = {...matchPrediction, homeScore, awayScore};
+        this.save();
+
+    }
+
+    save() {
+        if (!(this.matchPrediction.homeScore === null) && !(this.matchPrediction.awayScore === null)) {
+            this.matchService.saveMatchPrediction(this.matchPrediction).subscribe(result => {
+                this.matchPrediction = {...this.matchPrediction, id: result.id};
+
+                this.uiService.matchPredictions$.next(this.uiService.matchPredictions$.getValue()
+                    .map(mp => {
+                        if (mp.match.id === this.matchPrediction.match.id) {
+                            return {...this.matchPrediction};
+                        } else {
+                            return mp;
+                        }
+                    }));
+            }, error => {
+                this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
+            });
+        }
     }
 }

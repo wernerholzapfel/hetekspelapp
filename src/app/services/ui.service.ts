@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {IStandLine} from '../models/stand.model';
-import {IParticipant} from '../models/participant.model';
+import {IMatchPrediction, IParticipant} from '../models/participant.model';
+import {switchMap} from 'rxjs/operators';
+import {PouleNav} from '../models/poule.model';
 
 @Injectable({
     providedIn: 'root'
@@ -16,8 +18,60 @@ export class UiService {
     lastUpdated$: BehaviorSubject<{ lastUpdated?: number }> = new BehaviorSubject({});
     isMatchStandActive$: BehaviorSubject<boolean> = new BehaviorSubject(false);
     prefersDark$: BehaviorSubject<boolean> = new BehaviorSubject(null);
+    matchPredictions$: BehaviorSubject<IMatchPrediction[]> = new BehaviorSubject([]);
+    pouleNav: PouleNav[] = [
+        {
+            current: 'A',
+            previous: null,
+            next: 'B',
+            disabled: false,
+            text: 'Poule A'
+        }, {
+            current: 'B',
+            previous: 'A',
+            next: 'C',
+            disabled: true,
+            text: 'Poule B'
+        }, {
+            current: 'C',
+            previous: 'B',
+            next: 'D',
+            disabled: true,
+            text: 'Poule C'
+        }, {
+            current: 'D',
+            previous: 'C',
+            next: 'E',
+            disabled: true,
+            text: 'Poule D'
+        }, {
+            current: 'E',
+            previous: 'D',
+            next: 'F',
+            disabled: true,
+            text: 'Poule E'
+        }, {
+            current: 'F',
+            previous: 'E',
+            next: null,
+            disabled: true,
+            text: 'Poule F'
+        }];
 
     constructor() {
+    }
+
+    getArePouleMatchesPredicted(): Observable<PouleNav[]> {
+        return this.matchPredictions$.pipe(switchMap(mp => {
+            return of(this.pouleNav.map(pn => {
+                return {
+                    ...pn,
+                    isFinal: mp.filter(m => m.homeScore === null && m.awayScore === null && m.match.poule === pn.current).length === 0,
+                    disabled: mp.filter(match =>
+                        match.homeScore === null && match.awayScore === null && match.match.poule === pn.previous).length !== 0
+                };
+            }));
+        }));
     }
 
     filterDeelnemers(searchTerm: string, deelnemers: any[]): any[] {
@@ -26,7 +80,7 @@ export class UiService {
         } else {
             searchTerm = searchTerm.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
             return deelnemers.filter(deelnemer => {
-                const searchableWords: string[] = (deelnemer.displayName)
+                const searchableWords: string[] = (`${deelnemer?.displayName} ${deelnemer?.participant?.displayName}`)
                     .toLowerCase()
                     .normalize('NFD')
                     .replace(/[\u0300-\u036f]/g, '')

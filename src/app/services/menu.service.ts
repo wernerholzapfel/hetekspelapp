@@ -126,11 +126,11 @@ export class MenuService {
                 show: item.onlyForAdmin
                     ? admin
                     : item.hideBeforeRegistration ?
-                        !registrationOpen
+                        !registrationOpen && user
                         : item.hideAfterRegistration
-                            ? registrationOpen
+                            ? registrationOpen && user
                             : item.showAfterRegistration
-                                ? !registrationOpen
+                                ? !registrationOpen && user
                                 : item.onlyForUser
                                     ? user
                                     : true

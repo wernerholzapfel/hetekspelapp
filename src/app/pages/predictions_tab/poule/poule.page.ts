@@ -64,7 +64,7 @@ export class PoulePage {
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> {
-        if (this.uiService.isDirty$.value) {
+        if (this.uiService.isDirty$.value && !this.arePoulesInComplete()) {
             return this.toastService.presentAlertConfirm().then(alertResponse => {
                 return alertResponse;
             });
@@ -95,7 +95,7 @@ export class PoulePage {
             ...this.poules[2].stand,
             ...this.poules[3].stand,
             ...this.poules[4].stand,
-            ...this.poules[5].stand]).subscribe(response => {
+            ...this.poules[5].stand]).subscribe(() => {
             this.toastService.presentToast('Opslaan is gelukt');
             this.uiService.isDirty$.next(false);
             this.router.navigate(['prediction/prediction/knockout']);

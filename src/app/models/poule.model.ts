@@ -65,3 +65,12 @@ export interface ITableLine {
     spelpunten?: number;
     isPositionFinal?: boolean;
 }
+
+export interface PouleNav {
+    current: string;
+    next?: string;
+    previous?: string;
+    disabled: boolean;
+    isFinal?: boolean;
+    text: string;
+}

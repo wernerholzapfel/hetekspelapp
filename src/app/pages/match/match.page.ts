@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {IMatch} from '../../models/poule.model';
 import {takeUntil} from 'rxjs/operators';
 import {UiService} from '../../services/ui.service';
-import {combineLatest, Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 
 @Component({
     selector: 'app-match',
@@ -15,6 +15,7 @@ export class MatchPage implements OnInit, OnDestroy {
 
     match: IMatch;
     unsubscribe = new Subject<void>();
+    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
     constructor(private matchService: MatchService,
                 private route: ActivatedRoute,
@@ -25,19 +26,19 @@ export class MatchPage implements OnInit, OnDestroy {
     ngOnInit() {
         combineLatest([
             this.uiService.totaalstand$,
-            this.matchService.getMatch(this.route.snapshot.params.id)])
+            this.matchService.getMatch(this.route.snapshot.params.id),
+            this.searchTerm$])
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe(([stand, match]) => {
+            .subscribe(([stand, match, searchTerm]) => {
                 if (stand.length > 0) {
-
                     this.match = {
                         ...match,
-                        matchPredictions: match.matchPredictions.map(mp => {
+                        matchPredictions: this.uiService.filterDeelnemers(searchTerm, match.matchPredictions.map(mp => {
                             return {
                                 ...mp,
                                 tableLine: stand.find(line => line.id === mp.participant.id)
                             };
-                        }).sort((a, b) => a.tableLine.position - b.tableLine.position)
+                        }).sort((a, b) => a.tableLine.position - b.tableLine.position))
                     };
                 }
             });
@@ -45,6 +46,10 @@ export class MatchPage implements OnInit, OnDestroy {
 
     navigateToParticipant(participantId) {
         this.router.navigate([`deelnemer/deelnemer/${participantId}/matches/`]);
+    }
+
+    search($event) {
+        this.searchTerm$.next($event.detail.value);
     }
 
     ngOnDestroy(): void {

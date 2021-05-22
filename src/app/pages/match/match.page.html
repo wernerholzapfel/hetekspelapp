@@ -66,6 +66,8 @@
         </ion-row>
     </ion-grid>
     <ion-grid>
+        <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" color="light"
+                       debounce="500"></ion-searchbar>
         <ng-container *ngFor="let prediction of match?.matchPredictions">
             <ion-row class="hes-border-bottom" (click)="navigateToParticipant(prediction.participant.id)">
                 <ion-col class="hes-background">

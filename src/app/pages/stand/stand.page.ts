@@ -79,9 +79,9 @@ export class StandPage implements OnInit, OnDestroy {
         await popover.present();
 
         await popover.onDidDismiss().then(response => {
-            this.uiService.isMatchStandActive$.next(response.data.isMatchStandActive);
+            if (response.data) {
+                this.uiService.isMatchStandActive$.next(response.data.isMatchStandActive);
+            }
         });
-        // console.log('onDidDismiss resolved with role', role);
-        // this.isMatchStandActive$.next(!this.isMatchStandActive$.getValue());
     }
 }

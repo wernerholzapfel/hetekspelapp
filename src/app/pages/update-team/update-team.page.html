@@ -8,7 +8,8 @@
 
 <ion-content>
     <ion-item lines="full">
-        <ion-select [(ngModel)]="line.team.isEliminated" placeholder="Uitgeschakeld ?" class="internal">
+        <ion-select [value]="line.team.isEliminated" (ionChange)="updateIsEliminated($event)"
+                    placeholder="Uitgeschakeld ?" class="internal">
             <ion-select-option [value]="null">Nog niet bekend</ion-select-option>
             <ion-select-option [value]="true">Uitgeschakeld</ion-select-option>
             <ion-select-option [value]="false">Door</ion-select-option>
@@ -16,7 +17,7 @@
     </ion-item>
     <ion-item lines="full">
         <ion-label>Positie definitief</ion-label>
-        <ion-toggle slot="start" [(ngModel)]="line.isPositionFinal"></ion-toggle>
+        <ion-toggle slot="start" [checked]="line.isPositionFinal" (ionChange)="updateIsFinal($event)"></ion-toggle>
     </ion-item>
     <ion-grid>
         <ion-row>

@@ -37,7 +37,7 @@ export class MatchService {
     }
 
 
-    saveMatchPredictions(matchPredictions: IMatchPrediction[]): Observable<any> {
-        return this.http.post<IMatchPrediction[]>(`${environment.apiBaseUrl}/match-prediction`, matchPredictions);
+    saveMatchPrediction(matchPredictions: IMatchPrediction): Observable<IMatchPrediction> {
+        return this.http.post<IMatchPrediction>(`${environment.apiBaseUrl}/match-prediction`, matchPredictions);
     }
 }

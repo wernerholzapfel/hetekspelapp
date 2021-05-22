@@ -25,8 +25,9 @@
                                 </ion-label>
                             </ion-item>
                         </ng-container>
-                        <ion-item class="inactive-item" *ngIf="(authService.user$ | async)"
-                                  (click)="authService.logout()">
+                        <ion-item button class="inactive-item" *ngIf="(authService.user$ | async)"
+                                  (click)="authService.logout()"
+                                  detail="false">
                             <ion-icon slot="start" name="log-out-outline"></ion-icon>
                             <ion-label>Uitloggen</ion-label>
                         </ion-item>

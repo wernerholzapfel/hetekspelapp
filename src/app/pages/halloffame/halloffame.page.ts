@@ -24,7 +24,7 @@ export class HalloffamePage implements OnInit {
                 positie: 3
             }]
         }, {
-            jaar: 'Winnaars na poule - wedstrijden WK 2014',
+            jaar: 'Winnaars na poulewedstrijden WK 2014',
             aantal: 168,
             halloffame: [{
                 naam: 'Wim Holzapfel',
@@ -43,14 +43,14 @@ export class HalloffamePage implements OnInit {
                 naam: 'Rogier Alarm',
                 positie: 1
             }, {
-                naam: 'Rense Praamstra',
+                naam: 'Rensle Praamstra',
                 positie: 2
             }, {
                 naam: 'Marvin de Ruiter',
                 positie: 3
             }]
         }, {
-            jaar: 'Winnaars na poule - wedstrijden EK 2012',
+            jaar: 'Winnaars na poulewedstrijden EK 2012',
             aantal: 154,
             halloffame: [{
                 naam: 'Maikel Staring',
@@ -77,7 +77,7 @@ export class HalloffamePage implements OnInit {
             }]
         },
             {
-                jaar: 'Winnaars na poule - wedstrijden WK 2010',
+                jaar: 'Winnaars na poulewedstrijden WK 2010',
                 aantal: 147,
                 halloffame: [{
                     naam: 'Justin Kuipers',
@@ -103,7 +103,7 @@ export class HalloffamePage implements OnInit {
                     positie: 3
                 }]
             }, {
-                jaar: 'Winnaars na poule - wedstrijden EK 2008',
+                jaar: 'Winnaars na poulewedstrijden EK 2008',
                 aantal: 120,
                 halloffame: [{
                     naam: 'Michelle Wijsman',

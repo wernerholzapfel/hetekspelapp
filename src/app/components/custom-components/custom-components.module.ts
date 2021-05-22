@@ -17,6 +17,7 @@ import {ScrollVanishDirective} from '../../directives/scroll-vanish.directive';
 import {KnockoutTeamHeaderComponent} from '../knockout-team-header/knockout-team-header.component';
 import {GestureDirective} from '../../directives/gestures.directive';
 import {ToggleStandListComponent} from '../toggle-stand-list/toggle-stand-list.component';
+import {FilterPouleMatchesPipe} from '../../pipes/filter-poule-matches.pipe';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {ToggleStandListComponent} from '../toggle-stand-list/toggle-stand-list.c
         StandCardComponent,
         LeagueTableRowComponent,
         FilterKnockoutRoundsPipe,
+        FilterPouleMatchesPipe,
         FromNowPipe,
         RoundTextPipe,
         MatchCardComponent,
@@ -50,6 +52,7 @@ import {ToggleStandListComponent} from '../toggle-stand-list/toggle-stand-list.c
         HeadlineComponent,
         EditHeadlineComponent,
         FilterKnockoutRoundsPipe,
+        FilterPouleMatchesPipe,
         FromNowPipe,
         RoundTextPipe,
         ScrollVanishDirective,

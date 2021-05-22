@@ -53,14 +53,19 @@ export class LoginComponent implements OnInit, OnDestroy {
     signInWithEmail() {
         this.authService.signInRegular(this.user.email, this.user.password)
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe((res) => {
+            .subscribe(() => {
                 this.user.email = '';
                 this.user.password = '';
             }, async err => {
-            const toast = await this.toastController.create({
-                message: err.message,
-                duration: 2000
-            });
+                const toast = await this.toastController.create({
+                    message: err.message,
+                    duration: 2000,
+                    color: 'danger',
+                    position: 'top',
+                    cssClass: 'hes-toast',
+                    animated: true,
+                    mode: 'md'
+                });
             toast.present();
         });
     }
@@ -99,7 +104,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                                 this.user.displayName = '';
                                 this.user.email = '';
                                 this.user.password = '';
-                            }, error1 => {
+                            }, () => {
                             });
                     }
                 }

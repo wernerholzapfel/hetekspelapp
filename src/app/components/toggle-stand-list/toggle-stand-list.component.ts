@@ -18,10 +18,6 @@ export class ToggleStandListComponent implements OnInit {
         this.isMatchStandActive = this.uiService.isMatchStandActive$.getValue();
     }
 
-    async cancel() {
-        await this.popoverController.dismiss();
-    }
-
     async toggleStand(isMatchStandActive: boolean) {
         await this.popoverController.dismiss({isMatchStandActive});
     }

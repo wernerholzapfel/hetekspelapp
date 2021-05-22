@@ -16,14 +16,33 @@ export class UpdateTeamPage implements OnInit {
 
     ngOnInit() {
         this.line = {
-            ...this.line, isPositionFinal: !!this.line.team.poulePosition || this.line.gespeeld === 3,
+            ...this.line,
+            isPositionFinal: !!this.line.team.poulePosition || this.line.gespeeld === 3,
             team: {
                 ...this.line.team,
                 isEliminated: this.line.team.isEliminated === null ?
                     this.line.positie < 3 && this.line.gespeeld === 3 ?
                         false : this.line.gespeeld === 3 ?
                         true : null : this.line.team.isEliminated
+
             }
+        };
+    }
+
+    updateIsEliminated(event) {
+        this.line = {
+            ...this.line,
+            team: {
+                ...this.line.team,
+                isEliminated: event.detail.value
+            }
+        };
+    }
+
+    updateIsFinal(event) {
+        this.line = {
+            ...this.line,
+            isPositionFinal: event.detail.value
         };
     }
 

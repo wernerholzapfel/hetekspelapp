@@ -11,8 +11,9 @@
     </ion-segment>
 </ion-header>
 <ion-content>
+    <div #topScrollAnchor></div>
     <ion-grid class="ion-no-padding">
-        <ion-row>
+        <ion-row *ngIf="activeKnockoutRound === '16'">
             <ion-col size="12">
                 <ion-card>
                     <ion-card-content>
@@ -51,12 +52,14 @@
         </ion-row>
     </ion-grid>
 </ion-content>
-<ion-footer class="ion-no-border ion-padding-horizontal" *ngIf="uiService.isRegistrationOpen$ | async">
-    <ion-button *ngIf="activeKnockoutRound !== '2'" color="secondary" expand="block" fill="solid"
-                [disabled]="!canIGoToNextStep()" (click)="next()">Ga naar
-        Volgende
-    </ion-button>
-    <ion-button *ngIf="activeKnockoutRound === '2'" color="secondary" expand="block" fill="solid"
-                [disabled]="errorInform()" (click)="save()">Opslaan
-    </ion-button>
+<ion-footer *ngIf="uiService.isRegistrationOpen$ | async">
+    <ng-container class="ion-no-border ion-padding-horizontal">
+        <ion-button *ngIf="activeKnockoutRound !== '2'" color="secondary" expand="full" fill="solid"
+                    [disabled]="!canIGoToNextStep()" (click)="next()">Ga naar
+            Volgende
+        </ion-button>
+        <ion-button *ngIf="activeKnockoutRound === '2'" color="secondary" expand="full" fill="solid"
+                    [disabled]="errorInform()" (click)="save()">Opslaan
+        </ion-button>
+    </ng-container>
 </ion-footer>

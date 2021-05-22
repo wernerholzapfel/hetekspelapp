@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {combineLatest, Observable, of} from 'rxjs';
+import {combineLatest, from, Observable, of} from 'rxjs';
 import {Router} from '@angular/router';
 import 'firebase/auth';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {MenuService} from './menu.service';
-import {switchMap, take} from 'rxjs/operators';
+import {distinctUntilChanged, switchMap, take} from 'rxjs/operators';
 import firebase from 'firebase/app';
 import {UiService} from './ui.service';
 import {ParticipantService} from './participant.service';
@@ -25,17 +25,18 @@ export class AuthService {
 
         this.user$ = fireAuth.user;
 
-        this.user$.pipe(switchMap(user => {
-            if (user) {
-                return combineLatest([this.participantService.getParticipant(),
-                    of(user),
-                    this.getTokenResult(),
-                    this.uiService.isRegistrationOpen$]);
-            } else {
-                return combineLatest([of(null), of(user), of(null)]);
-            }
+        this.user$.pipe(distinctUntilChanged())
+            .pipe(switchMap(user => {
+                if (user) {
+                    return combineLatest([this.participantService.getParticipant(),
+                        of(user),
+                        this.getTokenResult(),
+                        this.uiService.isRegistrationOpen$]);
+                } else {
+                    return combineLatest([of(null), of(user), of(null)]);
+                }
 
-        })).subscribe(([participant, user, tokenResult, isRegistrationOpen]) => {
+            })).subscribe(([participant, user, tokenResult, isRegistrationOpen]) => {
             if (user && participant && tokenResult) {
                 this.user = user;
                 this.displayName = user.displayName;
@@ -56,7 +57,7 @@ export class AuthService {
     }
 
     signInRegular(email, password) {
-        return of(this.fireAuth.signInWithEmailAndPassword(email, password));
+        return from(this.fireAuth.signInWithEmailAndPassword(email, password));
     }
 
     updateProfile(displayName: string) {

@@ -20,6 +20,7 @@ export class ToastService {
             color,
             message,
             duration,
+            mode: 'md',
             buttons: [
                 {
                     text: closeButtonText,
@@ -41,7 +42,7 @@ export class ToastService {
                     text: 'Ja',
                     role: 'cancel',
                     cssClass: 'secondary',
-                    handler: (blah) => {
+                    handler: () => {
                         this.uiService.isDirty$.next(false);
                     }
                 }, {

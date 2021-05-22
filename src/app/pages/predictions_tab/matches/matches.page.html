@@ -16,7 +16,7 @@
 <ion-content>
     <div #topScrollAnchor></div>
     <ion-grid class="ion-no-padding">
-        <ion-row>
+        <ion-row *ngIf="pouleName === 'A'">
             <ion-col size="12">
                 <ion-card class="message">
                     <ion-card-content>
@@ -29,20 +29,28 @@
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col size="12" size-md="6" size-lg="6" size-xl="4" *ngFor="let matchPrediction of matchPredictions">
+            <ion-col size="12" size-md="6" size-lg="6" size-xl="4"
+                     *ngFor="let matchPrediction of this.matchPredictions | filterPouleMatches:pouleName">
                 <app-match-card
-                        [isRegistrationOpen]="uiService.isRegistrationOpen$ | async" [matchPrediction]="matchPrediction"
-                        (emitUpdateWedstrijdScore)="updateTable($event)"></app-match-card>
+                        [isRegistrationOpen]="isRegistrationOpen$ | async"
+                        [matchPrediction]="matchPrediction"></app-match-card>
             </ion-col>
         </ion-row>
     </ion-grid>
 </ion-content>
-<ion-footer class="ion-no-border ion-padding-horizontal" *ngIf="uiService.isRegistrationOpen$ | async">
-    <ion-button *ngIf="pouleName !== 'F'" color="secondary" expand="block" fill="solid"
-                [disabled]="!areActiveMatchesPredicted()" (click)="next()">
-        {{this.uiService.isDirty$.value ? 'Opslaan' : 'Naar volgende poule'}}
-    </ion-button>
-    <ion-button *ngIf="pouleName === 'F'" color="secondary" expand="block" [disabled]="!areActiveMatchesPredicted()"
-                fill="solid"
-                (click)="save(true)">{{buttonText}}</ion-button>
+<ion-footer>
+    <ng-container class="ion-no-border ion-padding-horizontal">
+        <ion-button *ngIf="(isRegistrationOpen$ | async) && pouleName !== 'F'"
+                    [disabled]="!activePoule?.isFinal"
+                    color="secondary" expand="full" fill="solid"
+                    (click)="next()">
+            Naar volgende poule
+        </ion-button>
+        <ion-button *ngIf="(isRegistrationOpen$ | async) && pouleName === 'F'"
+                    [disabled]="!activePoule?.isFinal"
+                    color="secondary" expand="full" fill="solid"
+                    (click)="navigateToPoulePredictions()">
+            Voorspel de eindstand
+        </ion-button>
+    </ng-container>
 </ion-footer>

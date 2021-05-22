@@ -1,10 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {VoorspellingHelperService} from '../../services/voorspelling-helper.service';
 import {IonReorderGroup} from '@ionic/angular';
-import {PoulepredictionService} from '../../services/pouleprediction.service';
 import {UiService} from '../../services/ui.service';
-import {TeamService} from '../../services/team.service';
-import {ToastService} from '../../services/toast.service';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -15,11 +11,7 @@ import {Observable} from 'rxjs';
 export class StandCardComponent implements OnInit {
     @ViewChild(IonReorderGroup, {static: true}) reorderGroup: IonReorderGroup;
 
-    constructor(private voorspellingHelper: VoorspellingHelperService,
-                private poulepredictionService: PoulepredictionService,
-                private toastService: ToastService,
-                private teamService: TeamService,
-                public uiService: UiService) {
+    constructor(public uiService: UiService) {
     }
 
     @Input() poule: { poule: string, stand: any[], isSortDisabled: boolean };
