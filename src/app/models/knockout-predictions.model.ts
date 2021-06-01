@@ -7,7 +7,11 @@ export interface ISaveKnockoutPredictionsBody {
     selectedTeam: ITeam;
     homeTeam?: ITeam;
     awayTeam?: ITeam;
-    knockout?: { id: string }
+    knockout?: { id: string };
+}
+
+export interface ISaveKnockoutPredictionOneBody extends ISaveKnockoutPredictionsBody {
+    matchId: string;
 }
 
 export interface IKnockoutPrediction {
@@ -15,8 +19,8 @@ export interface IKnockoutPrediction {
     knockout: IKnockout;
     selectedTeam: ITeam;
     homeTeam: ITeam;
-    homeInRound: boolean
-    awayInRound: boolean
+    homeInRound: boolean;
+    awayInRound: boolean;
     awayTeam: ITeam;
     spelpunten: number;
     participant: IParticipant;

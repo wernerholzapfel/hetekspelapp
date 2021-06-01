@@ -31,24 +31,25 @@ export class MatchCardComponent implements OnInit {
     save() {
         if (!(this.matchPrediction.homeScore === null) && !(this.matchPrediction.awayScore === null)) {
             this.isLoading = true;
-            this.matchService.saveMatchPrediction(this.matchPrediction).subscribe(result => {
-                this.isLoading = false;
-                this.isLoadingColor = 'primary';
-                this.matchPrediction = {...this.matchPrediction, id: result.id};
+            this.matchService.saveMatchPrediction(this.matchPrediction)
+                .subscribe(result => {
+                    this.isLoading = false;
+                    this.isLoadingColor = 'primary';
+                    this.matchPrediction = {...this.matchPrediction, id: result.id};
 
-                this.uiService.matchPredictions$.next(this.uiService.matchPredictions$.getValue()
-                    .map(mp => {
-                        if (mp.match.id === this.matchPrediction.match.id) {
-                            return {...this.matchPrediction};
-                        } else {
-                            return mp;
-                        }
-                    }));
-            }, error => {
-                this.isLoading = false;
-                this.isLoadingColor = 'danger';
-                this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
-            });
+                    this.uiService.matchPredictions$.next(this.uiService.matchPredictions$.getValue()
+                        .map(mp => {
+                            if (mp.match.id === this.matchPrediction.match.id) {
+                                return {...this.matchPrediction};
+                            } else {
+                                return mp;
+                            }
+                        }));
+                }, error => {
+                    this.isLoading = false;
+                    this.isLoadingColor = 'danger';
+                    this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
+                });
         }
     }
 }

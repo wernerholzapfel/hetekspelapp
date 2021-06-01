@@ -4,9 +4,12 @@
 </ion-header>
 
 <ion-content>
+  <ion-item color="primary">
+    {{(participants$ | async)?.length}} Deelnemers
+  </ion-item>
   <ion-list>
-    <ion-item *ngFor="let p of participants$ | async">
-      {{p.displayName}}
+    <ion-item *ngFor="let p of participants$ | async; let i = index">
+      {{i + 1}} {{p.displayName}}
     </ion-item>
   </ion-list>
 </ion-content>

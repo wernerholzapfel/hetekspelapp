@@ -15,6 +15,7 @@ export interface IKnockout {
     homeScore?: number;
     awayScore?: number;
     prediction: ISaveKnockoutPredictionsBody; // todo prediction get body?
+    isLoading?: boolean;
 }
 
 export class UpdateKnockoutDto {
@@ -22,6 +23,6 @@ export class UpdateKnockoutDto {
     homeTeam: { id: string };
     awayTeam: { id: string };
     winnerTeam: { id: string };
-    homeScore: number
-    awayScore: number
+    homeScore: number;
+    awayScore: number;
 }

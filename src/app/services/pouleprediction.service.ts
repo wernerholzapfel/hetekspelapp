@@ -3,7 +3,7 @@ import {IPoulePrediction} from '../models/participant.model';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {ISaveKnockoutPredictionsBody} from '../models/knockout-predictions.model';
+import {ISaveKnockoutPredictionOneBody, ISaveKnockoutPredictionsBody} from '../models/knockout-predictions.model';
 
 @Injectable({
     providedIn: 'root'
@@ -19,6 +19,10 @@ export class PoulepredictionService {
 
     saveKnockoutPredictions(knockoutPredictions: ISaveKnockoutPredictionsBody[]): Observable<any> {
         return this.http.post<ISaveKnockoutPredictionsBody[]>(`${environment.apiBaseUrl}/knockout-prediction`, knockoutPredictions);
+    }
+
+    saveKnockoutPrediction(knockoutPredictions: ISaveKnockoutPredictionOneBody): Observable<any> {
+        return this.http.post<ISaveKnockoutPredictionsBody[]>(`${environment.apiBaseUrl}/knockout-prediction/one`, knockoutPredictions);
     }
 
     getPoulePredictions(): Observable<any> {

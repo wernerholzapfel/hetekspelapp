@@ -29,6 +29,8 @@
                      *ngFor="let match of speelschema | filterKnockoutRounds:activeKnockoutRound">
                 <ion-card color="light">
                     <app-city-card-header [match]="match"></app-city-card-header>
+                    <ion-progress-bar [color]="isLoadingColor" *ngIf="!match.isLoading" value="1"></ion-progress-bar>
+                    <ion-progress-bar color="secondary" *ngIf="match.isLoading" type="indeterminate"></ion-progress-bar>
                     <ion-radio-group [value]="match.selectedTeam?.id" (ionChange)="setSelectedTeam(match, $event)">
                         <ion-item lines="none">
                             <ion-label>
@@ -55,11 +57,11 @@
 <ion-footer *ngIf="uiService.isRegistrationOpen$ | async">
     <ng-container class="ion-no-border ion-padding-horizontal">
         <ion-button *ngIf="activeKnockoutRound !== '2'" color="secondary" expand="full" fill="solid"
-                    [disabled]="!canIGoToNextStep()" (click)="next()">Ga naar
+                    [disabled]="!canIGoToNextStep" (click)="next()">Ga naar
             Volgende
         </ion-button>
-        <ion-button *ngIf="activeKnockoutRound === '2'" color="secondary" expand="full" fill="solid"
-                    [disabled]="errorInform()" (click)="save()">Opslaan
+        <ion-button *ngIf="activeKnockoutRound === '2' && !errorInform()" (click)="navigateToHome()" color="secondary"
+                    expand="full" fill="solid">Voorspellingen compleet
         </ion-button>
     </ng-container>
 </ion-footer>

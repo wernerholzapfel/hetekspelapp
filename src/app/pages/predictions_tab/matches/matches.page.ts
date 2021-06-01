@@ -31,25 +31,30 @@ export class MatchesPage {
 
     ionViewWillEnter() {
         this.unsubscribe = new Subject<void>();
+        this.getPredictedMatches();
+        this.uiService.getArePouleMatchesPredicted()
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(response => {
+                console.log(response);
+                this.pouleNavigatie = response;
+                this.activePoule = this.pouleNavigatie.find(p => p.current === this.pouleName);
+            });
 
+        this.isRegistrationOpen$ = this.uiService.isRegistrationOpen$;
+    }
+
+    getPredictedMatches() {
         this.matchService.getMatchPredictions().subscribe(
             matchPredictions => {
                 this.matchPredictions = matchPredictions;
                 this.uiService.matchPredictions$.next(matchPredictions);
-
-                this.uiService.getArePouleMatchesPredicted()
-                    .pipe(takeUntil(this.unsubscribe))
-                    .subscribe(response => {
-                        console.log(response);
-                        this.pouleNavigatie = response;
-                        this.activePoule = this.pouleNavigatie.find(p => p.current === this.pouleName);
-                    });
             });
-        this.isRegistrationOpen$ = this.uiService.isRegistrationOpen$;
     }
 
     selectPoule($event) {
         this.activePoule = this.pouleNavigatie.find(p => p.current === $event.detail.value);
+        this.getPredictedMatches();
+
     }
 
     scrollSegments(index: number) {

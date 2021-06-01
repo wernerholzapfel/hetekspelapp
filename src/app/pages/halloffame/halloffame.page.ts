@@ -43,7 +43,7 @@ export class HalloffamePage implements OnInit {
                 naam: 'Rogier Alarm',
                 positie: 1
             }, {
-                naam: 'Rensle Praamstra',
+                naam: 'Renske Praamstra',
                 positie: 2
             }, {
                 naam: 'Marvin de Ruiter',

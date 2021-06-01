@@ -5,8 +5,8 @@ import {IKnockout} from '../../../models/knockout.model';
 import {ITeam} from '../../../models/poule.model';
 import {ToastService} from '../../../services/toast.service';
 import {UiService} from '../../../services/ui.service';
-import {Observable, of} from 'rxjs';
 import {KnockoutService} from '../../../services/knockout.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-knockout',
@@ -19,15 +19,18 @@ export class KnockoutPage {
     constructor(private poulePredictionService: PoulepredictionService,
                 private knockoutService: KnockoutService,
                 private toastService: ToastService,
+                private router: Router,
                 public uiService: UiService) {
     }
 
+    public isLoadingColor = 'primary';
     public activeKnockoutRound = '16';
     public speelschema: IKnockout[];
     private nummerDries: IPoulePrediction[];
     private nummerDrieIdentifier: string;
     private poules: any[];
     public segmentIndex = 1;
+    public canIGoToNextStep: boolean;
 
     public rounds = [
         {
@@ -50,7 +53,11 @@ export class KnockoutPage {
     ];
 
     ionViewWillEnter() {
+        this.activeKnockoutRound = '16';
+        this.receivePredictions();
+    }
 
+    receivePredictions() {
         this.poulePredictionService.getPoulePredictions().subscribe(pp => {
 
             this.poules = pp;
@@ -97,19 +104,11 @@ export class KnockoutPage {
                         awayTeam: this.setTeam(speelschema, match.awayId, match.round, null)
                     };
                 });
+                this.calculateCanIGoToNextStep();
             });
         });
     }
 
-    canDeactivate(): Observable<boolean> | Promise<boolean> {
-        if (this.uiService.isDirty$.value) {
-            return this.toastService.presentAlertConfirm().then(alertResponse => {
-                return alertResponse;
-            });
-        } else {
-            return of(true);
-        }
-    }
 
     setTeam(speelschema, id, round, selectedTeam: string): ITeam {
         if (round === '16') {
@@ -131,9 +130,10 @@ export class KnockoutPage {
         }
     }
 
-
     selectKnockoutRound($event) {
         this.activeKnockoutRound = $event.detail.value;
+        setTimeout(() => this.topScroll.nativeElement.scrollIntoView({behavior: 'smooth'}), 500);
+        this.calculateCanIGoToNextStep();
     }
 
     scrollSegments(index: number) {
@@ -143,93 +143,71 @@ export class KnockoutPage {
         if (active) {
             active.scrollIntoView({behavior: 'smooth', inline: 'center'});
             setTimeout(() => this.topScroll.nativeElement.scrollIntoView({behavior: 'smooth'}), 500);
-
         }
+        this.calculateCanIGoToNextStep();
     }
 
     setSelectedTeam(match: IKnockout, $event) {
-        this.uiService.isDirty$.next(true);
-        this.speelschema = this.speelschema
-            .map(m => {
-                if (m.id === match.id) {
-                    return {
-                        ...m,
-                        selectedTeam: {id: $event.detail.value}
-                    };
+        match.isLoading = true;
+        this.poulePredictionService.saveKnockoutPrediction(
+            (match.prediction && match.prediction.id) ?
+                {
+                    id: match.prediction.id,
+                    matchId: match.matchId,
+                    selectedTeam: {id: $event.detail.value},
+                    homeTeam: match.homeTeam,
+                    awayTeam: match.awayTeam,
+                    knockout: {id: match.id},
+                } : {
+                    selectedTeam: {id: $event.detail.value},
+                    matchId: match.matchId,
+                    homeTeam: match.homeTeam,
+                    awayTeam: match.awayTeam,
+                    knockout: {id: match.id},
+                }
+        ).subscribe(response => {
+            match.isLoading = false;
+            match.prediction = response;
+            match.selectedTeam = {id: $event.detail.value};
+
+            this.calculateCanIGoToNextStep();
+
+            const matchToUpdate = this.speelschema.find(m => m.homeId === match.matchId || m.awayId === match.matchId);
+
+            this.speelschema = this.speelschema.map(m => {
+                if (matchToUpdate && m.matchId === matchToUpdate.matchId) {
+                    if (m.homeId === match.matchId) {
+                        return {
+                            ...m,
+                            homeTeam: this.setTeam(this.speelschema, m.homeId, m.round, $event.detail.value)
+                        };
+                    } else {
+                        return {
+                            ...m,
+                            awayTeam: this.setTeam(this.speelschema, m.awayId, m.round, $event.detail.value)
+                        };
+                    }
                 } else {
                     return m;
                 }
             });
 
-        const matchToUpdate = this.speelschema.find(m => m.homeId === match.matchId || m.awayId === match.matchId);
-        this.speelschema = this.speelschema.map(m => {
-            if (matchToUpdate && m.matchId === matchToUpdate.matchId) {
-                if (m.homeId === match.matchId) {
-                    return {
-                        ...m,
-                        homeTeam: this.setTeam(this.speelschema, m.homeId, m.round, $event.detail.value)
-                    };
-                } else {
-                    return {
-                        ...m,
-                        awayTeam: this.setTeam(this.speelschema, m.awayId, m.round, $event.detail.value)
-                    };
-                }
-            } else {
-                return m;
-            }
+        }, error => {
+            match.isLoading = false;
+            this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
         });
     }
 
     next() {
         this.activeKnockoutRound = this.rounds.find(r => r.round === this.activeKnockoutRound).next;
         setTimeout(() => this.topScroll.nativeElement.scrollIntoView({behavior: 'smooth'}), 500);
-        if (this.uiService.isDirty$.getValue()) {
-            this.save();
-        }
     }
 
-    save() {
-        this.poulePredictionService.saveKnockoutPredictions(
-            this.speelschema
-                .filter(sp => sp.selectedTeam && sp.selectedTeam.id)
-                .map(sp => {
-                    if (sp.prediction && sp.prediction.id) {
-                        return {
-                            id: sp.prediction.id,
-                            selectedTeam: sp.selectedTeam,
-                            homeTeam: sp.homeTeam,
-                            awayTeam: sp.awayTeam,
-                            knockout: {id: sp.id},
-                        };
-                    } else {
-                        return {
-                            selectedTeam: sp.selectedTeam,
-                            homeTeam: sp.homeTeam,
-                            awayTeam: sp.awayTeam,
-                            knockout: {id: sp.id},
-                        };
-                    }
-                })).subscribe(response => {
-            this.toastService.presentToast('Opslaan is gelukt');
-            this.uiService.isDirty$.next(false);
-            this.speelschema = this.speelschema.map(item => {
-                    return {
-                        ...item,
-                        prediction: response.find(r => r.knockout.id === item.id)
-                    };
-                }
-            );
-        }, error => {
-            this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
-        });
-    }
-
-    canIGoToNextStep(): boolean {
+    calculateCanIGoToNextStep(): void {
         const matchesInActiveRound = this.speelschema?.filter(sp => sp.round === this.activeKnockoutRound);
         const matchesInActiveRoundWithSelectedTeam = matchesInActiveRound?.filter(av => av.selectedTeam);
 
-        return (this.speelschema &&
+        this.canIGoToNextStep = (this.speelschema &&
             matchesInActiveRound.length === matchesInActiveRoundWithSelectedTeam.length);
     }
 
@@ -241,6 +219,9 @@ export class KnockoutPage {
                         match.selectedTeam.id !== match.awayTeam.id)).length > 0);
     }
 
+    navigateToHome() {
+        this.router.navigate([`deelnemers`]);
+    }
 }
 
 
