@@ -31,36 +31,41 @@ export class PoulePage {
             poulePrediction => {
                 this.uiService.isDirty$.next(this.isFirstTime(poulePrediction));
                 this.poules = [{
-                    poule: 'A', stand: poulePrediction.filter(p => p.poule === 'A')
-                        .sort((a, b) => a.positie - b.positie),
+                    poule: 'A',
+                    stand: this.createStand(poulePrediction, 'A'),
                     isSortDisabled: true
                 },
                     {
-                        poule: 'B', stand: poulePrediction.filter(p => p.poule === 'B')
-                            .sort((a, b) => a.positie - b.positie),
+                        poule: 'B',
+                        stand: this.createStand(poulePrediction, 'B'),
                         isSortDisabled: true
                     },
                     {
-                        poule: 'C', stand: poulePrediction.filter(p => p.poule === 'C')
-                            .sort((a, b) => a.positie - b.positie),
+                        poule: 'C',
+                        stand: this.createStand(poulePrediction, 'C'),
                         isSortDisabled: true
                     },
                     {
-                        poule: 'D', stand: poulePrediction.filter(p => p.poule === 'D')
-                            .sort((a, b) => a.positie - b.positie),
+                        poule: 'D',
+                        stand: this.createStand(poulePrediction, 'D'),
                         isSortDisabled: true
                     },
                     {
-                        poule: 'E', stand: poulePrediction.filter(p => p.poule === 'E')
-                            .sort((a, b) => a.positie - b.positie),
+                        poule: 'E',
+                        stand: this.createStand(poulePrediction, 'E'),
                         isSortDisabled: true
                     },
                     {
-                        poule: 'F', stand: poulePrediction.filter(p => p.poule === 'F')
-                            .sort((a, b) => a.positie - b.positie),
+                        poule: 'F',
+                        stand: this.createStand(poulePrediction, 'F'),
                         isSortDisabled: true
                     }];
             });
+    }
+
+    createStand(poulePrediction, pouleName: string) {
+        return poulePrediction.filter(p => p.poule === pouleName)
+            .sort((a, b) => a.positie - b.positie);
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> {

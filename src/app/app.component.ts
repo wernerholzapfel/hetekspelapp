@@ -17,6 +17,7 @@ import {FCM} from 'cordova-plugin-fcm-with-dependecy-updated/ionic/ngx';
 import {ParticipantService} from './services/participant.service';
 import * as moment from 'moment';
 import {HetekspelService} from './services/hetekspel.service';
+import {RouteStateService} from './services/route-state.service';
 
 @Component({
     selector: 'app-root',
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private loaderService: LoaderService,
         private hetEKSpelService: HetekspelService,
         private participantService: ParticipantService,
+        private routeStateService: RouteStateService,
         private ngZone: NgZone
     ) {
         this.initializeApp();
@@ -112,8 +114,16 @@ export class AppComponent implements OnInit, OnDestroy {
             if (this.platform.is('cordova')) {
                 this.checkCodePush();
                 this.getToken();
+                this.refresh();
             }
         });
+    }
+
+    public refresh(): void {
+        const currentPage = this.routeStateService.getCurrentRouteComponent();
+        if (currentPage && currentPage.refresh) {
+            currentPage.refresh(null);
+        }
     }
 
     checkCodePush() {
@@ -183,7 +193,6 @@ export class AppComponent implements OnInit, OnDestroy {
             },
             (x) => console.log(x),
             () => {
-                console.log('deadlinepasssed');
                 this.uiService.isRegistrationOpen$.next(false);
             }
         );

@@ -77,6 +77,13 @@
   --ion-color-accent-shade: #cad6d8;
   --ion-color-accent-tint: #e8f4f7;
 
+  --ion-color-secondary-accent: #efaa66;
+  --ion-color-secondary-accent-rgb: 239, 170, 102;
+  --ion-color-secondary-accent-contrast: #000000;
+  --ion-color-secondary-accent-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-accent-shade: #d2965a;
+  --ion-color-secondary-accent-tint: #f1b375;
+
   --ion-background-color: #e4e7ee;
   --ion-tab-bar-background: var(--ion-color-light);
 
@@ -87,6 +94,15 @@
     --ion-color-contrast-rgb: var(--ion-color-accent-contrast-rgb);
     --ion-color-shade: var(--ion-color-accent-shade);
     --ion-color-tint: var(--ion-color-accent-tint);
+  }
+
+  .ion-color-secondary-accent {
+    --ion-color-base: var(--ion-color-secondary-accent);
+    --ion-color-base-rgb: var(--ion-color-secondary-accent-rgb);
+    --ion-color-contrast: var(--ion-color-secondary-accent-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-secondary-accent-contrast-rgb);
+    --ion-color-shade: var(--ion-color-secondary-accent-shade);
+    --ion-color-tint: var(--ion-color-secondary-accent-tint);
   }
 
   ion-card {
@@ -189,6 +205,13 @@
     --ion-color-accent-contrast-rgb: 255, 255, 255;
     --ion-color-accent-shade: #313337;
     --ion-color-accent-tint: #4c4e51;
+
+    --ion-color-secondary-accent: #efaa66;
+    --ion-color-secondary-accent-rgb: 239, 170, 102;
+    --ion-color-secondary-accent-contrast: #000000;
+    --ion-color-secondary-accent-contrast-rgb: 0, 0, 0;
+    --ion-color-secondary-accent-shade: #d2965a;
+    --ion-color-secondary-accent-tint: #f1b375;
 
     --ion-tab-bar-background: var(--ion-color-light);
 

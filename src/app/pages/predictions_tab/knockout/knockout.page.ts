@@ -7,6 +7,8 @@ import {ToastService} from '../../../services/toast.service';
 import {UiService} from '../../../services/ui.service';
 import {KnockoutService} from '../../../services/knockout.service';
 import {Router} from '@angular/router';
+import {AlertController} from '@ionic/angular';
+import {take} from 'rxjs/operators';
 
 @Component({
     selector: 'app-knockout',
@@ -20,7 +22,8 @@ export class KnockoutPage {
                 private knockoutService: KnockoutService,
                 private toastService: ToastService,
                 private router: Router,
-                public uiService: UiService) {
+                public uiService: UiService,
+                public alertController: AlertController) {
     }
 
     public isLoadingColor = 'primary';
@@ -211,7 +214,7 @@ export class KnockoutPage {
             matchesInActiveRound.length === matchesInActiveRoundWithSelectedTeam.length);
     }
 
-    errorInform(): boolean {
+    predictionInComplete(): boolean {
         return this.speelschema &&
             (this.speelschema.filter(sp => sp.selectedTeam).length !== this.speelschema.length ||
                 this.speelschema.filter(match => match.selectedTeam &&
@@ -221,6 +224,38 @@ export class KnockoutPage {
 
     navigateToHome() {
         this.router.navigate([`deelnemers`]);
+    }
+
+    async deleteKnockoutPredictions() {
+        const alert = await this.alertController.create({
+            header: 'Weet je het zeker?',
+            subHeader: 'Verwijder knockout voorspellingen',
+            message: 'Hiermee verwijder je al jouw knockoutvoorspellingen. De voorspellingen van de wedstrijden en poulestanden blijven bewaard.',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: (blah) => {
+                    }
+                }, {
+                    text: 'Verwijder',
+                    cssClass: 'hes-alert-danger',
+                    handler: () => {
+                        this.poulePredictionService.deleteKnockoutPredictions()
+                            .pipe(take(1))
+                            .subscribe(res => {
+                                this.toastService.presentToast('Knockout wedstrijden verwijderd. Vul alle knockout wedstrijden opnieuw in.',
+                                    'success', true, 'OK', 5000);
+                                this.activeKnockoutRound = '16';
+                                this.receivePredictions();
+                            });
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
     }
 }
 

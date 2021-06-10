@@ -38,7 +38,6 @@ export class AuthService {
 
             })).subscribe(([participant, user, tokenResult, isRegistrationOpen]) => {
             if (user && tokenResult) {
-                console.log('user');
                 this.user = user;
                 this.displayName = user.displayName;
                 this.isAdmin = tokenResult && tokenResult.claims ? tokenResult.claims.admin : false;
@@ -48,7 +47,6 @@ export class AuthService {
                     this.uiService.participant$.next(participant);
                 }
             } else {
-                console.log('geen user');
                 this.user = null;
                 this.displayName = null;
                 this.isAdmin = false;

@@ -35,7 +35,6 @@ export class MatchesPage {
         this.uiService.getArePouleMatchesPredicted()
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(response => {
-                console.log(response);
                 this.pouleNavigatie = response;
                 this.activePoule = this.pouleNavigatie.find(p => p.current === this.pouleName);
             });

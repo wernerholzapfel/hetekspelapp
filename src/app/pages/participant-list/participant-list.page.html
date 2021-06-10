@@ -1,15 +1,36 @@
 <ion-header>
-  <app-menu-toolbar>
-  </app-menu-toolbar>
+    <app-menu-toolbar>
+    </app-menu-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item color="primary">
-    {{(participants$ | async)?.length}} Deelnemers
-  </ion-item>
-  <ion-list>
-    <ion-item *ngFor="let p of participants$ | async; let i = index">
-      {{i + 1}} {{p.displayName}}
+    <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-item color="primary" *ngIf="participants">
+        {{participants?.length}} Deelnemers
+        <ng-container *ngIf="isAdmin$| async">
+            <ion-text slot="end">
+                <ion-icon color="light"
+                          name="football"></ion-icon>
+                {{matchesPredicted}}
+                <ion-icon color="light"
+                          name="list"></ion-icon>
+                {{poulePredicted}}
+                <ion-icon color="light"
+                          name="trophy"></ion-icon>
+                {{knockoutPredicted}}
+            </ion-text>
+        </ng-container>
     </ion-item>
-  </ion-list>
+    <ion-list>
+        <ion-item *ngFor="let p of participants; let i = index">
+            {{i + 1}} {{p.participant_displayName}}
+            <ion-icon slot="end" [color]="p.matchpredictions === '36' ? 'primary' : 'medium'"
+                      name="football"></ion-icon>
+            <ion-icon slot="end" [color]="p.poulepredictions === '24' ? 'primary' : 'medium'" name="list"></ion-icon>
+            <ion-icon slot="end" [color]="p.knockoutpredictions === '15' ? 'primary' : 'medium'"
+                      name="trophy"></ion-icon>
+        </ion-item>
+    </ion-list>
 </ion-content>

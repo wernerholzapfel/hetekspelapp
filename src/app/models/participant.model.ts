@@ -1,4 +1,4 @@
-import {IMatch, ITableLine} from './poule.model';
+import {IMatch} from './poule.model';
 import {IStandLine} from './stand.model';
 
 export interface IParticipant {
@@ -6,6 +6,7 @@ export interface IParticipant {
   displayName: string;
   teamName: string;
   email?: string;
+  isAllowed?: boolean;
 }
 
 export interface IMatchPrediction {

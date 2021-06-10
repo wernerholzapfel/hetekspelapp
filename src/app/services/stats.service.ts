@@ -18,4 +18,8 @@ export class StatsService {
     createKnockoutStats(): Observable<any[]> {
         return this.http.post<any[]>(`${environment.apiBaseUrl}/stats/knockout`, {});
     }
+
+    getParticipantsStats(): Observable<any[]> {
+        return this.http.get<any[]>(`${environment.apiBaseUrl}/stats/complete`, {});
+    }
 }

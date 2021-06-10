@@ -131,7 +131,6 @@ export class MenuService {
     ]);
 
     setMenu(admin: boolean, user, registrationOpen: boolean) {
-        console.log('setmenu : admin , user ,registration open ' + admin + user + registrationOpen);
         this.appPages$.next(this.appPages$.getValue().map(item => {
             return {
                 ...item,

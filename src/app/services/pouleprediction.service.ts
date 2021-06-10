@@ -21,6 +21,10 @@ export class PoulepredictionService {
         return this.http.post<ISaveKnockoutPredictionsBody[]>(`${environment.apiBaseUrl}/knockout-prediction`, knockoutPredictions);
     }
 
+    deleteKnockoutPredictions(): Observable<any> {
+        return this.http.delete(`${environment.apiBaseUrl}/knockout-prediction`);
+    }
+
     saveKnockoutPrediction(knockoutPredictions: ISaveKnockoutPredictionOneBody): Observable<any> {
         return this.http.post<ISaveKnockoutPredictionsBody[]>(`${environment.apiBaseUrl}/knockout-prediction/one`, knockoutPredictions);
     }
