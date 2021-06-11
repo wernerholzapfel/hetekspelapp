@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {IStandLine} from '../../models/stand.model';
 import {UiService} from '../../services/ui.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,10 +10,10 @@ import {takeUntil} from 'rxjs/operators';
     templateUrl: './deelnemer.page.html',
     styleUrls: ['./deelnemer.page.scss'],
 })
-export class DeelnemerPage implements OnInit, OnDestroy {
+export class DeelnemerPage {
 
     standLine: IStandLine;
-    unsubscribe = new Subject<void>();
+    unsubscribe: Subject<void>;
 
     constructor(private uiService: UiService,
                 private route: ActivatedRoute,
@@ -21,7 +21,9 @@ export class DeelnemerPage implements OnInit, OnDestroy {
     }
 
 
-    ngOnInit() {
+    ionViewDidEnter() {
+        this.unsubscribe = new Subject<void>();
+
         if (this.route.snapshot.params.id) {
             this.uiService.totaalstand$
                 .pipe(takeUntil(this.unsubscribe))
@@ -32,13 +34,15 @@ export class DeelnemerPage implements OnInit, OnDestroy {
                 });
         } else {
             this.uiService.participant$.pipe(takeUntil(this.unsubscribe)).subscribe(participant => {
-                this.router.navigate([`deelnemer/deelnemer/${participant.id}/matches`]);
+                if (participant) {
+                    this.router.navigate([`deelnemer/deelnemer/${participant.id}/matches`]);
+                }
             });
         }
 
     }
 
-    ngOnDestroy(): void {
+    ionViewDidLeave(): void {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }

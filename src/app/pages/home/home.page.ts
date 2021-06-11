@@ -5,6 +5,7 @@ import {IStandLine} from '../../models/stand.model';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {IParticipant} from '../../models/participant.model';
+import {MatchService} from '../../services/match.service';
 
 @Component({
     selector: 'app-home',
@@ -17,9 +18,10 @@ export class HomePage implements OnInit, OnDestroy {
     participantStandLine: IStandLine;
     lastUpdated: number;
     participant$: Observable<IParticipant>;
+    fullscore$: Observable<any[]>;
     unsubscribe = new Subject<void>();
 
-    constructor(private uiService: UiService, public authService: AuthService) {
+    constructor(private uiService: UiService, public authService: AuthService, private matchService: MatchService) {
     }
 
     ngOnInit() {
@@ -37,6 +39,8 @@ export class HomePage implements OnInit, OnDestroy {
             });
 
         this.participant$ = this.uiService.participant$;
+
+        this.fullscore$ = this.matchService.getMatchesFullScore();
     }
 
     ngOnDestroy(): void {

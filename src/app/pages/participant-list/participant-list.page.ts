@@ -1,17 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {StatsService} from '../../services/stats.service';
 import {UiService} from '../../services/ui.service';
+import {RouteStateService} from '../../services/route-state.service';
 
 @Component({
     selector: 'app-participant-list',
     templateUrl: './participant-list.page.html',
     styleUrls: ['./participant-list.page.scss'],
 })
-export class ParticipantListPage implements OnInit {
+export class ParticipantListPage implements OnInit, OnDestroy {
 
     constructor(private statsService: StatsService,
-                private uiService: UiService) {
+                private uiService: UiService,
+                private routeStateService: RouteStateService) {
     }
 
     isAdmin$: Observable<boolean>;
@@ -27,6 +29,7 @@ export class ParticipantListPage implements OnInit {
 
 
     ngOnInit() {
+        this.routeStateService.setCurrentRouteComponent(this);
         this.getParticipants(null);
         this.isAdmin$ = this.uiService.isAdmin$;
     }
@@ -44,7 +47,12 @@ export class ParticipantListPage implements OnInit {
     }
 
     refresh(event) {
+        console.log('refresh triggerd on participant list page');
         this.getParticipants(event);
+    }
+
+    ngOnDestroy(): void {
+        this.routeStateService.setCurrentRouteComponent(null);
     }
 
 }

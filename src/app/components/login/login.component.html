@@ -2,7 +2,7 @@
     <ion-card-header>
         <ion-segment mode="md" color="primary" (ionChange)="segmentChanged($event)" value="inschrijven"
                      *ngIf="!(authService.user$ | async)">
-            <ion-segment-button mode="md" value="inschrijven">
+            <ion-segment-button mode="md" value="inschrijven" *ngIf="(uiService.isRegistrationOpen$ | async)">
                 Inschrijven
             </ion-segment-button>
             <ion-segment-button mode="md" value="inloggen">

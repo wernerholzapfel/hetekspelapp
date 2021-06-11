@@ -5,6 +5,7 @@ import {Subject} from 'rxjs';
 import {ToastController} from '@ionic/angular';
 import {ParticipantService} from '../../services/participant.service';
 import {takeUntil} from 'rxjs/operators';
+import {UiService} from '../../services/ui.service';
 
 @Component({
     selector: 'app-login',
@@ -18,13 +19,15 @@ export class LoginComponent implements OnInit, OnDestroy {
         displayName: '',
         teamName: '',
     };
-    activeSegment = 'inschrijven';
+    activeSegment = 'inloggen';
 
     unsubscribe = new Subject<void>();
 
     constructor(public authService: AuthService,
+                public uiService: UiService,
                 public toastController: ToastController,
-                private participantService: ParticipantService) {
+                private participantService: ParticipantService
+    ) {
     }
 
     userForm = new FormGroup({
@@ -66,8 +69,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                     animated: true,
                     mode: 'md'
                 });
-            toast.present();
-        });
+                toast.present();
+            });
     }
 
     sendPasswordResetEmail() {

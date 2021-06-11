@@ -19,6 +19,10 @@ export class MatchService {
             .pipe(map(res => res as IMatch[]));
     }
 
+    getMatchesFullScore(): Observable<any[]> {
+        return this.http.get<any[]>(`${environment.apiBaseUrl}/match/fullscore`);
+    }
+
     getMatch(matchId): Observable<IMatch> {
         return this.http.get<IMatch>(`${environment.apiBaseUrl}/match/${matchId}`);
     }

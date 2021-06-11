@@ -31,6 +31,40 @@
                 <app-participant-card color="secondary" [lastUpdated]="lastUpdated"
                                       [standLine]="participantStandLine"></app-participant-card>
                 <app-participant-card [lastUpdated]="lastUpdated" [standLine]="standLine"></app-participant-card>
+                <ng-container *ngFor="let fullscore of fullscore$ | async">
+                    <ion-card>
+                        <app-city-card-header [match]="fullscore"></app-city-card-header>
+                        <ion-card-content>
+                            <ion-card-title>
+                                <ion-row>
+                                    <ion-col class="ion-no-padding">
+                                        <span class="flag-icon flag-icon-{{fullscore?.homeTeam?.logoUrl}} flag-icon-squared"></span>
+                                        {{fullscore?.homeTeam?.name}}
+                                    </ion-col>
+                                    <ion-col class="ion-no-padding ion-text-right" size="1">
+                                        {{fullscore.homeScore}}
+                                    </ion-col>
+                                </ion-row>
+                            </ion-card-title>
+                            <ion-card-title>
+                                <ion-row>
+                                    <ion-col class="ion-no-padding">
+                                        <span class="flag-icon flag-icon-{{fullscore?.awayTeam?.logoUrl}} flag-icon-squared"></span>
+                                        {{fullscore?.awayTeam?.name}}
+                                    </ion-col>
+                                    <ion-col class="ion-no-padding ion-text-right" size="1">
+                                        {{fullscore.awayScore}}
+                                    </ion-col>
+                                </ion-row>
+                            </ion-card-title>
+                            <ion-card-subtitle class="ion-padding-top">
+                                Goed voorspeld door {{fullscore.participants.length}} deelnemers:
+                            </ion-card-subtitle>
+                            <ion-chip
+                                    *ngFor="let participant of fullscore.participants">{{participant.displayName}}</ion-chip>
+                        </ion-card-content>
+                    </ion-card>
+                </ng-container>
             </ion-col>
             <ion-col size="12" size-md="6" size-lg="6" size-xl="6" *ngIf="!(authService.user$ | async)">
                 <app-login></app-login>

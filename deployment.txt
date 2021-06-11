@@ -18,10 +18,10 @@ Go to ~/Library/Android/sdk/build-tools/30.0.1/
 cd ~/Library/Android/sdk/build-tools/30.0.1/
 and run:
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore hetekspel-release-key.keystore app-release-unsigned.apk hetekspel_key
-./zipalign -v 4 app-release-unsigned.apk hetekspel_1.0.2.apk
+./zipalign -v 4 app-release-unsigned.apk hetekspel_1.0.4.apk
 
 
 Appcenter:
 
 ionic cordova build android --prod --release
-appcenter codepush release -a werner.holzapfel-gmail.com/hetekspel-android -c ./platforms/android/app/src/main/assets/www/ -t 1.0.1 -d Production -m
+appcenter codepush release -a werner.holzapfel-gmail.com/hetekspel-android -c ./platforms/android/app/src/main/assets/www/ -t 1.0.0 - 1.0.2 -d Production -m

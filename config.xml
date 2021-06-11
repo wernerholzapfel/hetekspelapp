@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.wernerholzapfel.hetekspel" version="1.0.2" xmlns="http://www.w3.org/ns/widgets">
+<widget id="com.wernerholzapfel.hetekspel" version="1.0.4" xmlns="http://www.w3.org/ns/widgets">
     <name>Het EK Spel</name>
     <description>Het EK Spel 2020</description>
     <author email="werner.holzapfel@gmail.com" href="http://hetekspel-2020.web.app/">Het EK Spel</author>
