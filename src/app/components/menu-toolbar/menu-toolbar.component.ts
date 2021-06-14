@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UiService} from '../../services/ui.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-menu-toolbar',
@@ -11,10 +12,14 @@ export class MenuToolbarComponent implements OnInit {
     @Input() rightCornerIcon: string;
     @Output() emitIconClick = new EventEmitter<any>();
 
-    constructor(public uiService: UiService) {
+    constructor(public uiService: UiService, private router: Router) {
     }
 
     ngOnInit() {
+    }
+
+    openHome() {
+        this.router.navigate([`home`], {replaceUrl: true});
     }
 
     iconClick(event$) {

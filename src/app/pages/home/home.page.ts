@@ -6,6 +6,7 @@ import {combineLatest, Observable, Subject} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {IParticipant} from '../../models/participant.model';
 import {MatchService} from '../../services/match.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -21,7 +22,10 @@ export class HomePage implements OnInit, OnDestroy {
     fullscore$: Observable<any[]>;
     unsubscribe = new Subject<void>();
 
-    constructor(private uiService: UiService, public authService: AuthService, private matchService: MatchService) {
+    constructor(private uiService: UiService,
+                public authService: AuthService,
+                private matchService: MatchService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -41,6 +45,14 @@ export class HomePage implements OnInit, OnDestroy {
         this.participant$ = this.uiService.participant$;
 
         this.fullscore$ = this.matchService.getMatchesFullScore();
+    }
+
+    openMatch(matchId: string) {
+        this.router.navigate([`match/${matchId}`], {replaceUrl: true});
+    }
+
+    openParticipant(participantId: string) {
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/matches`], {replaceUrl: true});
     }
 
     ngOnDestroy(): void {

@@ -36,6 +36,10 @@ ion-card.message {
   --color: var(--ion-color-light)
 }
 
+ion-card {
+  margin: 8px;
+}
+
 .hes-border-bottom {
   border-bottom: 1px solid var(--ion-color-light-shade)
 }

@@ -223,7 +223,7 @@ export class KnockoutPage {
     }
 
     navigateToHome() {
-        this.router.navigate([`deelnemers`]);
+        this.router.navigate([`deelnemers`], {replaceUrl: true});
     }
 
     async deleteKnockoutPredictions() {

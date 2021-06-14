@@ -47,19 +47,19 @@ export class StandPage implements OnInit, OnDestroy {
     }
 
     navigateToParticipant(participantId) {
-        this.router.navigate([`deelnemer/deelnemer/${participantId}/matches/`]);
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/matches/`], {replaceUrl: true});
     }
 
     openMatches(participantId) {
-        this.router.navigate([`deelnemer/deelnemer/${participantId}/matches/`]);
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/matches/`], {replaceUrl: true});
     }
 
     openPoules(participantId) {
-        this.router.navigate([`deelnemer/deelnemer/${participantId}/poule/`]);
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/poule/`], {replaceUrl: true});
     }
 
     openKnockout(participantId) {
-        this.router.navigate([`deelnemer/deelnemer/${participantId}/knockout/`]);
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/knockout/`], {replaceUrl: true});
     }
 
     ngOnDestroy(): void {

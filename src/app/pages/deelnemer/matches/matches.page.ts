@@ -51,7 +51,7 @@ export class MatchesPage implements OnInit, OnDestroy {
     }
 
     openMatch(matchId: string) {
-        this.router.navigate([`match/${matchId}`]);
+        this.router.navigate([`match/${matchId}`], {replaceUrl: true});
     }
 
     ngOnDestroy(): void {

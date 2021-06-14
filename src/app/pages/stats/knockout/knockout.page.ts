@@ -27,7 +27,7 @@ export class KnockoutPage implements OnInit, OnDestroy {
     }
 
     openKoTeam(team, round) {
-        this.router.navigate([`stats/knockout/round/${round}/team/${team}`]);
+        this.router.navigate([`stats/knockout/round/${round}/team/${team}`], {replaceUrl: true});
     }
 
     ngOnDestroy(): void {

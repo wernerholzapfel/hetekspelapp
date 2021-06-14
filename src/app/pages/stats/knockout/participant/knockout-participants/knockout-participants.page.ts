@@ -46,7 +46,7 @@ export class KnockoutParticipantsPage implements OnInit, OnDestroy {
     }
 
     openParticipant(participantId: string) {
-        this.router.navigate([`deelnemer/deelnemer/${participantId}/knockout/`]);
+        this.router.navigate([`deelnemer/deelnemer/${participantId}/knockout/`], {replaceUrl: true});
 
     }
 

@@ -79,7 +79,7 @@ export class AuthService {
     logout() {
         this.fireAuth.signOut()
             .then(() => {
-                this.router.navigate(['/']);
+                this.router.navigate(['/'], {replaceUrl: true});
             });
     }
 

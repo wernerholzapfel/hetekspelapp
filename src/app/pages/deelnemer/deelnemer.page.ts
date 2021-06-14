@@ -35,7 +35,7 @@ export class DeelnemerPage {
         } else {
             this.uiService.participant$.pipe(takeUntil(this.unsubscribe)).subscribe(participant => {
                 if (participant) {
-                    this.router.navigate([`deelnemer/deelnemer/${participant.id}/matches`]);
+                    this.router.navigate([`deelnemer/deelnemer/${participant.id}/matches`], {replaceUrl: true});
                 }
             });
         }

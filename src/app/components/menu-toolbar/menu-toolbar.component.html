@@ -2,7 +2,7 @@
   <ion-buttons slot="start">
     <ion-menu-button></ion-menu-button>
   </ion-buttons>
-  <ion-title>
+  <ion-title (click)="openHome()">
     <img [src]="(uiService.prefersDark$ | async) ? '/assets/header_hetekspel_dark_mode.png' : '/assets/header_hetekspel_light_mode.png'"
          height="36px;">
   </ion-title>

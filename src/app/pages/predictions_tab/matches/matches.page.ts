@@ -84,7 +84,7 @@ export class MatchesPage {
     }
 
     navigateToPoulePredictions() {
-        this.router.navigate([`prediction/prediction/poule/`]);
+        this.router.navigate([`prediction/prediction/poule/`], {replaceUrl: true});
     }
 
     ionViewDidLeave(): void {

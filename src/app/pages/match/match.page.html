@@ -1,7 +1,54 @@
 <ion-header>
-    <app-menu-toolbar></app-menu-toolbar>
+    <app-menu-toolbar (emitIconClick)="showFilter = !showFilter" rightCornerIcon="funnel"></app-menu-toolbar>
 </ion-header>
-
+<ion-toolbar color="background" *ngIf="match" class="ion-no-padding">
+    <ion-grid *ngIf="showFilter" class="hes-background">
+        <ion-row class="hes-background"
+                 *ngFor="let uitslag of uitslagen" (click)="filterUitslag(uitslag)">
+            <ion-col class="ion-align-self-start">
+                <ion-badge [color]="(uitslag$ | async)?.homeScore === uitslag.homeScore &&
+                 (uitslag$ | async)?.awayScore === uitslag.awayScore ? 'secondary' : 'primary'">
+                    {{uitslag.homeScore}} - {{uitslag.awayScore}}</ion-badge>
+            </ion-col>
+            <ion-col size="6" class="ion-align-self-center">
+                <ion-progress-bar
+                        [color]="(uitslag$ | async)?.homeScore === uitslag.homeScore &&
+                 (uitslag$ | async)?.awayScore === uitslag.awayScore ? 'secondary' : 'primary'"
+                        style="height: 20px" [value]="uitslag.count"></ion-progress-bar>
+            </ion-col>
+            <ion-col class="ion-align-self-end ion-text-end">
+                <ion-badge [color]="(uitslag$ | async)?.homeScore === uitslag.homeScore &&
+                (uitslag$ | async)?.awayScore === uitslag.awayScore ? 'secondary' : 'primary'">{{uitslag.aantal}}</ion-badge>
+            </ion-col>
+        </ion-row>
+        <ion-row class="hes-background"
+                 (click)="filterUitslag(null)">
+            <ion-col size="12" class="ion-align-self-center ion-text-center">
+                Reset filter
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ng-container *ngIf="!showFilter && (uitslag$ | async)">
+        <ion-grid class="ion-no-padding">
+            <ion-row class="hes-background ion-padding" (click)="showFilter = !showFilter">
+                <ion-col class="ion-align-self-start">
+                    <ion-badge [color]="'secondary'">
+                        {{(uitslag$ | async)?.homeScore}} - {{(uitslag$ | async)?.awayScore}}</ion-badge>
+                </ion-col>
+                <ion-col size="6" class="ion-align-self-center">
+                    <ion-progress-bar
+                            color="secondary"
+                            style="height: 20px" [value]="(uitslag$ | async)?.count"></ion-progress-bar>
+                </ion-col>
+                <ion-col class="ion-align-self-end ion-text-end">
+                    <ion-badge color="secondary">{{(uitslag$ | async)?.aantal}}</ion-badge>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ng-container>
+    <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" color="light"
+                   debounce="500"></ion-searchbar>
+</ion-toolbar>
 <ion-content *ngIf="match">
     <ion-card class="match-card">
         <app-city-card-header [match]="match"></app-city-card-header>
@@ -32,7 +79,6 @@
             </ion-card-subtitle>
         </ion-card-content>
     </ion-card>
-
     <ion-grid class="ion-padding" *ngIf="false">
         <ion-row style="font-size: x-small">
             <ion-col size="6" class="ion-padding ion-text-start hes-background">
@@ -66,16 +112,15 @@
         </ion-row>
     </ion-grid>
     <ion-grid>
-        <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" color="light"
-                       debounce="500"></ion-searchbar>
-        <ng-container *ngFor="let prediction of match?.matchPredictions">
-            <ion-row class="hes-border-bottom" (click)="navigateToParticipant(prediction.participant.id)">
-                <ion-col class="hes-background">
+        <ion-virtual-scroll [items]="match?.matchPredictions" approxItemHeight="70px">
+            <ion-row *virtualItem="let prediction" class="hes-border-bottom"
+                     (click)="navigateToParticipant(prediction.participant.id)">
+                <ion-col class="hes-background" size="9">
                     <ion-row>
-                        <ion-col>
+                        <ion-col size="9" class="hes-overflow">
                             {{prediction.tableLine.position}}) {{prediction.participant.displayName}}
                         </ion-col>
-                        <ion-col class="ion-text-end">
+                        <ion-col size="3" class="ion-text-end">
                             <ion-icon name="podium-outline"></ion-icon>
                             {{prediction.tableLine.totalPoints}}</ion-col>
                     </ion-row>
@@ -105,19 +150,19 @@
                         <ion-col size="6" class="ion-no-padding ion-text-start">
                             <ion-row class="ion-no-padding">
                                 <ion-col class="ion-text-start">
-                                    <span class="flag-icon flag-icon-{{match?.homeTeam.logoUrl}} flag-icon-squared"></span>
+                                    <span class="hes-show-flag flag-icon flag-icon-{{match?.homeTeam.logoUrl}} flag-icon-squared"></span>
                                     {{prediction.homeScore}}
                                 </ion-col>
                             </ion-row>
                             <ion-row class="ion-no-padding">
                                 <ion-col class="ion-text-start">
-                                    <span class="flag-icon flag-icon-{{match?.awayTeam.logoUrl}} flag-icon-squared"></span>
+                                    <span class="hes-show-flag flag-icon flag-icon-{{match?.awayTeam.logoUrl}} flag-icon-squared"></span>
                                     {{prediction.awayScore}}
                                 </ion-col>
                             </ion-row>
                         </ion-col>
                         <ion-col size="6"
-                                 class="ion-no-padding ion-text-center ion-align-self-center">
+                                 class="ion-no-padding ion-text-start ion-align-self-center">
                             <ion-chip color="primary" *ngIf="prediction.spelpunten != null">
                                 {{prediction.spelpunten}}
                             </ion-chip>
@@ -125,6 +170,6 @@
                     </ion-row>
                 </ion-col>
             </ion-row>
-        </ng-container>
+        </ion-virtual-scroll>
     </ion-grid>
 </ion-content>

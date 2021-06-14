@@ -103,7 +103,7 @@ export class PoulePage {
             ...this.poules[5].stand]).subscribe(() => {
             this.toastService.presentToast('Opslaan is gelukt');
             this.uiService.isDirty$.next(false);
-            this.router.navigate(['prediction/prediction/knockout']);
+            this.router.navigate(['prediction/prediction/knockout'], {replaceUrl: true});
         }, error => {
             this.toastService.presentToast(error && error.error && error.error.message ? error.error.message : 'Er is iets misgegaan', 'warning');
 

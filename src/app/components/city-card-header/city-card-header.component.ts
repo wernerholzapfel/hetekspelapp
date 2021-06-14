@@ -1,6 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IMatch} from '../../models/poule.model';
-import {IKnockout} from '../../models/knockout.model';
 
 @Component({
     selector: 'app-city-card-header',
@@ -9,7 +7,7 @@ import {IKnockout} from '../../models/knockout.model';
 })
 export class CityCardHeaderComponent implements OnInit {
 
-    @Input() match: IKnockout;
+    @Input() match: any;
 
     constructor() {
     }

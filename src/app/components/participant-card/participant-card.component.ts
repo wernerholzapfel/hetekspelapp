@@ -20,19 +20,19 @@ export class ParticipantCardComponent implements OnInit {
     }
 
     openStand() {
-        this.router.navigate(['stand']);
+        this.router.navigate(['stand'], {replaceUrl: true});
     }
 
     openMatches() {
-        this.router.navigate([`deelnemer/deelnemer/${this.standLine.id}/matches/`]);
+        this.router.navigate([`deelnemer/deelnemer/${this.standLine.id}/matches/`], {replaceUrl: true});
     }
 
     openPoules() {
-        this.router.navigate([`deelnemer/deelnemer/${this.standLine.id}/poule/`]);
+        this.router.navigate([`deelnemer/deelnemer/${this.standLine.id}/poule/`], {replaceUrl: true});
     }
 
     openKnockout() {
-        this.router.navigate([`deelnemer/deelnemer/${this.standLine.id}/knockout/`]);
+        this.router.navigate([`deelnemer/deelnemer/${this.standLine.id}/knockout/`], {replaceUrl: true});
     }
 
 }
