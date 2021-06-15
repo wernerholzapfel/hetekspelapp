@@ -31,6 +31,10 @@ export class TotoPage implements OnInit, OnDestroy {
         this.router.navigate([`match/${matchId}`], {replaceUrl: true});
     }
 
+    openMatchWithTotoFilter(matchId: string, totoId) {
+        this.router.navigate([`match/${matchId}/toto/${totoId}`], {replaceUrl: true});
+    }
+
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();

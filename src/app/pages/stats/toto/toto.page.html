@@ -15,8 +15,8 @@
             </ion-col>
         </ion-row>
         <ng-container *ngFor="let toto of totoStats">
-            <div (click)="openMatch(toto.id)">
-                <ion-row class="hes-background">
+            <div>
+                <ion-row class="hes-background" (click)="openMatch(toto.id)">
                     <ion-col class="ion-text-center">
                         <span class="flag-icon flag-icon-{{toto.homeTeam.logoUrl}} flag-icon-squared"></span>
                         {{toto.homeTeam.name}}
@@ -28,9 +28,12 @@
                     </ion-col>
                 </ion-row>
                 <ion-row class="hes-border-bottom hes-background">
-                    <ion-col class="ion-text-center hes-toto-col">{{toto.toto1}}</ion-col>
-                    <ion-col class="ion-text-center hes-toto-col" size="1">{{toto.toto3}}</ion-col>
-                    <ion-col class="ion-text-center hes-toto-col">{{toto.toto2}}</ion-col>
+                    <ion-col class="ion-text-center hes-toto-col"
+                             (click)="openMatchWithTotoFilter(toto.id, 1)">{{toto.toto1}}</ion-col>
+                    <ion-col class="ion-text-center hes-toto-col" (click)="openMatchWithTotoFilter(toto.id, 3)"
+                             size="1">{{toto.toto3}}</ion-col>
+                    <ion-col class="ion-text-center hes-toto-col"
+                             (click)="openMatchWithTotoFilter(toto.id, 2)">{{toto.toto2}}</ion-col>
                 </ion-row>
             </div>
         </ng-container>

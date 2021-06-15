@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
 
 @Component({
-    selector: 'app-deelnemer',
+    selector: 'app-stats',
     templateUrl: './stats.page.html',
     styleUrls: ['./stats.page.scss'],
 })
@@ -18,11 +18,6 @@ export class StatsPage implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        // this.uiService.totaalstand$
-        //     .pipe(takeUntil(this.unsubscribe))
-        //     .subscribe(s => {
-        //     this.standLine = s.find(line => line.id === this.route.snapshot.params.id);
-        // });
     }
 
     ngOnDestroy(): void {

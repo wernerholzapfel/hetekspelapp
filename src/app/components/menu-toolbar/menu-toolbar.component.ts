@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 export class MenuToolbarComponent implements OnInit {
 
     @Input() rightCornerIcon: string;
+    @Input() iconColor = '';
     @Output() emitIconClick = new EventEmitter<any>();
 
     constructor(public uiService: UiService, private router: Router) {

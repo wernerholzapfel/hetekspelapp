@@ -23,14 +23,6 @@ export class MatchesPage {
         this.matchService.getMatches().subscribe(matches => this.matches = matches);
     }
 
-    saveAll() {
-        this.matches.forEach(m => {
-            if (m.homeScore !== null && m.awayScore !== null) {
-                this.save(m)
-            }
-        })
-    }
-
     save(match: IMatch) {
         this.matchService.updateMatch({id: match.id, homeScore: match.homeScore, awayScore: match.awayScore}).subscribe(result => {
             this.toastService.presentToast('Opslaan is gelukt');
