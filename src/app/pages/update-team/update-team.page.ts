@@ -42,7 +42,7 @@ export class UpdateTeamPage implements OnInit {
     updateIsFinal(event) {
         this.line = {
             ...this.line,
-            isPositionFinal: event.detail.value
+            isPositionFinal: event.detail.checked
         };
     }
 
