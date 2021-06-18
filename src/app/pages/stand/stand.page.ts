@@ -5,8 +5,6 @@ import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {map, switchMap, takeUntil} from 'rxjs/operators';
 import {IStandLine} from '../../models/stand.model';
 import {StandService} from '../../services/stand.service';
-import {PopoverController} from '@ionic/angular';
-import {ToggleStandListComponent} from '../../components/toggle-stand-list/toggle-stand-list.component';
 
 @Component({
     selector: 'app-stand',
@@ -18,15 +16,17 @@ export class StandPage implements OnInit, OnDestroy {
     searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
     stand: IStandLine[];
-    unsubscribe = new Subject<void>();
+    typeOfStand = 'totaal';
+    unsubscribe: Subject<void>;
 
-    constructor(private uiService: UiService,
+    constructor(public uiService: UiService,
                 private standService: StandService,
-                private router: Router,
-                private popoverController: PopoverController) {
+                private router: Router) {
     }
 
     ngOnInit() {
+        this.unsubscribe = new Subject<void>();
+
         this.uiService.isMatchStandActive$.pipe(switchMap(isMatchStandActive => {
             return combineLatest([
                 this.uiService.totaalstand$.pipe(map(stand =>
@@ -34,9 +34,8 @@ export class StandPage implements OnInit, OnDestroy {
                         return isMatchStandActive ? b.matchPoints - a.matchPoints : b.totalPoints - a.totalPoints;
                     }))
                 )),
-                this.searchTerm$])
-                .pipe(takeUntil(this.unsubscribe));
-        }))
+                this.searchTerm$]);
+        })).pipe(takeUntil(this.unsubscribe))
             .subscribe(([stand, searchTerm]) => {
                 this.stand = this.uiService.filterDeelnemers(searchTerm, stand);
             });
@@ -44,6 +43,10 @@ export class StandPage implements OnInit, OnDestroy {
 
     search($event) {
         this.searchTerm$.next($event.detail.value);
+    }
+
+    setMatchStandActive(event) {
+        this.uiService.isMatchStandActive$.next(event.detail.value === 'wedstrijden');
     }
 
     navigateToParticipant(participantId) {
@@ -65,23 +68,5 @@ export class StandPage implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
-    }
-
-    async toggleMatchStand(ev: any) {
-        const popover = await this.popoverController.create({
-            component: ToggleStandListComponent,
-            // data: {
-            //     isMatchStandActive: this.isMatchStandActive$.getValue()
-            // },
-            event: ev,
-            translucent: true
-        });
-        await popover.present();
-
-        await popover.onDidDismiss().then(response => {
-            if (response.data) {
-                this.uiService.isMatchStandActive$.next(response.data.isMatchStandActive);
-            }
-        });
     }
 }

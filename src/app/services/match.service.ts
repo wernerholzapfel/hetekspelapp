@@ -36,6 +36,11 @@ export class MatchService {
             .pipe(map(res => res as IMatchPrediction[]));
     }
 
+    getTodaysMatches(): Observable<IMatchPrediction[]> {
+        return this.http.get<IMatchPrediction[]>(`${environment.apiBaseUrl}/match-prediction/today`)
+            .pipe(map(res => res as IMatchPrediction[]));
+    }
+
     getMatchPredictionsForParticipant(participantId): Observable<IMatchPrediction[]> {
         return this.http.get<IMatchPrediction[]>(`${environment.apiBaseUrl}/match-prediction/${participantId}`);
     }

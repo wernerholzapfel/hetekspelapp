@@ -18,6 +18,7 @@ import {KnockoutTeamHeaderComponent} from '../knockout-team-header/knockout-team
 import {GestureDirective} from '../../directives/gestures.directive';
 import {ToggleStandListComponent} from '../toggle-stand-list/toggle-stand-list.component';
 import {FilterPouleMatchesPipe} from '../../pipes/filter-poule-matches.pipe';
+import {MatchPredictionItemComponent} from '../match-prediction-item/match-prediction-item.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {FilterPouleMatchesPipe} from '../../pipes/filter-poule-matches.pipe';
         ScrollVanishDirective,
         GestureDirective,
         KnockoutTeamHeaderComponent,
-        ToggleStandListComponent
+        ToggleStandListComponent,
+        MatchPredictionItemComponent,
     ],
     imports: [
         CommonModule,
@@ -58,7 +60,8 @@ import {FilterPouleMatchesPipe} from '../../pipes/filter-poule-matches.pipe';
         ScrollVanishDirective,
         GestureDirective,
         KnockoutTeamHeaderComponent,
-        ToggleStandListComponent
+        ToggleStandListComponent,
+        MatchPredictionItemComponent
     ]
 })
 export class CustomComponentsModule {

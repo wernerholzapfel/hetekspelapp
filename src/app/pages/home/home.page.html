@@ -32,6 +32,16 @@
                                       [standLine]="participantStandLine"></app-participant-card>
                 <div style="padding-top: 1px"></div>
                 <app-participant-card [lastUpdated]="lastUpdated" [standLine]="standLine"></app-participant-card>
+                <ion-card *ngIf="todaysPredictions?.length > 0">
+                    <ion-card-header color="secondary">
+                        <ion-card-title>Wedstrijden vandaag</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content class="ion-no-padding">
+                        <ng-container *ngFor="let prediction of todaysPredictions">
+                            <app-match-prediction-item [prediction]="prediction"></app-match-prediction-item>
+                        </ng-container>
+                    </ion-card-content>
+                </ion-card>
             </ion-col>
             <ion-col class="ion-no-padding" size="12" size-md="6" size-lg="6" size-xl="6"
                      *ngFor="let fullscore of fullscore$ | async">
@@ -66,7 +76,7 @@
                         <ion-chip (click)="openParticipant(participant.id)"
                                   *ngFor="let participant of fullscore.participants">{{participant.displayName}}</ion-chip>
                     </ion-card-content>
-                    </ion-card>
+                </ion-card>
             </ion-col>
             <ion-col size="12" size-md="6" size-lg="6" size-xl="6" *ngIf="!(authService.user$ | async)">
                 <app-login></app-login>

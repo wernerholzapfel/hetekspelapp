@@ -18,7 +18,7 @@ Go to ~/Library/Android/sdk/build-tools/30.0.1/
 cd ~/Library/Android/sdk/build-tools/30.0.1/
 and run:
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore hetekspel-release-key.keystore app-release-unsigned.apk hetekspel_key
-./zipalign -v 4 app-release-unsigned.apk hetekspel_1.1.1.apk
+./zipalign -v 4 app-release-unsigned.apk hetekspel_1.1.2.apk
 
 
 Appcenter:

@@ -4,7 +4,7 @@ import {takeUntil} from 'rxjs/operators';
 import {IStandLine} from '../../models/stand.model';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
-import {IParticipant} from '../../models/participant.model';
+import {IMatchPrediction, IParticipant} from '../../models/participant.model';
 import {MatchService} from '../../services/match.service';
 import {Router} from '@angular/router';
 
@@ -21,6 +21,7 @@ export class HomePage implements OnInit, OnDestroy {
     participant$: Observable<IParticipant>;
     fullscore$: Observable<any[]>;
     unsubscribe = new Subject<void>();
+    todaysPredictions: IMatchPrediction[];
 
     constructor(private uiService: UiService,
                 public authService: AuthService,
@@ -45,6 +46,10 @@ export class HomePage implements OnInit, OnDestroy {
         this.participant$ = this.uiService.participant$;
 
         this.fullscore$ = this.matchService.getMatchesFullScore();
+
+        this.matchService.getTodaysMatches().subscribe(response => {
+            this.todaysPredictions = response;
+        });
     }
 
     openMatch(matchId: string) {
@@ -54,6 +59,7 @@ export class HomePage implements OnInit, OnDestroy {
     openParticipant(participantId: string) {
         this.router.navigate([`deelnemer/deelnemer/${participantId}/matches`], {replaceUrl: true});
     }
+
 
     ngOnDestroy(): void {
         this.unsubscribe.next();

@@ -1,11 +1,25 @@
 <ion-header>
-    <app-menu-toolbar
-            [rightCornerIcon]="'swap-vertical-outline'"
-            (emitIconClick)="toggleMatchStand($event)"></app-menu-toolbar>
+    <app-menu-toolbar></app-menu-toolbar>
 </ion-header>
 <ion-toolbar color="background">
-    <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" color="light"
-                   debounce="500"></ion-searchbar>
+    <ion-grid class="ion-no-padding ion-no-margin">
+        <ion-row class="ion-no-padding">
+            <ion-segment color="primary" (ionChange)="setMatchStandActive($event)"
+                         mode="md"
+                         [value]="typeOfStand">
+                <ion-segment-button value="totaal">
+                    <ion-label>Totaal</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="wedstrijden">
+                    <ion-label>Wedstrijden</ion-label>
+                </ion-segment-button>
+            </ion-segment>
+        </ion-row>
+        <ion-row>
+            <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" color="light"
+                           debounce="500"></ion-searchbar>
+        </ion-row>
+    </ion-grid>
 </ion-toolbar>
 <ion-content>
     <ion-virtual-scroll [items]="stand" approxItemHeight="90px">
@@ -16,15 +30,20 @@
                 <ion-row (click)="navigateToParticipant(line.id)">
                     <ion-col>
                         <span class="hes-position">
-                        {{line.position}}
+                        {{(uiService.isMatchStandActive$ | async) ? line.matchPosition : line.position}}
                             <ion-icon
-                                    [name]="line.deltaPosition > 0 ? 'caret-up-outline' : line.deltaPosition < 0 ? 'caret-down-outline' : 'caret-forward-outline'"
-                                    [color]="line.deltaPosition > 0 ? 'success' : line.deltaPosition < 0 ? 'danger' : 'medium'"></ion-icon>
+                                    [name]="(uiService.isMatchStandActive$ | async) ?
+                                    line.deltaMatchPosition > 0 ? 'caret-up-outline' : line.deltaMatchPosition < 0 ? 'caret-down-outline' : 'caret-forward-outline' :
+                                     line.deltaPosition > 0 ? 'caret-up-outline' : line.deltaPosition < 0 ? 'caret-down-outline' : 'caret-forward-outline'"
+                                    [color]="
+                                    (uiService.isMatchStandActive$ | async) ?
+                                    line.deltaMatchPosition > 0 ? 'success' : line.deltaMatchPosition < 0 ? 'danger' : 'medium':
+                                    line.deltaPosition > 0 ? 'success' : line.deltaPosition < 0 ? 'danger' : 'medium'"></ion-icon>
                         </span>
                         {{line.displayName}}</ion-col>
                     <ion-col size="3" class="ion-align-items-center ion-text-end">
                         <ion-icon name="podium-outline"></ion-icon>
-                        {{line.totalPoints}}</ion-col>
+                        {{(uiService.isMatchStandActive$ | async) ? line.matchPoints : line.totalPoints}}</ion-col>
                 </ion-row>
                 <hr>
                 <ion-row>
@@ -39,7 +58,8 @@
                             </ion-text>
                         </ion-text>
                     </ion-col>
-                    <ion-col class="poule-col ion-align-items-center ion-text-center" (click)="openPoules(line.id)">
+                    <ion-col class="poule-col ion-align-items-center ion-text-center" (click)="openPoules(line.id)"
+                             *ngIf="!(uiService.isMatchStandActive$ | async)">
                         <ion-text color="medium">
                             <ion-icon name="list"></ion-icon>
                             {{line.poulePoints}}
@@ -50,7 +70,8 @@
                             </ion-text>
                         </ion-text>
                     </ion-col>
-                    <ion-col class="knockout-col ion-align-items-center ion-text-end" (click)="openKnockout(line.id)">
+                    <ion-col class="knockout-col ion-align-items-center ion-text-end" (click)="openKnockout(line.id)"
+                             *ngIf="!(uiService.isMatchStandActive$ | async)">
                         <ion-text color="medium">
                             <ion-icon name="trophy"></ion-icon>
                             {{line.knockoutPoints}}
