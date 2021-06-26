@@ -32,14 +32,26 @@
                                       [standLine]="participantStandLine"></app-participant-card>
                 <div style="padding-top: 1px"></div>
                 <app-participant-card [lastUpdated]="lastUpdated" [standLine]="standLine"></app-participant-card>
-                <ion-card *ngIf="todaysPredictions?.length > 0">
+                <ion-card *ngIf="todaysPredictions?.matchPredictions.length > 0">
                     <ion-card-header color="secondary">
                         <ion-card-title>Wedstrijden vandaag</ion-card-title>
                     </ion-card-header>
                     <ion-card-content class="ion-no-padding">
-                        <ng-container *ngFor="let prediction of todaysPredictions">
+                        <ng-container *ngFor="let prediction of todaysPredictions.matchPredictions">
                             <app-match-prediction-item [prediction]="prediction"></app-match-prediction-item>
                         </ng-container>
+                    </ion-card-content>
+                </ion-card>
+                <ion-card *ngIf="todaysPredictions?.knockout.length > 0">
+                    <ion-card-header color="secondary">
+                        <ion-card-title>Wedstrijden vandaag</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content class="ion-no-padding">
+                        <ion-grid>
+                            <ng-container *ngFor="let prediction of todaysPredictions.knockout">
+                                <app-knockout-prediction-item [prediction]="prediction"></app-knockout-prediction-item>
+                            </ng-container>
+                        </ion-grid>
                     </ion-card-content>
                 </ion-card>
             </ion-col>

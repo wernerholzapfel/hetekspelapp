@@ -5,6 +5,8 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {IMatch, UpdateMatchDto} from '../models/poule.model';
+import {IKnockoutPrediction} from '../models/knockout-predictions.model';
+import {IKnockout} from '../models/knockout.model';
 
 @Injectable({
     providedIn: 'root'
@@ -36,9 +38,9 @@ export class MatchService {
             .pipe(map(res => res as IMatchPrediction[]));
     }
 
-    getTodaysMatches(): Observable<IMatchPrediction[]> {
-        return this.http.get<IMatchPrediction[]>(`${environment.apiBaseUrl}/match-prediction/today`)
-            .pipe(map(res => res as IMatchPrediction[]));
+    getTodaysMatches(): Observable<{ predictionType: string, matchPredictions?: IMatchPrediction[], knockout: IKnockout[], knockoutPredictions?: IKnockoutPrediction[] }> {
+        return this.http.get<{ predictionType: string, knockout: IKnockout[], matchPredictions?: IMatchPrediction[], knockoutPredictions?: IKnockoutPrediction[] }>
+        (`${environment.apiBaseUrl}/match-prediction/today`);
     }
 
     getMatchPredictionsForParticipant(participantId): Observable<IMatchPrediction[]> {

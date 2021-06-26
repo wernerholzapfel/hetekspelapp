@@ -7,6 +7,8 @@ import {AuthService} from '../../services/auth.service';
 import {IMatchPrediction, IParticipant} from '../../models/participant.model';
 import {MatchService} from '../../services/match.service';
 import {Router} from '@angular/router';
+import {IKnockoutPrediction} from '../../models/knockout-predictions.model';
+import {IKnockout} from '../../models/knockout.model';
 
 @Component({
     selector: 'app-home',
@@ -21,7 +23,7 @@ export class HomePage implements OnInit, OnDestroy {
     participant$: Observable<IParticipant>;
     fullscore$: Observable<any[]>;
     unsubscribe = new Subject<void>();
-    todaysPredictions: IMatchPrediction[];
+    todaysPredictions: { predictionType: string, knockout: IKnockout[], matchPredictions?: IMatchPrediction[], knockoutPredictions?: IKnockoutPrediction[] };
 
     constructor(private uiService: UiService,
                 public authService: AuthService,

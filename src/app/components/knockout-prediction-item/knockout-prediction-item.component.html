@@ -1,0 +1,60 @@
+<ion-row class="ion-no-padding hes-border-bottom">
+  <ion-col class="hes-background">
+    <ion-row>
+      <ion-col (click)="openKoTeam(prediction.homeTeam?.id, prediction.knockout.round)">
+        <span class="flag-icon flag-icon-{{prediction.homeTeam?.logoUrl}} flag-icon-squared"></span>
+        {{prediction.homeTeam?.name}}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col (click)="openKoTeam(prediction.awayTeam?.id, prediction.knockout.round)">
+        <span class="flag-icon flag-icon-{{prediction.awayTeam?.logoUrl}} flag-icon-squared"></span>
+        {{prediction.awayTeam?.name}}
+      </ion-col>
+    </ion-row>
+  </ion-col>
+  <ion-col size="3" class="hes-accent-background">
+    <ion-row>
+      <ion-col size="4" class="ion-no-padding ion-text-start">
+        <ion-row class="ion-no-padding">
+          <ion-col class="ion-text-start">
+            <ion-icon *ngIf="prediction.homeSpelpunten > 0" name="checkmark-outline"
+                      color="success"></ion-icon>
+            <ion-icon
+                    *ngIf="prediction.homeSpelpunten === null && prediction.homeTeam.isEliminated"
+                    name="close-outline"
+                    color="danger"></ion-icon>
+            <ion-icon
+                    *ngIf="prediction.homeSpelpunten === null && !prediction.homeTeam.isEliminated"
+                    name="help-outline"
+                    color="medium"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-no-padding">
+          <ion-col class="ion-text-start">
+            <ion-icon *ngIf="prediction.awaySpelpunten > 0" name="checkmark-outline"
+                      color="success"></ion-icon>
+            <ion-icon
+                    *ngIf="prediction.awaySpelpunten === null && prediction.awayTeam.isEliminated"
+                    name="close-outline"
+                    color="danger"></ion-icon>
+            <ion-icon
+                    *ngIf="prediction.awaySpelpunten === null && !prediction.awayTeam.isEliminated"
+                    name="help-outline"
+                    color="medium"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="8"
+               class="ion-no-padding ion-align-self-center ion-text-center">
+        <ion-chip color="primary"
+                  *ngIf="prediction.homeTeam?.isEliminated ||
+                                      prediction.awayTeam?.isEliminated ||
+                                      prediction.homeSpelpunten != null ||
+                                      prediction.awaySpelpunten != null">
+          {{prediction.homeSpelpunten + prediction.awaySpelpunten}}
+        </ion-chip>
+      </ion-col>
+    </ion-row>
+  </ion-col>
+</ion-row>
